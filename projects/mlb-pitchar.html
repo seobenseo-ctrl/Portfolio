@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title data-i18n="page-title">MLB PitchAR — Ben Seo</title>
+  <meta name="description" content="A mobile AR application that helps rookie baseball fans build intuitive pitch recognition through spatial 3D visualization.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='42' fill='%2350ff5a'/%3E%3Ctext x='50' y='73' text-anchor='middle' font-family='sans-serif' font-size='76' font-weight='700' fill='%230a0a0b'%3E%E3%85%85%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Michroma&family=Inter:wght@300;400;500;600&display=swap">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.min.css">
+  <script src="https://code.iconify.design/iconify-icon/2.3.0/iconify-icon.min.js"></script>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .mlb-figure-full {
+      margin: 2rem 0 3rem;
+      border-radius: 1rem;
+      overflow: hidden;
+      border: 1px solid rgba(0,0,0,0.06);
+      background: #ececec;
+    }
+    .mlb-figure-full img { width: 100%; display: block; }
+
+    .mlb-image-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem;
+      margin: 2rem 0 3rem;
+    }
+    .mlb-image-row img {
+      width: 100%;
+      border-radius: 0.65rem;
+      border: 1px solid rgba(0,0,0,0.06);
+      background: #ececec;
+    }
+
+    /* Vertical (9:16) video for YouTube Shorts */
+    .mlb-video-vertical {
+      max-width: 380px;
+      margin: 2rem auto 1rem;
+      aspect-ratio: 9 / 16;
+      border-radius: 1.25rem;
+      overflow: hidden;
+      border: 1px solid rgba(0,0,0,0.08);
+      background: #f0f0f2;
+      box-shadow: 0 30px 80px -20px rgba(0,0,0,0.18);
+    }
+    .mlb-video-vertical video {
+      width: 100%; height: 100%;
+      display: block;
+      object-fit: cover;
+    }
+    .mlb-video-cap {
+      text-align: center;
+      max-width: 50ch;
+      margin: 0 auto 3rem;
+      font-size: 0.85rem;
+      color: var(--ink-400);
+      font-style: italic;
+    }
+
+    /* Two-col split: text left, image right */
+    .mlb-split {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 2rem;
+      align-items: start;
+    }
+    @media (min-width: 900px) {
+      .mlb-split {
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+        gap: 3.5rem;
+      }
+    }
+    .mlb-split-figure {
+      margin: 0;
+      border-radius: 1rem;
+      overflow: hidden;
+      border: 1px solid rgba(0,0,0,0.06);
+      background: #ececec;
+      position: sticky;
+      top: 2rem;
+    }
+    .mlb-split-figure img { width: 100%; height: auto; display: block; }
+
+    /* Widen body content to match section container width */
+    .proj-section > p,
+    .proj-section .proj-block,
+    .proj-section .proj-block p,
+    .proj-section .proj-list li,
+    .proj-section-title {
+      max-width: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="noise" aria-hidden="true"></div>
+
+  <header class="proj-nav">
+    <div class="proj-nav-inner">
+      <a href="../index.html" class="proj-nav-back">
+        <iconify-icon icon="solar:arrow-left-linear"></iconify-icon>
+        <span data-i18n="nav-back">Back to all works</span>
+      </a>
+      <div class="proj-nav-right">
+        <button class="lang-toggle" id="langToggle" type="button" aria-label="Toggle language">한국어</button>
+        </div>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="proj-hero proj-hero-split">
+    <div class="proj-hero-text">
+      <p class="proj-eyebrow" data-i18n="hero-eyebrow">Project 04 · Mobile AR Learning</p>
+      <h1 class="proj-title" data-i18n="hero-title">MLB PitchAR</h1>
+      <p class="proj-tagline" data-i18n="hero-tagline">"How to turn confusion into curiosity." A mobile AR application that helps rookie baseball fans build intuitive pitch recognition through spatial experience.</p>
+
+      <div class="proj-meta">
+        <div class="proj-meta-item">
+          <label data-i18n="meta-client-label">Client</label>
+          <div class="value" data-i18n="meta-client">MLB Advanced Media</div>
+        </div>
+        <div class="proj-meta-item">
+          <label data-i18n="meta-role-label">Role</label>
+          <div class="value" data-i18n="meta-role">UX Research<br>Design<br>Prototyping</div>
+        </div>
+        <div class="proj-meta-item">
+          <label data-i18n="meta-deliverable-label">Deliverable</label>
+          <div class="value" data-i18n="meta-deliverable">Mobile AR POC App</div>
+        </div>
+        <div class="proj-meta-item">
+          <label data-i18n="meta-stack-label">Stack</label>
+          <div class="value" data-i18n="meta-stack">Unity · Niantic Lightship ARDK</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="proj-hero-media">
+      <div class="proj-hero-media-frame">
+        <img src="assets/mlb-pitchar/hero-mockup.png" alt="MLB PitchAR mockup" loading="eager">
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- 01 — CONTEXT & CHALLENGE                                      -->
+  <!-- ============================================================ -->
+  <section class="proj-section">
+    <div class="proj-section-header">
+      <span class="proj-section-num" data-i18n="s01-num">01</span>
+      <h2 class="proj-section-title" data-i18n="s01-title">Context & Challenge</h2>
+    </div>
+    <p data-i18n="s01-p1">Baseball faces declining youth engagement — only <strong>7% of Americans under 30</strong> name it as their favorite sport. Game structure changes (longer games, more strikeouts, fewer balls in play) confuse new fans more than they engage them. Recurring user feedback: <em>"slow pace of play," "lengthy play time," "difficulty understanding the game."</em></p>
+    <p data-i18n="s01-p2">The core issue: a <strong>disconnect between explanation and recognition</strong>. New fans lacked intuitive pitch-type identification skills, making the sport feel inaccessible.</p>
+
+    <div class="mlb-image-row" style="grid-template-columns: 1fr 1fr !important;">
+      <img src="assets/mlb-pitchar/context-photo-1.png" alt="Field reference photo">
+      <img src="assets/mlb-pitchar/context-photo-2.png" alt="Field reference photo 2">
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- 02 — RESEARCH & INSIGHTS                                      -->
+  <!-- ============================================================ -->
+  <section class="proj-section">
+    <div class="proj-section-header">
+      <span class="proj-section-num" data-i18n="s02-num">02</span>
+      <h2 class="proj-section-title" data-i18n="s02-title">Research & Insights</h2>
+    </div>
+    <div class="proj-grid-2">
+      <div class="proj-block">
+        <h3 data-i18n="s02-methods-h">Methods</h3>
+        <ul class="proj-list">
+          <li data-i18n="s02-m1">8 unstructured interviews with casual viewers (ages 25–30).</li>
+          <li data-i18n="s02-m2">Competitive analysis of MLB Jr., YouTube, and existing sports AR tools.</li>
+          <li data-i18n="s02-m3">SWOT mapping interactive learning gaps.</li>
+          <li data-i18n="s02-m4">Persona refinement for younger audiences.</li>
+        </ul>
+      </div>
+      <div class="proj-block">
+        <h3 data-i18n="s02-findings-h">Key findings</h3>
+        <ul class="proj-list">
+          <li data-i18n="s02-f1">Participants described live pitching as <em>"blurry"</em> and hard to track.</li>
+          <li data-i18n="s02-f2">Interactive visual exposure helped them identify pitch differences.</li>
+          <li data-i18n="s02-f3">Guessing and testing made learning feel less formal and more enjoyable.</li>
+          <li data-i18n="s02-f4">Existing tools felt either too passive or overly technical.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="mlb-image-row" style="grid-template-columns: 1fr 1fr !important;">
+      <img src="assets/mlb-pitchar/competitive-analysis.png" alt="Competitive analysis matrix">
+      <img src="assets/mlb-pitchar/secondary-persona.png" alt="Secondary persona profile">
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- 03 — DESIGN APPROACH                                          -->
+  <!-- ============================================================ -->
+  <section class="proj-section">
+    <div class="proj-section-header">
+      <span class="proj-section-num" data-i18n="s03-num">03</span>
+      <h2 class="proj-section-title" data-i18n="s03-title">Design Approach</h2>
+    </div>
+    <blockquote class="proj-quote" data-i18n="s03-question">If new fans could intuitively identify pitch types, would that increase engagement?</blockquote>
+
+    <div class="mlb-split">
+      <div class="mlb-split-text">
+        <div class="proj-block">
+          <h3 data-i18n="s03-priorities-h">Design priorities</h3>
+          <ul class="proj-list">
+            <li data-i18n="s03-p1">Encourage <strong>curiosity over correctness</strong>.</li>
+            <li data-i18n="s03-p2">Replace instruction with interaction.</li>
+            <li data-i18n="s03-p3">Reinforce perception through motion and repetition.</li>
+          </ul>
+        </div>
+        <div class="proj-block">
+          <h3 data-i18n="s03-strategic-h">Strategic considerations</h3>
+          <ul class="proj-list">
+            <li data-i18n="s03-s1">Leverage 3D space (z-axis) for spatial ball trajectories.</li>
+            <li data-i18n="s03-s2">Remove login barriers for accessibility.</li>
+            <li data-i18n="s03-s3">Incorporate light gamification for engagement.</li>
+            <li data-i18n="s03-s4">Promote adoption through context-based distribution — QR codes on tickets.</li>
+          </ul>
+        </div>
+      </div>
+      <figure class="mlb-split-figure">
+        <img src="assets/mlb-pitchar/concept.png" alt="PitchAR concept visualization">
+      </figure>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- 04 — KEY DESIGN DECISIONS                                     -->
+  <!-- ============================================================ -->
+  <section class="proj-section">
+    <div class="proj-section-header">
+      <span class="proj-section-num" data-i18n="s04-num">04</span>
+      <h2 class="proj-section-title" data-i18n="s04-title">Key Design Decisions</h2>
+    </div>
+    <ul class="proj-list">
+      <li data-i18n="s04-d1"><strong>Guess-first interaction flow</strong> — users watch a pitch and guess before getting feedback, encouraging pattern recognition over memorization.</li>
+      <li data-i18n="s04-d2"><strong>Six commonly used pitch types</strong> — fastball, slider, cutter, sinker, changeup, curveball.</li>
+      <li data-i18n="s04-d3"><strong>Strike-zone-accurate trajectories</strong> — realistic spatial paths in AR, not stylized arrows.</li>
+      <li data-i18n="s04-d4"><strong>Subtle visual / audio feedback</strong> — soft cues without explicit scoring, so the experience feels exploratory.</li>
+      <li data-i18n="s04-d5"><strong>Replayable pitch loops</strong> — multiple angles and speeds for repeated exposure.</li>
+    </ul>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- 05 — IMPLEMENTATION                                           -->
+  <!-- ============================================================ -->
+  <section class="proj-section">
+    <div class="proj-section-header">
+      <span class="proj-section-num" data-i18n="s05-num">05</span>
+      <h2 class="proj-section-title" data-i18n="s05-title">Implementation</h2>
+    </div>
+    <p data-i18n="s05-p1">From userflow sketch to lo-fi Figma to hi-fi prototype to a working Unity / Niantic Lightship build.</p>
+
+    <div class="mlb-image-row" style="grid-template-columns: 1fr 1fr !important;">
+      <img src="assets/mlb-pitchar/userflow-sketch.png" alt="Userflow sketch">
+      <img src="assets/mlb-pitchar/lofi-flow.png" alt="Lo-fi flow in Figma">
+      <img src="assets/mlb-pitchar/hifi-prototype.png" alt="Hi-fi prototype">
+      <img src="assets/mlb-pitchar/unity-prototype.png" alt="Unity / Lightship implementation">
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- 06 — USABILITY TESTING                                        -->
+  <!-- ============================================================ -->
+  <section class="proj-section">
+    <div class="proj-section-header">
+      <span class="proj-section-num" data-i18n="s07-num">06</span>
+      <h2 class="proj-section-title" data-i18n="s07-title">Usability Testing</h2>
+    </div>
+    <div class="mlb-split">
+      <div class="mlb-split-text">
+        <p data-i18n="s07-p1">Three rounds of in-person testing with casual fans aged 25–30, five participants per round.</p>
+        <ul class="proj-list" style="margin-top:1.25rem;">
+          <li data-i18n="s07-r1"><strong>Round 1</strong> — validate pitch motion clarity.</li>
+          <li data-i18n="s07-r2"><strong>Round 2</strong> — improve home screen and immersion.</li>
+          <li data-i18n="s07-r3"><strong>Round 3</strong> — assess pitch-distinguishing confidence.</li>
+        </ul>
+        <div class="proj-block">
+          <h3 data-i18n="s07-obs-h">Observations</h3>
+          <ul class="proj-list">
+            <li data-i18n="s07-o1">Most participants noticed motion differences after repeated exposure.</li>
+            <li data-i18n="s07-o2">The guess-first flow felt less intimidating than direct instruction.</li>
+            <li data-i18n="s07-o3">Home interface improvements measurably reduced friction.</li>
+            <li data-i18n="s07-o4">Multiple participants expressed a desire to learn more across sessions.</li>
+          </ul>
+        </div>
+      </div>
+      <figure class="mlb-split-figure">
+        <img src="assets/mlb-pitchar/iterations.png" alt="Testing iterations diagram">
+      </figure>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- 07 — DEMO                                                     -->
+  <!-- ============================================================ -->
+  <section class="proj-section">
+    <div class="mlb-split">
+      <div class="mlb-split-text">
+        <div class="proj-section-header">
+          <span class="proj-section-num" data-i18n="s06-num">07</span>
+          <h2 class="proj-section-title" data-i18n="s06-title">Live Demo</h2>
+        </div>
+        <p data-i18n="s06-p1">Mobile AR demo — guess the pitch, watch the spatial trajectory, and learn through repeated motion exposure.</p>
+        <p class="mlb-video-cap" style="text-align:left;margin:1rem 0 0;" data-i18n="s06-cap">Phone-held demo of the AR pitch recognition flow.</p>
+      </div>
+      <div class="mlb-video-vertical">
+        <video controls preload="metadata" playsinline poster="assets/mlb-pitchar/videos/demo-poster.jpg">
+          <source src="assets/mlb-pitchar/videos/demo.mp4" type="video/mp4">
+        </video>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- 08 — OUTCOMES & TAKEAWAYS                                     -->
+  <!-- ============================================================ -->
+  <section class="proj-section">
+    <div class="proj-section-header">
+      <span class="proj-section-num" data-i18n="s08-num">08</span>
+      <h2 class="proj-section-title" data-i18n="s08-title">Outcomes &amp; Takeaways</h2>
+    </div>
+
+    <div class="proj-quote" data-i18n="s08-quote">
+      "Immediately executable, with potential as an onboarding tool for new fans."
+      <span class="proj-quote-attr">— MLB Advanced Media Team</span>
+    </div>
+
+    <div class="proj-block">
+      <h3 data-i18n="s08-out-h">Outcomes</h3>
+      <ul class="proj-list">
+        <li data-i18n="s08-o1">Functional AR prototype deployable on standard mobile devices.</li>
+        <li data-i18n="s08-o2">Six pitch modules with real-world motion data.</li>
+        <li data-i18n="s08-o3">Complete interaction flow with guess logic and feedback cues.</li>
+        <li data-i18n="s08-o4">Participants reported greater confidence distinguishing pitch types — multiple users said the experience made baseball <em>"less intimidating"</em> and sparked new interest.</li>
+      </ul>
+    </div>
+
+    <div class="proj-block">
+      <h3 data-i18n="s08-take-h">Takeaways</h3>
+      <ul class="proj-list">
+        <li data-i18n="s09-t1">Prioritizing <strong>interaction over instruction</strong> turns confusion into curiosity.</li>
+        <li data-i18n="s09-t2">AR can serve as a meaningful engagement tool beyond novelty — when accessible, intuitive XR design is treated as a discipline rather than a demo.</li>
+        <li data-i18n="s09-t3">Learning through doing keeps users engaged with complex content longer than passive explanation.</li>
+      </ul>
+    </div>
+  </section>
+
+  <footer class="proj-footer">
+    <div class="proj-footer-inner">
+      <a href="letsee-creator.html" class="proj-foot-link">
+        <div class="dir"><iconify-icon icon="solar:arrow-left-linear"></iconify-icon> <span data-i18n="footer-prev-dir">Previous project</span></div>
+        <div class="label" data-i18n="footer-prev">Letsee Creator</div>
+      </a>
+      <a href="twinworld.html" class="proj-foot-link next">
+        <div class="dir"><span data-i18n="footer-next-dir">Next project</span> <iconify-icon icon="solar:arrow-right-linear"></iconify-icon></div>
+        <div class="label" data-i18n="footer-next">Twin World</div>
+      </a>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      const i18n = {
+        en: {},
+        ko: {
+          'page-title': 'MLB PitchAR — 벤 서',
+          'nav-back': '전체 작품으로',
+          'hero-eyebrow': '프로젝트 04 · 모바일 AR 학습 도구',
+          'hero-title': 'MLB PitchAR',
+          'hero-tagline': '"혼란을 호기심으로 바꾸는 법." 야구를 처음 접하는 팬이 구종을 직관적으로 익힐 수 있도록 돕는 모바일 AR 앱입니다.',
+          'meta-client-label': '클라이언트',
+          'meta-client': 'MLB Advanced Media',
+          'meta-role-label': '역할',
+          'meta-role': 'UX 리서치<br>디자인<br>프로토타이핑',
+          'meta-deliverable-label': '산출물',
+          'meta-deliverable': '모바일 AR POC 앱',
+          'meta-stack-label': '스택',
+          'meta-stack': 'Unity · Niantic Lightship ARDK',
+          's01-num': '01', 's01-title': '맥락과 풀어야 할 과제',
+          's01-p1': '야구는 젊은 세대의 관심이 줄어들고 있는 종목입니다 — <strong>30세 미만 미국인 중 단 7%만</strong>이 야구를 가장 좋아하는 스포츠로 꼽습니다. 긴 경기 시간, 잦은 삼진, 줄어든 인플레이 타구 등 경기 구조의 변화는 새로운 팬의 흥미를 끌기보다 오히려 혼란을 줍니다. 인터뷰에서 반복적으로 들린 피드백은 다음과 같았습니다 — <em>"경기가 너무 느려요", "시간이 너무 길어요", "경기를 이해하기 어려워요."</em>',
+          's01-p2': '핵심 문제는 <strong>설명과 인식 사이의 단절</strong>에 있었습니다. 새로 진입한 팬은 구종을 직관적으로 식별할 수 없었고, 이 때문에 야구가 처음부터 진입 장벽이 높은 종목처럼 느껴졌습니다.',
+          's02-num': '02', 's02-title': '리서치 & 인사이트',
+          's02-methods-h': '방법론',
+          's02-m1': '캐주얼 시청자 8명 대상 비정형 인터뷰 (25–30세)',
+          's02-m2': 'MLB Jr., YouTube, 기존 스포츠 AR 도구의 경쟁 분석',
+          's02-m3': '인터랙티브 학습 갭에 대한 SWOT 매핑',
+          's02-m4': '젊은 사용자층을 위한 퍼소나 구체화',
+          's02-findings-h': '주요 발견',
+          's02-f1': '참가자들은 경기 중 투구가 <em>"흐릿하다"</em>고 표현하며 따라가기 어려워했습니다.',
+          's02-f2': '인터랙티브한 시각 노출이 구종 차이를 식별하는 데 도움이 됐습니다.',
+          's02-f3': '추측하고 확인하는 방식이 학습을 덜 부담스럽고 더 즐겁게 만들었습니다.',
+          's02-f4': '기존 도구는 너무 수동적이거나 지나치게 기술적이었습니다.',
+          's03-num': '03', 's03-title': '디자인 접근',
+          's03-question': '새로운 팬이 구종을 직관적으로 식별할 수 있게 된다면, 그것이 야구의 몰입을 높일 수 있을까?',
+          's03-priorities-h': '디자인 우선순위',
+          's03-p1': '<strong>정답보다 호기심</strong>을 먼저 자극합니다.',
+          's03-p2': '설명을 인터랙션으로 대체합니다.',
+          's03-p3': '움직임과 반복으로 인식을 강화합니다.',
+          's03-strategic-h': '전략적 고려사항',
+          's03-s1': 'z축을 활용한 3D 공간상의 공 궤적 표현',
+          's03-s2': '접근성을 위해 로그인 장벽 제거',
+          's03-s3': '가벼운 게이미피케이션으로 몰입 유도',
+          's03-s4': '맥락 기반 배포 — 티켓에 QR 코드를 넣어 사용 유도',
+          's04-num': '04', 's04-title': '핵심 디자인 결정',
+          's04-d1': '<strong>추측 먼저 인터랙션 플로우</strong> — 사용자가 투구를 보고 먼저 추측한 뒤 피드백을 받습니다. 암기가 아니라 패턴 인식을 유도합니다.',
+          's04-d2': '<strong>자주 쓰이는 6가지 구종</strong> — 패스트볼, 슬라이더, 커터, 싱커, 체인지업, 커브볼',
+          's04-d3': '<strong>스트라이크존을 정확히 반영한 궤적</strong> — 양식화된 화살표가 아니라, AR 공간 위 실제 경로를 그대로 보여줍니다.',
+          's04-d4': '<strong>은근한 시각·음향 피드백</strong> — 명시적인 점수 대신 부드러운 큐로 탐색적인 경험을 만듭니다.',
+          's04-d5': '<strong>반복 재생 가능한 투구 루프</strong> — 다양한 각도와 속도로 같은 투구를 반복해서 노출합니다.',
+          's05-num': '05', 's05-title': '구현',
+          's05-p1': '사용자 흐름 스케치 → Figma 로파이 → 하이파이 프로토타입 → Unity / Niantic Lightship 동작 빌드 순서로 만들었습니다.',
+          's06-num': '07', 's06-title': '라이브 데모',
+          's06-p1': '모바일 AR 데모 — 구종을 먼저 추측하고, 공간 안에서 궤적을 따라가며, 반복된 모션 노출을 통해 자연스럽게 학습합니다.',
+          's06-cap': '폰을 들고 진행하는 AR 구종 인식 플로우 데모입니다.',
+          's07-num': '06', 's07-title': '사용성 테스트',
+          's07-p1': '25–30세 캐주얼 팬을 대상으로 라운드당 5명씩, 총 세 차례 대면 테스트를 진행했습니다.',
+          's07-r1': '<strong>1차</strong> — 투구 모션의 명료성 검증',
+          's07-r2': '<strong>2차</strong> — 홈 화면과 몰입감 개선',
+          's07-r3': '<strong>3차</strong> — 구종 식별 자신감 평가',
+          's07-obs-h': '관찰',
+          's07-o1': '대부분의 참가자가 반복 노출을 거치면서 모션의 차이를 인지하기 시작했습니다.',
+          's07-o2': '추측 먼저 플로우는 바로 설명을 듣는 방식보다 덜 부담스럽다고 느꼈습니다.',
+          's07-o3': '홈 인터페이스 개선이 진입 마찰을 눈에 띄게 줄였습니다.',
+          's07-o4': '여러 참가자가 세션을 거치며 더 배워보고 싶다고 직접 말했습니다.',
+          's08-num': '08', 's08-title': '성과 & 시사점',
+          's08-out-h': '성과',
+          's08-take-h': '시사점',
+          's08-o1': '일반 모바일 디바이스에 그대로 배포할 수 있는 동작 AR 프로토타입',
+          's08-o2': '실제 모션 데이터를 반영한 6개 구종 모듈',
+          's08-o3': '추측 로직과 피드백 큐가 갖춰진 완성된 인터랙션 플로우',
+          's08-o4': '참가자들은 구종을 구분하는 자신감이 높아졌다고 답했고, 여러 사용자가 야구가 <em>"덜 부담스럽게 느껴졌다"</em>고 표현하며 새로운 흥미를 보였습니다.',
+          's08-quote': '"즉시 실행 가능하며, 새로운 팬을 위한 온보딩 도구로서의 잠재력이 보입니다."<span class="proj-quote-attr">— MLB Advanced Media 팀</span>',
+          's09-num': '09', 's09-title': '시사점',
+          's09-t1': '<strong>설명보다 인터랙션</strong>을 우선할 때, 혼란은 호기심으로 바뀝니다.',
+          's09-t2': 'AR은 단순한 신기함을 넘어 의미 있는 몰입 도구가 될 수 있습니다 — 접근 가능하고 직관적인 XR 디자인이 데모가 아닌 하나의 디자인 분야로 다뤄질 때.',
+          's09-t3': '직접 하면서 배우는 방식은, 수동적인 설명보다 복잡한 내용에 더 오래 몰입하게 만듭니다.',
+          'footer-prev-dir': '이전 작품',
+          'footer-prev': 'Letsee Creator',
+          'footer-next-dir': '다음 작품',
+          'footer-next': '트윈 월드',
+        }
+      };
+
+      function applyLang(lang) {
+        if (!i18n[lang]) lang = 'en';
+        document.documentElement.lang = lang;
+        document.body.dataset.lang = lang;
+        const dict = i18n[lang];
+        document.querySelectorAll('[data-i18n]').forEach(function (el) {
+          const key = el.getAttribute('data-i18n');
+          if (lang === 'en') {
+            if (el.dataset.i18nEn !== undefined) el.innerHTML = el.dataset.i18nEn;
+          } else if (dict[key] !== undefined) {
+            if (el.dataset.i18nEn === undefined) el.dataset.i18nEn = el.innerHTML;
+            el.innerHTML = dict[key];
+          }
+        });
+        const btn = document.getElementById('langToggle');
+        if (btn) btn.textContent = lang === 'en' ? '한국어' : 'English';
+        try { localStorage.setItem('portfolio-lang', lang); } catch (e) {}
+      }
+
+      document.querySelectorAll('[data-i18n]').forEach(function (el) {
+        el.dataset.i18nEn = el.innerHTML;
+      });
+
+      let saved = 'en';
+      try { saved = localStorage.getItem('portfolio-lang') || 'en'; } catch (e) {}
+      applyLang(saved);
+
+      const btn = document.getElementById('langToggle');
+      if (btn) {
+        btn.addEventListener('click', function () {
+          const cur = document.body.dataset.lang || 'en';
+          applyLang(cur === 'en' ? 'ko' : 'en');
+        });
+      }
+    })();
+  </script>
+</body>
+</html>

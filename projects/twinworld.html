@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title data-i18n="page-title">Twin World — Ben Seo</title>
+  <meta name="description" content="A social metaverse application for HoloLens 2 — easing first-time XR users into gestural mixed-reality interactions.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='42' fill='%2350ff5a'/%3E%3Ctext x='50' y='73' text-anchor='middle' font-family='sans-serif' font-size='76' font-weight='700' fill='%230a0a0b'%3E%E3%85%85%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Michroma&family=Inter:wght@300;400;500;600&display=swap">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.min.css">
+  <script src="https://code.iconify.design/iconify-icon/2.3.0/iconify-icon.min.js"></script>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .tw-figure-full {
+      margin: 2rem 0 3rem;
+      border-radius: 1rem;
+      overflow: hidden;
+      border: 1px solid rgba(0,0,0,0.06);
+      background: #ececec;
+    }
+    .tw-figure-full img { width: 100%; display: block; }
+
+    .tw-image-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem;
+      margin: 2rem 0 3rem;
+    }
+    .tw-image-row img {
+      width: 100%;
+      border-radius: 0.65rem;
+      border: 1px solid rgba(0,0,0,0.06);
+      background: #ececec;
+    }
+
+    .tw-video {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      border-radius: 1rem;
+      overflow: hidden;
+      border: 1px solid rgba(0,0,0,0.08);
+      background: #f0f0f2;
+      margin: 2rem 0 3rem;
+    }
+    .tw-video video {
+      width: 100%; height: 100%;
+      display: block;
+      object-fit: cover;
+    }
+    .tw-video-cap {
+      margin-top: -2rem;
+      margin-bottom: 3rem;
+      font-size: 0.85rem;
+      color: var(--ink-400);
+      font-style: italic;
+    }
+
+    /* Widen body content to match section container width */
+    .proj-section > p,
+    .proj-section .proj-block,
+    .proj-section .proj-block p,
+    .proj-section .proj-list li,
+    .proj-section-title {
+      max-width: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="noise" aria-hidden="true"></div>
+
+  <header class="proj-nav">
+    <div class="proj-nav-inner">
+      <a href="../index.html" class="proj-nav-back">
+        <iconify-icon icon="solar:arrow-left-linear"></iconify-icon>
+        <span data-i18n="nav-back">Back to all works</span>
+      </a>
+      <div class="proj-nav-right">
+        <button class="lang-toggle" id="langToggle" type="button" aria-label="Toggle language">한국어</button>
+        </div>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="proj-hero proj-hero-split">
+    <div class="proj-hero-text">
+      <p class="proj-eyebrow" data-i18n="hero-eyebrow">Project 05 · Mixed Reality Social Space</p>
+      <h1 class="proj-title" data-i18n="hero-title">Twin World</h1>
+      <p class="proj-tagline" data-i18n="hero-tagline">A social metaverse application for HoloLens 2 that lets users personalize their physical space with virtual assets.</p>
+
+      <div class="proj-meta">
+        <div class="proj-meta-item">
+          <label data-i18n="meta-client-label">Client</label>
+          <div class="value" data-i18n="meta-client">DoubleMe</div>
+        </div>
+        <div class="proj-meta-item">
+          <label data-i18n="meta-role-label">Role</label>
+          <div class="value" data-i18n="meta-role">Product Designer (MR)</div>
+        </div>
+        <div class="proj-meta-item">
+          <label data-i18n="meta-duration-label">Duration</label>
+          <div class="value" data-i18n="meta-duration">January 2020 – June 2020</div>
+        </div>
+        <div class="proj-meta-item">
+          <label data-i18n="meta-deliverables-label">Deliverables</label>
+          <div class="value" data-i18n="meta-deliverables">UX Design · MRTK Prototype</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="proj-hero-media">
+      <div class="proj-hero-media-frame">
+        <img src="assets/twinworld/hero-room.jpg" alt="Twin World HoloLens experience" loading="eager">
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- 01 — PROBLEM                                                  -->
+  <!-- ============================================================ -->
+  <section class="proj-section">
+    <div class="proj-section-header">
+      <span class="proj-section-num" data-i18n="s01-num">01</span>
+      <h2 class="proj-section-title" data-i18n="s01-title">Problem</h2>
+    </div>
+    <p data-i18n="s01-p1">Many users remain unfamiliar with actual XR experiences, particularly with wearable devices and smart glasses. First-time users frequently abandon the technology after struggling with gestural interactions like air-pointing at virtual interfaces. Those frustrating first attempts create lasting negative perceptions of XR as <em>incomplete</em> technology.</p>
+    <p data-i18n="s01-p2">The challenge: <strong>ease the biggest frustration of first-time users, learning and adapting to the device's gestural grammar.</strong></p>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- 02 — RESEARCH                                                 -->
+  <!-- ============================================================ -->
+  <section class="proj-section">
+    <div class="proj-section-header">
+      <span class="proj-section-num" data-i18n="s03-num">02</span>
+      <h2 class="proj-section-title" data-i18n="s03-title">Research</h2>
+    </div>
+    <p data-i18n="s03-p1">Preliminary surveys, user interviews, and persona development to map where first-time XR users actually struggle.</p>
+
+    <div class="tw-image-row" style="grid-template-columns: 1fr 1fr 1fr !important;">
+      <img src="assets/twinworld/research-survey.png" alt="Preliminary user survey results">
+      <img src="assets/twinworld/persona.png" alt="User persona">
+      <img src="assets/twinworld/journey-map.png" alt="User journey map">
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- 04 — CONCEPT & DESIGN                                         -->
+  <!-- ============================================================ -->
+  <section class="proj-section">
+    <div class="proj-section-header">
+      <span class="proj-section-num" data-i18n="s04-num">03</span>
+      <h2 class="proj-section-title" data-i18n="s04-title">Concept & Design</h2>
+    </div>
+    <p data-i18n="s04-p1">From the early concept sketch to information architecture, ideation sketches, and a final wireframe — establishing the gestural grammar before any device-side prototyping.</p>
+
+    <figure class="tw-figure-full">
+      <img src="assets/twinworld/concept.png" alt="Concept sketch">
+    </figure>
+
+    <div class="proj-block">
+      <h3 data-i18n="s04-ui-h">UI ideation sketches</h3>
+    </div>
+    <figure class="tw-figure-full">
+      <img src="assets/twinworld/ui-ideation-sketch.png" alt="UI ideation sketches">
+    </figure>
+
+    <div class="proj-grid-2">
+      <div>
+        <div class="proj-block">
+          <h3 data-i18n="s04-ia-h">Information architecture</h3>
+        </div>
+        <figure class="tw-figure-full" style="margin-top:0;">
+          <img src="assets/twinworld/ia-diagram.png" alt="Information architecture diagram">
+        </figure>
+      </div>
+      <div>
+        <div class="proj-block">
+          <h3 data-i18n="s04-wf-h">Wireframe</h3>
+        </div>
+        <figure class="tw-figure-full" style="margin-top:0;">
+          <img src="assets/twinworld/wireframe.png" alt="Wireframe">
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- 05 — KEY FEATURES                                             -->
+  <!-- ============================================================ -->
+  <section class="proj-section">
+    <div class="proj-section-header">
+      <span class="proj-section-num" data-i18n="s05-num">04</span>
+      <h2 class="proj-section-title" data-i18n="s05-title">Key Features</h2>
+    </div>
+    <ul class="proj-list">
+      <li data-i18n="s05-li1">Virtual asset placement : 3D models, videos, and images.</li>
+      <li data-i18n="s05-li2">Personalized AR space transformation.</li>
+      <li data-i18n="s05-li3">Social sharing capabilities.</li>
+      <li data-i18n="s05-li4">Engagement focused on conversation and technology feedback.</li>
+    </ul>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- 06 — PROTOTYPE & DELIVERABLES                                 -->
+  <!-- ============================================================ -->
+  <section class="proj-section">
+    <div class="proj-section-header">
+      <span class="proj-section-num" data-i18n="s06-num">05</span>
+      <h2 class="proj-section-title" data-i18n="s06-title">Prototype & Deliverables</h2>
+    </div>
+    <p data-i18n="s06-p1">Built in MRTK (Mixed Reality Toolkit) and tested with real HoloLens 2 hardware. Every gesture and interaction was validated on-device, not just in mock environments.</p>
+
+    <div class="tw-image-row" style="grid-template-columns: 1fr 1fr !important;">
+      <img src="assets/twinworld/prototype-1.png" alt="Prototype screenshot 1">
+      <img src="assets/twinworld/prototype-2.png" alt="Prototype screenshot 2">
+    </div>
+
+    <div class="proj-grid-2">
+      <div>
+        <div class="tw-video">
+          <video controls preload="metadata" playsinline poster="assets/twinworld/videos/hololens-1-poster.jpg">
+            <source src="assets/twinworld/videos/hololens-1.mp4" type="video/mp4">
+          </video>
+        </div>
+        <p class="tw-video-cap" data-i18n="s06-cap1">Captured on HoloLens 2 — virtual asset placement and gestural interaction.</p>
+      </div>
+      <div>
+        <div class="tw-video">
+          <video controls preload="metadata" playsinline poster="assets/twinworld/videos/hololens-2-poster.jpg">
+            <source src="assets/twinworld/videos/hololens-2.mp4" type="video/mp4">
+          </video>
+        </div>
+        <p class="tw-video-cap" data-i18n="s06-cap2">Captured on HoloLens 2 — personalized social space sharing.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- 07 — OUTCOMES                                                 -->
+  <!-- ============================================================ -->
+  <section class="proj-section">
+    <div class="proj-section-header">
+      <span class="proj-section-num" data-i18n="s07-num">06</span>
+      <h2 class="proj-section-title" data-i18n="s07-title">Outcomes</h2>
+    </div>
+    <p data-i18n="s07-p1">Delivered a functional HoloLens 2 prototype that demonstrated <strong>accessible XR interaction</strong> and gathered user response data that helped DoubleMe identify its primary market target in an uncertain spatial computing landscape.</p>
+  </section>
+
+  <footer class="proj-footer">
+    <div class="proj-footer-inner">
+      <a href="mlb-pitchar.html" class="proj-foot-link">
+        <div class="dir"><iconify-icon icon="solar:arrow-left-linear"></iconify-icon> <span data-i18n="footer-prev-dir">Previous project</span></div>
+        <div class="label" data-i18n="footer-prev">MLB PitchAR</div>
+      </a>
+      <a href="../index.html" class="proj-foot-link next">
+        <div class="dir"><span data-i18n="footer-next-dir">Back to</span> <iconify-icon icon="solar:arrow-right-linear"></iconify-icon></div>
+        <div class="label" data-i18n="footer-next">Selected Works</div>
+      </a>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      const i18n = {
+        en: {},
+        ko: {
+          'page-title': '트윈 월드 — 벤 서',
+          'nav-back': '전체 작품으로',
+          'hero-eyebrow': '프로젝트 05 · 혼합현실 소셜 공간',
+          'hero-title': '트윈 월드',
+          'hero-tagline': '사용자가 실제 공간을 가상 에셋으로 꾸밀 수 있게 하는 혼합현실 소셜 메타버스 앱입니다.',
+          'meta-client-label': '클라이언트',
+          'meta-client': 'DoubleMe',
+          'meta-role-label': '역할',
+          'meta-role': '프로덕트 디자이너 (MR)',
+          'meta-duration-label': '기간',
+          'meta-duration': '2020년 1월 – 6월',
+          'meta-deliverables-label': '산출물',
+          'meta-deliverables': 'UX 디자인 · MRTK 프로토타입',
+          's01-num': '01', 's01-title': '문제',
+          's01-p1': '많은 사용자가 실제 XR 경험에 익숙하지 않습니다. 특히 웨어러블 기기와 스마트 글래스에서 더 그렇습니다. 처음 사용하는 사람은 가상 인터페이스를 향해 손가락으로 가리키는 등 제스처 인터랙션에 어려움을 겪다가 기술 자체를 포기하는 경우가 많습니다. 그렇게 막힌 첫 경험이 XR을 <em>"아직 미완성된"</em> 기술이라는 고정관념으로 남기게 됩니다.',
+          's01-p2': '풀어야 할 과제는 분명했습니다. <strong>처음 쓰는 사용자가 가장 답답해하는 지점, 즉 기기의 제스처 문법을 배우고 적응하는 과정을 가볍게 만드는 일.</strong>',
+          's02-num': '02', 's02-title': '솔루션',
+          's02-p1': '사용자가 <strong>자신의 실제 공간을 개인화</strong>할 수 있는 앱입니다. 3D 모델, 영상, 이미지 같은 가상 에셋을 XR 공간에 배치하고 소셜로 공유합니다. 디자인을 이끈 세 가지 원칙은:',
+          's02-li1': '배우기 쉬운 제스처 인터랙션',
+          's02-li2': '사용자 친화적인 인터페이스 디자인',
+          's02-li3': '초보자에게 낮은 진입 장벽',
+          's02-hypothesis': '가설: 기술에 대한 자신감을 얻은 사용자는 XR을 실험적 기술이 아니라 실용적이고 접근 가능한 기술로 인식하게 됩니다.',
+          's03-num': '02', 's03-title': '리서치',
+          's03-p1': '예비 설문, 사용자 인터뷰, 퍼소나 정의를 통해 처음 XR을 쓰는 사용자가 실제로 어디에서 막히는지를 매핑했습니다.',
+          's03-persona-h': '사용자 퍼소나',
+          's03-journey-h': '사용자 여정 맵',
+          's04-num': '03', 's04-title': '컨셉 & 디자인',
+          's04-p1': '초기 컨셉 스케치부터 정보 구조, 아이데이션 스케치, 최종 와이어프레임까지 — 디바이스에서 프로토타이핑을 시작하기 전에 제스처 문법을 먼저 잡아두는 과정이었습니다.',
+          's04-ia-h': '정보 구조',
+          's04-ui-h': 'UI 아이데이션 스케치',
+          's04-wf-h': '와이어프레임',
+          's05-num': '04', 's05-title': '주요 기능',
+          's05-li1': '가상 에셋 배치 : 3D 모델, 영상, 이미지',
+          's05-li2': '개인화된 AR 공간 변형',
+          's05-li3': '소셜 공유 기능',
+          's05-li4': '대화와 기술 피드백을 중심으로 한 사용자 참여',
+          's06-num': '05', 's06-title': '프로토타입 & 산출물',
+          's06-p1': 'MRTK(Mixed Reality Toolkit)로 빌드한 뒤 실제 홀로렌즈 2 하드웨어로 검증했습니다. 모든 제스처와 인터랙션을 모형이 아닌 실제 디바이스에서 직접 테스트했습니다.',
+          's06-cap1': '홀로렌즈 2에서 촬영 — 가상 에셋 배치와 제스처 인터랙션',
+          's06-cap2': '홀로렌즈 2에서 촬영 — 개인화된 소셜 공간 공유',
+          's07-num': '06', 's07-title': '성과',
+          's07-p1': '<strong>접근 가능한 XR 인터랙션</strong>을 입증한 동작 가능한 홀로렌즈 2 프로토타입을 전달했고, 불확실하던 공간 컴퓨팅 시장에서 DoubleMe가 초기 진입 시장을 식별하는 데 도움이 된 사용자 반응 데이터를 함께 확보했습니다.',
+          'footer-prev-dir': '이전 작품',
+          'footer-prev': 'MLB PitchAR',
+          'footer-next-dir': '돌아가기',
+          'footer-next': '셀렉티드 워크',
+        }
+      };
+
+      function applyLang(lang) {
+        if (!i18n[lang]) lang = 'en';
+        document.documentElement.lang = lang;
+        document.body.dataset.lang = lang;
+        const dict = i18n[lang];
+        document.querySelectorAll('[data-i18n]').forEach(function (el) {
+          const key = el.getAttribute('data-i18n');
+          if (lang === 'en') {
+            // English is the source — restore from a snapshot taken on first run
+            if (el.dataset.i18nEn !== undefined) el.innerHTML = el.dataset.i18nEn;
+          } else if (dict[key] !== undefined) {
+            if (el.dataset.i18nEn === undefined) el.dataset.i18nEn = el.innerHTML;
+            el.innerHTML = dict[key];
+          }
+        });
+        const btn = document.getElementById('langToggle');
+        if (btn) btn.textContent = lang === 'en' ? '한국어' : 'English';
+        try { localStorage.setItem('portfolio-lang', lang); } catch (e) {}
+      }
+
+      // Snapshot English on load
+      document.querySelectorAll('[data-i18n]').forEach(function (el) {
+        el.dataset.i18nEn = el.innerHTML;
+      });
+
+      let saved = 'en';
+      try { saved = localStorage.getItem('portfolio-lang') || 'en'; } catch (e) {}
+      applyLang(saved);
+
+      const btn = document.getElementById('langToggle');
+      if (btn) {
+        btn.addEventListener('click', function () {
+          const cur = document.body.dataset.lang || 'en';
+          applyLang(cur === 'en' ? 'ko' : 'en');
+        });
+      }
+    })();
+  </script>
+</body>
+</html>

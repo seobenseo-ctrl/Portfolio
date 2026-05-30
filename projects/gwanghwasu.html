@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title data-i18n="page-title">Gwanghwa Su — Ben Seo</title>
+  <meta name="description" content="A machine-learning-based XR monument that visualizes global voices and emotions from social media in real-time AR space.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='42' fill='%2350ff5a'/%3E%3Ctext x='50' y='73' text-anchor='middle' font-family='sans-serif' font-size='76' font-weight='700' fill='%230a0a0b'%3E%E3%85%85%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Michroma&family=Inter:wght@300;400;500;600&display=swap">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.min.css">
+  <script src="https://code.iconify.design/iconify-icon/2.3.0/iconify-icon.min.js"></script>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* Page-specific additions reused from AhhaOhho template */
+    .ghs-figure-full {
+      margin: 2rem 0 3rem;
+      border-radius: 1rem;
+      overflow: hidden;
+      border: 1px solid rgba(0,0,0,0.06);
+      background: #ececec;
+    }
+    .ghs-figure-full img { width: 100%; display: block; }
+
+    .ghs-image-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem;
+      margin: 2rem 0 3rem;
+    }
+    .ghs-image-row img {
+      width: 100%;
+      border-radius: 0.65rem;
+      border: 1px solid rgba(0,0,0,0.06);
+      background: #ececec;
+    }
+
+    /* Native HTML5 video wrapper — preserves 16:9 ratio */
+    .ghs-video {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      border-radius: 1rem;
+      overflow: hidden;
+      border: 1px solid rgba(0,0,0,0.08);
+      background: #f0f0f2;
+      margin: 2rem 0 3rem;
+    }
+    .ghs-video video {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+    }
+    .ghs-video-cap {
+      margin-top: -2rem;
+      margin-bottom: 3rem;
+      font-size: 0.85rem;
+      color: var(--ink-400);
+      font-style: italic;
+    }
+
+    /* Override: 3-col meta grid (gwanghwasu has 3 items, not 4) */
+    @media (min-width: 768px) {
+      .proj-meta { grid-template-columns: repeat(3, 1fr) !important; }
+    }
+
+    /* All section bodies — full section width */
+    p[data-i18n="s04-p1"],
+    p[data-i18n="s04-data-p"],
+    p[data-i18n="s05-p1"],
+    p[data-i18n="s05-cap"],
+    p[data-i18n="s06-p1"],
+    p[data-i18n="s07-p1"],
+    p[data-i18n="s08-p1"],
+    p[data-i18n="s10-p1"],
+    li[data-i18n^="s10-li"] { max-width: none !important; }
+
+    /* Architecture: two diagrams side-by-side below text */
+    .ghs-arch-pair {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.25rem;
+      margin: 2.5rem 0 3rem;
+    }
+    @media (min-width: 768px) {
+      .ghs-arch-pair { grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+    }
+    .ghs-arch-pair figure {
+      margin: 0;
+      border-radius: 0.85rem;
+      overflow: hidden;
+      border: 1px solid rgba(0,0,0,0.06);
+      background: #f4f4f4;
+    }
+    .ghs-arch-pair img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    /* Hero side-by-side layout — text left, cover image right */
+    .ghs-hero-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 3rem;
+      align-items: start;
+    }
+    @media (min-width: 900px) {
+      .ghs-hero-grid {
+        grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+        gap: 4rem;
+        align-items: center;
+      }
+    }
+    .ghs-hero-image {
+      width: 100%;
+      aspect-ratio: 4 / 5;
+      border-radius: 1.5rem;
+      overflow: hidden;
+      background: linear-gradient(135deg, #ececec, #f6f6f6);
+      border: 1px solid rgba(0,0,0,0.06);
+    }
+    .ghs-hero-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <div class="noise" aria-hidden="true"></div>
+
+  <header class="proj-nav">
+    <div class="proj-nav-inner">
+      <a href="../index.html" class="proj-nav-back">
+        <iconify-icon icon="solar:arrow-left-linear"></iconify-icon>
+        <span data-i18n="nav-back">Back to all works</span>
+      </a>
+      <div class="proj-nav-right">
+        <button class="lang-toggle" id="langToggle" type="button" aria-label="Toggle language">한국어</button>
+        </div>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="proj-hero">
+    <div class="ghs-hero-grid">
+      <div class="ghs-hero-text">
+        <p class="proj-eyebrow" data-i18n="hero-eyebrow">Project 02 · ML-driven XR Monument</p>
+        <h1 class="proj-title" data-i18n="hero-title">Gwanghwa Su</h1>
+        <p class="proj-tagline" data-i18n="hero-tagline">An interactive XR monument that visualizes global voices and emotions derived from social media in real time.</p>
+
+        <div class="proj-meta">
+          <div class="proj-meta-item">
+            <label data-i18n="meta-client-label">Client</label>
+            <div class="value" data-i18n="meta-client">Ministry of Culture, Sports and Tourism / KOCCA</div>
+          </div>
+          <div class="proj-meta-item">
+            <label data-i18n="meta-role-label">Role</label>
+            <div class="value" data-i18n="meta-role">UX Designer (Mobile, HMD client app)<br>Project Coordinator</div>
+          </div>
+          <div class="proj-meta-item">
+            <label data-i18n="meta-team-label">Team</label>
+            <div class="value" data-i18n="meta-team">50+ specialists<br><span style="color:var(--ink-400);font-size:0.85rem;">ML · XR · Media Art</span></div>
+          </div>
+        </div>
+      </div>
+
+      <figure class="ghs-hero-image">
+        <img src="assets/gwanghwasu/hero.png" alt="Gwanghwa Su project hero" loading="eager">
+      </figure>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- 01 — OVERVIEW                                                 -->
+  <!-- ============================================================ -->
+  <section class="proj-section">
+    <div class="proj-section-header">
+      <span class="proj-section-num" data-i18n="s01-num">01</span>
+      <h2 class="proj-section-title" data-i18n="s01-title">Overview</h2>
+    </div>
+    <div class="proj-grid-2">
+      <div class="proj-block">
+        <h3 data-i18n="s01-problem-h">Problem</h3>
+        <p data-i18n="s01-problem-p">The brief was to build an interactive, big-data-driven AR monument leveraging SNS data and 5G technology across mobile (iOS/Android), tablets, kiosks, and HMD devices. That meant four distinct software clients with shared data, shared aesthetics, and very different interaction grammars.</p>
+      </div>
+      <div class="proj-block">
+        <h3 data-i18n="s01-solution-h">Solution</h3>
+        <p data-i18n="s01-solution-p">Inspired by the film <em>Inside Out</em>, the monument uses AI classification to analyze and visualize human emotion. Users post a thought; an AI engine classifies it into one of seven emotions — <strong>happiness, anger, love, desire, worry, discontent, sadness</strong> — and the post becomes a colored orb in shared AR space.</p>
+      </div>
+    </div>
+
+    <!-- Concept demo video -->
+    <div class="ghs-video">
+      <video controls preload="metadata" playsinline poster="assets/gwanghwasu/videos/concept-poster.jpg">
+        <source src="assets/gwanghwasu/videos/concept.mp4" type="video/mp4">
+      </video>
+    </div>
+    <p class="ghs-video-cap" data-i18n="s01-cap">Concept overview — emotional orbs floating in shared AR space, classified live from SNS data.</p>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- 02 — KEY FEATURES                                             -->
+  <!-- ============================================================ -->
+  <section class="proj-section">
+    <div class="proj-section-header">
+      <span class="proj-section-num" data-i18n="s02-num">02</span>
+      <h2 class="proj-section-title" data-i18n="s02-title">Features &amp; Stack</h2>
+    </div>
+    <div class="proj-grid-2">
+      <div class="proj-block">
+        <h3 data-i18n="s02-feat-h">Key Features</h3>
+        <ul class="proj-list">
+          <li data-i18n="s02-li1"><strong>AI-powered emotion classification</strong> across seven emotion categories.</li>
+          <li data-i18n="s02-li2"><strong>Real-time SNS data crawling</strong> with on-the-fly visualization in shared AR space.</li>
+          <li data-i18n="s02-li3"><strong>Cross-platform compatibility</strong> — mobile, kiosk, HMD, all bound to the same data.</li>
+          <li data-i18n="s02-li4"><strong>Content moderation dashboard</strong> for cultural and political sensitivity.</li>
+          <li data-i18n="s02-li5"><strong>Data visualization interfaces</strong> tuned to each platform's interaction context.</li>
+          <li data-i18n="s02-li6">3D animations and Web3D integration for <strong>outdoor AR display</strong>.</li>
+        </ul>
+      </div>
+      <div class="proj-block">
+        <h3 data-i18n="s02-tech-h">Technology Stack</h3>
+        <ul class="proj-list">
+          <li data-i18n="s03-li1">SNS data crawling pipeline with AI/ML emotion classification.</li>
+          <li data-i18n="s03-li2"><strong>Three.js</strong> for Web3D rendering on mobile and kiosk.</li>
+          <li data-i18n="s03-li3"><strong>WebAR</strong> and <strong>Vuforia</strong> engines for image-tracked AR.</li>
+          <li data-i18n="s03-li4"><strong>Nreal HMD</strong> spatial overlay for the head-mounted experience.</li>
+          <li data-i18n="s03-li5">Custom admin moderation platform.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- 04 — SYSTEM ARCHITECTURE                                      -->
+  <!-- ============================================================ -->
+  <section class="proj-section">
+    <div class="proj-section-header">
+      <span class="proj-section-num" data-i18n="s04-num">03</span>
+      <h2 class="proj-section-title" data-i18n="s04-title">System Architecture</h2>
+    </div>
+    <p data-i18n="s04-p1">I built the system diagrams that translated the project's design intent across multidisciplinary teams — AI engineers, 3D artists, AR developers, and operations. With 50+ contributors, the diagram <em>was</em> the design tool.</p>
+
+    <div class="proj-block">
+      <h3 data-i18n="s04-data-h">Data management & AI classifier</h3>
+      <p data-i18n="s04-data-p">Implemented text filters and moderation tools to address cultural/political sensitivity and spam. The AI classifier engine sorts each post into one of the seven emotion buckets in near real-time.</p>
+    </div>
+
+    <div class="ghs-arch-pair">
+      <figure>
+        <img src="assets/gwanghwasu/system-architecture.png" alt="Cross-platform system architecture diagram">
+      </figure>
+      <figure>
+        <img src="assets/gwanghwasu/ai-classifier.png" alt="AI classifier engine diagram">
+      </figure>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- 05 — DATA VISUALIZATION                                       -->
+  <!-- ============================================================ -->
+  <section class="proj-section">
+    <div class="proj-section-header">
+      <span class="proj-section-num" data-i18n="s05-num">04</span>
+      <h2 class="proj-section-title" data-i18n="s05-title">Data Visualization</h2>
+    </div>
+    <p data-i18n="s05-p1">Each emotion has its own color, scale, and motion grammar. The orbs cluster, drift, and pulse in shared space — making the statistical mood of a city legible at a glance.</p>
+
+    <div class="ghs-video">
+      <video controls preload="metadata" playsinline poster="assets/gwanghwasu/videos/data-viz-poster.jpg">
+        <source src="assets/gwanghwasu/videos/data-viz.mp4" type="video/mp4">
+      </video>
+    </div>
+    <p class="ghs-video-cap" data-i18n="s05-cap">Real-time data visualization — emotional orbs scaled by intensity, clustered by category.</p>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- 06 — INTERFACES                                               -->
+  <!-- ============================================================ -->
+  <section class="proj-section">
+    <div class="proj-section-header">
+      <span class="proj-section-num" data-i18n="s06-num">05</span>
+      <h2 class="proj-section-title" data-i18n="s06-title">Interfaces</h2>
+    </div>
+    <p data-i18n="s06-p1">Created visual systems for orb creation, emotion classification flows, and data dashboards for each of the mobile, kiosk, and HMD client apps.</p>
+
+    <div class="ghs-image-row" style="grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));">
+      <img src="assets/gwanghwasu/mobile-info.png" alt="Mobile info screen">
+      <img src="assets/gwanghwasu/mobile-love.png" alt="Emotion submission screen">
+      <img src="assets/gwanghwasu/mini-screen.png" alt="Mini map screen">
+    </div>
+
+    <figure class="ghs-figure-full">
+      <img src="assets/gwanghwasu/kiosk.png" alt="Kiosk interface">
+    </figure>
+
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- 07 — INSTALLATION                                             -->
+  <!-- ============================================================ -->
+  <section class="proj-section">
+    <div class="proj-section-header">
+      <span class="proj-section-num" data-i18n="s07-num">06</span>
+      <h2 class="proj-section-title" data-i18n="s07-title">Installation</h2>
+    </div>
+    <p data-i18n="s07-p1">Deployed at Gwanghwamun Square in Seoul as a permanent AR monument. The orbs only appear through a device — but they shift the meaning of the physical site for anyone holding one up.</p>
+
+    <div class="ghs-image-row" style="grid-template-columns: 1fr 1fr;">
+      <img src="assets/gwanghwasu/installation-night.png" alt="Installation at night">
+      <img src="assets/gwanghwasu/installation-day.png" alt="Installation during day">
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- 08 — DEMO                                                     -->
+  <!-- ============================================================ -->
+  <section class="proj-section">
+    <div class="proj-section-header">
+      <span class="proj-section-num" data-i18n="s08-num">07</span>
+      <h2 class="proj-section-title" data-i18n="s08-title">Live Demo</h2>
+    </div>
+    <p data-i18n="s08-p1">Full walkthrough — from posting a thought, watching the AI classify it, to seeing your orb appear in the shared monument.</p>
+
+    <div class="ghs-video">
+      <video controls preload="metadata" playsinline poster="assets/gwanghwasu/videos/demo-poster.jpg">
+        <source src="assets/gwanghwasu/videos/demo.mp4" type="video/mp4">
+      </video>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- 09 — PRESS & RECEPTION                                        -->
+  <!-- ============================================================ -->
+  <!-- ============================================================ -->
+  <!-- 09 — OUTCOME & INSIGHTS                                       -->
+  <!-- ============================================================ -->
+  <section class="proj-section">
+    <div class="proj-section-header">
+      <span class="proj-section-num" data-i18n="s10-num">08</span>
+      <h2 class="proj-section-title" data-i18n="s10-title">Outcome & Insights</h2>
+    </div>
+    <figure class="ghs-figure-full">
+      <img src="assets/gwanghwasu/news-capture.png" alt="Press coverage">
+    </figure>
+    <div class="proj-block">
+      <p data-i18n="s10-p1"><strong>Delivered:</strong> a fully functional, cross-platform XR monument with AI-driven emotion-based visualization.</p>
+    </div>
+    <ul class="proj-list">
+      <li data-i18n="s10-li1">Technical integration with machine learning + AR presents UX challenges that don't show up in flat-screen design.</li>
+      <li data-i18n="s10-li2">Real-world AR design has to adapt for outdoor lighting and multisensory stability.</li>
+      <li data-i18n="s10-li3">Multidisciplinary team orchestration demands strong visual communication and project coordination, not just design files.</li>
+    </ul>
+  </section>
+
+  <!-- FOOTER NAV -->
+  <footer class="proj-footer">
+    <div class="proj-footer-inner">
+      <a href="ahhaohho.html" class="proj-foot-link">
+        <div class="dir"><iconify-icon icon="solar:arrow-left-linear"></iconify-icon> <span data-i18n="footer-prev-dir">Previous project</span></div>
+        <div class="label" data-i18n="footer-prev">AhhaOhho</div>
+      </a>
+      <a href="letsee-creator.html" class="proj-foot-link next">
+        <div class="dir"><span data-i18n="footer-next-dir">Next project</span> <iconify-icon icon="solar:arrow-right-linear"></iconify-icon></div>
+        <div class="label" data-i18n="footer-next">Letsee Creator</div>
+      </a>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      const i18n = {
+        en: {},
+        ko: {
+          'page-title': '광화수 — 벤 서',
+          'nav-back': '전체 작품으로',
+          'hero-eyebrow': '프로젝트 02 · 머신러닝 기반 공공 XR 모뉴먼트',
+          'hero-title': '광화수',
+          'hero-tagline': '소셜 미디어에서 모은 서울시 시민들의 목소리와 감정을 실시간으로 시각화하는 인터랙티브 공공 XR 모뉴먼트입니다.',
+          'meta-client-label': '클라이언트',
+          'meta-client': '문화체육관광부 / 한국콘텐츠진흥원',
+          'meta-role-label': '역할',
+          'meta-role': 'UX 디자이너 (모바일, HMD 클라이언트 앱)<br>프로젝트 코디네이터',
+          'meta-team-label': '팀',
+          'meta-team': '50명 이상의 전문가<br><span style="color:var(--ink-400);font-size:0.85rem;">ML · XR · 미디어 아트</span>',
+          's01-num': '01', 's01-title': '개요',
+          's01-problem-h': '문제',
+          's01-problem-p': '의뢰는 SNS 데이터와 5G 기술을 활용해 모바일(iOS/Android), 태블릿, 키오스크, HMD까지 가로지르는 인터랙티브 빅데이터 AR 모뉴먼트를 만드는 일이었습니다. 즉, 같은 데이터와 같은 미감을 공유하면서도 인터랙션 문법이 전혀 다른 4개의 클라이언트를 동시에 설계해야 했습니다.',
+          's01-solution-h': '솔루션',
+          's01-solution-p': '영화 <em>인사이드 아웃</em>에서 영감을 얻어, 광화수는 AI 분류를 통해 사람의 감정을 분석하고 시각화합니다. 사용자가 생각을 올리면 AI 엔진이 7가지 감정 — <strong>기쁨, 분노, 사랑, 욕망, 걱정, 불만, 슬픔</strong> — 중 하나로 분류하고, 그 게시물은 공유 AR 공간에서 고유한 색을 가진 오브로 떠오릅니다.',
+          's01-cap': '컨셉 개요 — SNS 데이터에서 실시간으로 분류된 감정 오브가 공유 AR 공간에 떠다닙니다.',
+          's02-num': '02',
+          's02-title': 'Features & Stack',
+          's02-feat-h': '주요 기능',
+          's02-tech-h': '기술 스택',
+          's02-li1': '7가지 감정 카테고리로 분류하는 <strong>AI 기반 감정 분류</strong>',
+          's02-li2': '<strong>실시간 SNS 데이터 크롤링</strong>과 공유 AR 공간에서의 즉시 시각화',
+          's02-li3': '<strong>크로스 플랫폼 호환</strong> — 모바일, 키오스크, HMD가 모두 같은 데이터에 연결됩니다',
+          's02-li4': '문화·정치적으로 민감한 표현과 스팸을 다루기 위한 <strong>콘텐츠 모더레이션 대시보드</strong>',
+          's02-li5': '플랫폼별 인터랙션 맥락에 맞춰 다듬은 <strong>데이터 시각화 인터페이스</strong>',
+          's02-li6': '<strong>야외 AR 디스플레이</strong>를 위한 3D 애니메이션과 Web3D 통합',
+          's03-num': '03',
+          's03-li1': 'AI/ML 감정 분류가 결합된 SNS 데이터 크롤링 파이프라인',
+          's03-li2': '모바일·키오스크의 Web3D 렌더링을 위한 <strong>Three.js</strong>',
+          's03-li3': '이미지 트래킹 AR을 위한 <strong>WebAR</strong>와 <strong>Vuforia</strong> 엔진',
+          's03-li4': 'HMD 경험을 위한 <strong>Nreal</strong> 공간 오버레이',
+          's03-li5': '자체 제작한 어드민 모더레이션 플랫폼',
+          's04-num': '03',
+          's04-title': '시스템 아키텍처',
+          's04-p1': '프로젝트의 디자인 의도가 AI 엔지니어, 3D 아티스트, AR 개발자, 운영팀 — 여러 분야의 팀 사이에서 정확히 전달되도록 시스템 다이어그램을 직접 그렸습니다. 50명이 넘는 팀이 함께 일하는 환경에서는 이 다이어그램 자체가 가장 강력한 디자인 도구였습니다.',
+          's04-data-h': '데이터 관리 & AI 분류기',
+          's04-data-p': '문화·정치적으로 민감한 표현과 스팸을 걸러내는 텍스트 필터와 모더레이션 도구를 만들었습니다. AI 분류 엔진은 거의 실시간으로 각 게시물을 7가지 감정 그룹 중 하나로 분류합니다.',
+          's05-num': '04',
+          's05-title': '데이터 시각화',
+          's05-p1': '감정마다 고유한 색과 크기, 움직임이 정해져 있습니다. 오브들은 공유 공간 안에서 모이고, 흩어지고, 천천히 박동하면서 도시의 감정 분포를 한눈에 읽히게 만듭니다.',
+          's05-cap': '실시간 데이터 시각화 — 강도에 따라 크기가 달라지는 감정 오브가 카테고리별로 군집을 이룹니다.',
+          's06-num': '05',
+          's06-title': '인터페이스',
+          's06-p1': '모바일·키오스크·HMD 클라이언트 앱 각각을 위한 오브 생성 흐름, 감정 분류 인터페이스, 데이터 대시보드의 비주얼 시스템을 만들었습니다.',
+          's07-num': '06',
+          's07-title': '설치',
+          's07-p1': '서울 광화문 광장에 상설 AR 모뉴먼트로 설치했습니다. 오브는 디바이스를 통해서만 보이지만, 화면을 들어 올린 사람에게는 그 장소의 의미가 달라집니다.',
+          's08-num': '07',
+          's08-title': '라이브 데모',
+          's08-p1': '전체 시연 영상 — 생각을 올리고, AI가 그것을 분류하고, 자신의 오브가 공유 모뉴먼트에 나타나는 흐름 전체를 보여줍니다.',
+          's09-num': '08',
+          's09-title': '언론 & 반응',
+          's10-num': '09',
+          's10-title': '성과 & 인사이트',
+          's10-p1': '<strong>최종 결과물:</strong> AI 기반 감정 시각화를 갖춘, 완성도 있게 동작하는 크로스 플랫폼 XR 모뉴먼트를 인도했습니다.',
+          's10-li1': '머신러닝과 AR이 결합된 기술 통합은 평면 화면 디자인에서는 드러나지 않는 UX 과제를 만들어냅니다.',
+          's10-li2': '야외 AR 디자인은 햇빛, 조명 변화, 감각의 안정감까지 함께 고려해야 합니다.',
+          's10-li3': '여러 분야의 팀을 함께 이끌어 가는 일은 디자인 파일만으로는 부족합니다. 강한 시각적 커뮤니케이션과 프로젝트 코디네이션이 필요합니다.',
+          'footer-prev-dir': '이전 작품',
+          'footer-prev': '아하오호',
+          'footer-next-dir': '다음 작품',
+          'footer-next': 'Letsee Creator',
+        }
+      };
+
+      function applyLang(lang) {
+        if (!i18n[lang]) lang = 'en';
+        document.documentElement.lang = lang;
+        document.body.dataset.lang = lang;
+        const dict = i18n[lang];
+        document.querySelectorAll('[data-i18n]').forEach(function (el) {
+          const key = el.getAttribute('data-i18n');
+          if (lang === 'en') {
+            if (el.dataset.i18nEn !== undefined) el.innerHTML = el.dataset.i18nEn;
+          } else if (dict[key] !== undefined) {
+            if (el.dataset.i18nEn === undefined) el.dataset.i18nEn = el.innerHTML;
+            el.innerHTML = dict[key];
+          }
+        });
+        const btn = document.getElementById('langToggle');
+        if (btn) btn.textContent = lang === 'en' ? '한국어' : 'English';
+        try { localStorage.setItem('portfolio-lang', lang); } catch (e) {}
+      }
+
+      document.querySelectorAll('[data-i18n]').forEach(function (el) {
+        el.dataset.i18nEn = el.innerHTML;
+      });
+
+      let saved = 'en';
+      try { saved = localStorage.getItem('portfolio-lang') || 'en'; } catch (e) {}
+      applyLang(saved);
+
+      const btn = document.getElementById('langToggle');
+      if (btn) {
+        btn.addEventListener('click', function () {
+          const cur = document.body.dataset.lang || 'en';
+          applyLang(cur === 'en' ? 'ko' : 'en');
+        });
+      }
+    })();
+  </script>
+</body>
+</html>

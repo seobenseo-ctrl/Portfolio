@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title data-i18n="page-title">Letsee Creator — Ben Seo</title>
+  <meta name="description" content="A no-code WebAR authoring tool that lets non-experts create, publish, and manage AR content without 3D or coding skills.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='42' fill='%2350ff5a'/%3E%3Ctext x='50' y='73' text-anchor='middle' font-family='sans-serif' font-size='76' font-weight='700' fill='%230a0a0b'%3E%E3%85%85%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Michroma&family=Inter:wght@300;400;500;600&display=swap">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.min.css">
+  <script src="https://code.iconify.design/iconify-icon/2.3.0/iconify-icon.min.js"></script>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* Reusable layout helpers */
+    .lc-figure-full {
+      margin: 2rem 0 3rem;
+      border-radius: 1rem;
+      overflow: hidden;
+      border: 1px solid rgba(0,0,0,0.06);
+      background: #ececec;
+    }
+    .lc-figure-full img { width: 100%; display: block; }
+
+    .lc-image-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem;
+      margin: 2rem 0 3rem;
+    }
+    .lc-image-row img {
+      width: 100%;
+      border-radius: 0.65rem;
+      border: 1px solid rgba(0,0,0,0.06);
+      background: #ececec;
+    }
+
+    .lc-video {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      border-radius: 1rem;
+      overflow: hidden;
+      border: 1px solid rgba(0,0,0,0.08);
+      background: #f0f0f2;
+      margin: 2rem 0 3rem;
+    }
+    .lc-video video {
+      width: 100%; height: 100%;
+      display: block;
+      object-fit: cover;
+    }
+    .lc-video-cap {
+      margin-top: -2rem;
+      margin-bottom: 3rem;
+      font-size: 0.85rem;
+      color: var(--ink-400);
+      font-style: italic;
+    }
+
+    /* Figma prototype embed */
+    .lc-figma {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      border-radius: 1rem;
+      overflow: hidden;
+      border: 1px solid rgba(0,0,0,0.08);
+      background: #f0f0f2;
+      margin: 2rem 0 1rem;
+    }
+    .lc-figma iframe {
+      position: absolute;
+      inset: 0;
+      width: 100%; height: 100%;
+      border: none;
+    }
+    @media (min-width: 768px) {
+      .lc-figma { aspect-ratio: 16 / 10; }
+    }
+
+    /* Two-col split: text left, image right */
+    .lc-split {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 2rem;
+      align-items: center;
+    }
+    @media (min-width: 900px) {
+      .lc-split {
+        grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+        gap: 3.5rem;
+      }
+    }
+    .lc-split-figure {
+      margin: 0;
+      border-radius: 1rem;
+      overflow: hidden;
+      border: 1px solid rgba(0,0,0,0.06);
+      background: #ececec;
+    }
+    .lc-split-figure img { width: 100%; height: auto; display: block; }
+
+    /* Widen body content to match section container width */
+    .proj-section > p,
+    .proj-section .proj-block,
+    .proj-section .proj-block p,
+    .proj-section .proj-list li,
+    .proj-section-title {
+      max-width: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="noise" aria-hidden="true"></div>
+
+  <header class="proj-nav">
+    <div class="proj-nav-inner">
+      <a href="../index.html" class="proj-nav-back">
+        <iconify-icon icon="solar:arrow-left-linear"></iconify-icon>
+        <span data-i18n="nav-back">Back to all works</span>
+      </a>
+      <div class="proj-nav-right">
+        <button class="lang-toggle" id="langToggle" type="button" aria-label="Toggle language">한국어</button>
+        </div>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="proj-hero proj-hero-split">
+    <div class="proj-hero-text">
+      <p class="proj-eyebrow" data-i18n="hero-eyebrow">Project 03 · No-code WebAR Tool</p>
+      <h1 class="proj-title" data-i18n="hero-title">Letsee Creator</h1>
+      <p class="proj-tagline" data-i18n="hero-tagline">A no-code WebAR authoring tool that lets non-experts create, publish, and manage AR content without 3D or coding skills.</p>
+
+      <div class="proj-meta">
+        <div class="proj-meta-item">
+          <label data-i18n="meta-client-label">Client</label>
+          <div class="value" data-i18n="meta-client">Letsee</div>
+        </div>
+        <div class="proj-meta-item">
+          <label data-i18n="meta-role-label">Role</label>
+          <div class="value" data-i18n="meta-role">Product Design Lead</div>
+        </div>
+        <div class="proj-meta-item">
+          <label data-i18n="meta-deliverable-label">Deliverable</label>
+          <div class="value" data-i18n="meta-deliverable">Beta Release</div>
+        </div>
+        <div class="proj-meta-item">
+          <label data-i18n="meta-audience-label">Audience</label>
+          <div class="value" data-i18n="meta-audience">B2B managers,<br>corporate trainers</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="proj-hero-media">
+      <div class="proj-hero-media-frame">
+        <img src="assets/letsee/hero-devices.png" alt="Letsee Creator hero" loading="eager">
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- 01 — CONTEXT & CHALLENGE                                      -->
+  <!-- ============================================================ -->
+  <section class="proj-section">
+    <div class="proj-section-header">
+      <span class="proj-section-num" data-i18n="s01-num">01</span>
+      <h2 class="proj-section-title" data-i18n="s01-title">Context & Challenge</h2>
+    </div>
+    <p style="color:var(--ink-100);font-style:italic;font-size:1.1rem;line-height:1.6;" data-i18n="s01-question">"How can we help non-experts create WebAR content without any 3D or coding skills?"</p>
+    <p data-i18n="s01-p1">Enterprises were struggling with XR adoption because of technical complexity. B2B content managers and corporate trainers reported relying on outdated text-based manuals that failed to capture detail. Sales teams reportedly spent only <strong>40% of work hours on actual selling</strong> — the rest was lost to navigating training material.</p>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- 03 — RESEARCH & INSIGHTS                                      -->
+  <!-- ============================================================ -->
+  <section class="proj-section">
+    <div class="proj-section-header">
+      <span class="proj-section-num" data-i18n="s03-num">02</span>
+      <h2 class="proj-section-title" data-i18n="s03-title">Research & Insights</h2>
+    </div>
+    <div class="proj-block">
+      <h3 data-i18n="s03-methods-h">Methods</h3>
+      <ul class="proj-list">
+        <li data-i18n="s03-m1">Three rounds of wireframe iteration.</li>
+        <li data-i18n="s03-m2">Benchmarking of similar tools — ZapWorks, 8thWall, Adobe Aero.</li>
+        <li data-i18n="s03-m3">Internal stakeholder interviews and field feedback.</li>
+        <li data-i18n="s03-m4">MVP testing with guided activities.</li>
+      </ul>
+    </div>
+    <div class="proj-block">
+      <h3 data-i18n="s03-insight-h">Key insight</h3>
+      <p data-i18n="s03-insight-p">Target users wanted <strong>"a familiar interface like web content editors,"</strong> prioritized instant WebAR publishing, and preferred guided templates over freeform 3D manipulation. They didn't want power; they wanted speed.</p>
+    </div>
+
+    <!-- Personas -->
+    <div class="lc-image-row" style="grid-template-columns: repeat(3, 1fr);">
+      <img src="assets/letsee/persona-overview.png" alt="Persona overview">
+      <img src="assets/letsee/persona-engineer.png" alt="Engineer persona">
+      <img src="assets/letsee/persona-ops-manager.png" alt="Operations manager persona">
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- 04 — KEY DESIGN DECISIONS                                     -->
+  <!-- ============================================================ -->
+  <section class="proj-section">
+    <div class="proj-section-header">
+      <span class="proj-section-num" data-i18n="s04-num">03</span>
+      <h2 class="proj-section-title" data-i18n="s04-title">Key Design Decisions</h2>
+    </div>
+    <ul class="proj-list">
+      <li data-i18n="s04-d1"><strong>Template-first layout</strong> — structured templates reduced friction for users without AR or 3D experience.</li>
+      <li data-i18n="s04-d2"><strong>Live preview-first flow</strong> — real-time feedback boosted user confidence and shortened the test loop.</li>
+      <li data-i18n="s04-d3"><strong>Lightweight authoring</strong> — AR scenes built with minimal objects to keep the canvas legible.</li>
+      <li data-i18n="s04-d4"><strong>No-login onboarding</strong> — eliminated the early friction point that killed first-session retention.</li>
+    </ul>
+
+    <div class="lc-image-row" style="grid-template-columns: 1fr 1fr;">
+      <img src="assets/letsee/ui-decision-1.png" alt="Key design decision UI">
+      <img src="assets/letsee/ui-decision-2.png" alt="Key design decision UI - flow">
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- 05 — IMPLEMENTATION                                           -->
+  <!-- ============================================================ -->
+  <section class="proj-section">
+    <div class="proj-section-header">
+      <span class="proj-section-num" data-i18n="s05-num">04</span>
+      <h2 class="proj-section-title" data-i18n="s05-title">Implementation</h2>
+    </div>
+    <p data-i18n="s05-p1">Mapped the full information architecture, then built an interactive prototype to validate the no-code authoring flow before engineering committed to specific stacks.</p>
+
+    <div class="lc-image-row" style="grid-template-columns: 1fr 1fr;">
+      <img src="assets/letsee/ia-diagram.png" alt="Letsee Creator information architecture">
+      <img src="assets/letsee/architecture.png" alt="System architecture diagram">
+    </div>
+
+    <!-- Figma prototype embed -->
+    <div class="proj-block">
+      <h3 data-i18n="s05-proto-h">Interactive prototype</h3>
+      <p data-i18n="s05-proto-p">Click through the no-code authoring flow (Figma).</p>
+    </div>
+    <div class="lc-figma">
+      <iframe src="https://www.figma.com/embed?embed_host=oembed&url=https%3A%2F%2Fwww.figma.com%2Fproto%2FGPTYeOpLJp0CVerGgov9FO%2FLDAT_Prototype%3Fpage-id%3D0%253A1%26node-id%3D123%253A2277%26viewport%3D-10%252C-550%252C0.1%26scaling%3Dscale-down%26starting-point-node-id%3D1%253A1160" allowfullscreen></iframe>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- 06 — MVP & USABILITY TESTING                                  -->
+  <!-- ============================================================ -->
+  <section class="proj-section">
+    <div class="proj-section-header">
+      <span class="proj-section-num" data-i18n="s06-num">05</span>
+      <h2 class="proj-section-title" data-i18n="s06-title">MVP & Usability Testing</h2>
+    </div>
+    <p data-i18n="s06-p1">Ran guided usability sessions with target users — content managers and trainers — to test whether the no-code flow held up under real authoring tasks.</p>
+
+    <div class="lc-image-row" style="grid-template-columns: 1fr 1fr;">
+      <img src="assets/letsee/iteration-ui.png" alt="Updated UI after iteration">
+      <img src="assets/letsee/testing-feedback.png" alt="User testing feedback notes">
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- 07 — ITERATIONS & IMPROVEMENTS                                -->
+  <!-- ============================================================ -->
+  <section class="proj-section">
+    <div class="proj-section-header">
+      <span class="proj-section-num" data-i18n="s07-num">06</span>
+      <h2 class="proj-section-title" data-i18n="s07-title">Iterations & Improvements</h2>
+    </div>
+    <p data-i18n="s07-p1">Refinements driven directly by usability findings — a clearer canvas hierarchy, a richer template library, and a faster path from blank state to published WebAR.</p>
+
+    <div class="lc-image-row" style="grid-template-columns: 1fr 1fr;">
+      <img src="assets/letsee/user-feedback.png" alt="User feedback message">
+      <img src="assets/letsee/templates.png" alt="Template library">
+    </div>
+
+    <!-- Testing video -->
+    <div class="lc-video">
+      <video controls preload="metadata" playsinline poster="assets/letsee/videos/testing-poster.jpg">
+        <source src="assets/letsee/videos/testing.mp4" type="video/mp4">
+      </video>
+    </div>
+    <p class="lc-video-cap" data-i18n="s06-cap">Usability testing session — observing first-time users build their first AR scene.</p>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- 08 — OUTCOMES                                                 -->
+  <!-- ============================================================ -->
+  <section class="proj-section">
+    <div class="proj-section-header">
+      <span class="proj-section-num" data-i18n="s08-num">07</span>
+      <h2 class="proj-section-title" data-i18n="s08-title">Outcomes</h2>
+    </div>
+
+    <div class="proj-metrics">
+      <div class="proj-metric">
+        <div class="num">38%</div>
+        <div class="label" data-i18n="s08-m1">faster content creation vs. prior workflow</div>
+      </div>
+      <div class="proj-metric">
+        <div class="num">12%</div>
+        <div class="label" data-i18n="s08-m2">fewer publishing errors</div>
+      </div>
+      <div class="proj-metric">
+        <div class="num">89%</div>
+        <div class="label" data-i18n="s08-m3">positive ease-of-use rating</div>
+      </div>
+      <div class="proj-metric">
+        <div class="num">+20%</div>
+        <div class="label" data-i18n="s08-m4">user growth post-launch</div>
+      </div>
+    </div>
+
+    <p style="margin-top:1.5rem;" data-i18n="s08-p1">Letsee Creator was built to lower the barrier to AR content creation and make training more engaging and interactive. While the project involved many technical challenges, the main focus of the project was to leverage an emerging technology to address industries' everyday pain point, contributing to better learning[training] experiences, reducing training costs, and supporting better knowledge retention and performance.</p>
+    <p data-i18n="s08-p2">Providing an easy to use experience of an emerging technology was much more challenging than showcasing a novel experience of the technology. Designing with accessibility and simplicity in mind was key to making the tool practical and usable for real-world applications.</p>
+  </section>
+
+  <footer class="proj-footer">
+    <div class="proj-footer-inner">
+      <a href="gwanghwasu.html" class="proj-foot-link">
+        <div class="dir"><iconify-icon icon="solar:arrow-left-linear"></iconify-icon> <span data-i18n="footer-prev-dir">Previous project</span></div>
+        <div class="label" data-i18n="footer-prev">Gwanghwa Su</div>
+      </a>
+      <a href="mlb-pitchar.html" class="proj-foot-link next">
+        <div class="dir"><span data-i18n="footer-next-dir">Next project</span> <iconify-icon icon="solar:arrow-right-linear"></iconify-icon></div>
+        <div class="label" data-i18n="footer-next">MLB PitchAR</div>
+      </a>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      const i18n = {
+        en: {},
+        ko: {
+          'page-title': 'Letsee Creator — 벤 서',
+          'nav-back': '전체 작품으로',
+          'hero-eyebrow': '프로젝트 03 · 노코드 WebAR 도구',
+          'hero-title': 'Letsee Creator',
+          'hero-tagline': '3D나 코딩을 몰라도 비전문가가 AR 콘텐츠를 만들고, 게시하고, 관리할 수 있는 노코드 WebAR 저작 도구입니다.',
+          'meta-client-label': '클라이언트',
+          'meta-client': 'Letsee',
+          'meta-role-label': '역할',
+          'meta-role': '프로덕트 디자인 리드',
+          'meta-deliverable-label': '산출물',
+          'meta-deliverable': '베타 출시',
+          'meta-audience-label': '대상 사용자',
+          'meta-audience': 'B2B 매니저,<br>기업 트레이너',
+          's01-num': '01', 's01-title': '맥락과 도전 과제',
+          's01-question': '"3D나 코딩을 모르는 비전문가도 WebAR 콘텐츠를 만들 수 있도록 어떻게 도울 수 있을까?"',
+          's01-p1': '기업들은 기술적 복잡성 때문에 XR 도입에 어려움을 겪고 있었습니다. B2B 콘텐츠 매니저와 기업 트레이너는 세세한 부분까지 담기 어려운 낡은 텍스트 매뉴얼에 의존하고 있다고 답했습니다. 영업팀은 실제 영업에 <strong>업무 시간의 40%</strong>만을 쓰고 있었고, 나머지는 교육 자료를 다루는 데 소비되고 있었습니다.',
+          's03-num': '02', 's03-title': '리서치 & 인사이트',
+          's03-methods-h': '방법론',
+          's03-m1': '와이어프레임을 세 차례 반복 개선',
+          's03-m2': '비슷한 도구 벤치마킹 — ZapWorks, 8thWall, Adobe Aero',
+          's03-m3': '사내 이해관계자 인터뷰와 현장 피드백',
+          's03-m4': '안내가 있는 활동 기반의 MVP 테스트',
+          's03-insight-h': '핵심 인사이트',
+          's03-insight-p': '대상 사용자들은 <strong>"웹 콘텐츠 에디터처럼 익숙한 인터페이스"</strong>를 원했고, 즉시 WebAR을 게시할 수 있기를 가장 중요하게 여겼습니다. 자유로운 3D 조작보다는 안내가 있는 템플릿을 선호했습니다. 그들이 원한 건 강력한 기능이 아니라 속도였습니다.',
+          's04-num': '03', 's04-title': '핵심 디자인 결정',
+          's04-d1': '<strong>템플릿 우선 레이아웃</strong> — 구조화된 템플릿이 AR이나 3D 경험이 없는 사용자의 진입 마찰을 줄였습니다.',
+          's04-d2': '<strong>라이브 프리뷰 우선 플로우</strong> — 실시간 피드백이 사용자의 자신감을 높이고 테스트 루프를 단축했습니다.',
+          's04-d3': '<strong>가벼운 저작</strong> — 캔버스의 가독성을 위해 최소한의 오브젝트로 AR 씬을 구성하도록 했습니다.',
+          's04-d4': '<strong>로그인 없는 온보딩</strong> — 첫 세션 리텐션을 떨어뜨리던 초기 진입 마찰을 없앴습니다.',
+          's05-num': '04', 's05-title': '구현',
+          's05-p1': '전체 정보 구조를 먼저 정리한 뒤, 엔지니어링이 특정 스택을 확정하기 전에 노코드 저작 플로우를 검증할 인터랙티브 프로토타입을 만들었습니다.',
+          's05-proto-h': '인터랙티브 프로토타입',
+          's05-proto-p': '노코드 저작 플로우를 직접 클릭해보세요. (Figma)',
+          's06-num': '05', 's06-title': 'MVP & 사용성 테스트',
+          's06-p1': '노코드 플로우가 실제 저작 상황에서도 잘 작동하는지 확인하기 위해, 대상 사용자인 콘텐츠 매니저와 트레이너를 대상으로 안내가 있는 사용성 세션을 진행했습니다.',
+          's06-cap': '사용성 테스트 — 처음 사용하는 사용자가 첫 AR 씬을 만들어가는 모습을 관찰했습니다.',
+          's07-num': '06', 's07-title': '이터레이션 & 개선',
+          's07-p1': '사용성 테스트에서 얻은 발견을 바탕으로 다듬은 개선 사항입니다 — 더 명확한 캔버스 위계, 더 풍부해진 템플릿 라이브러리, 빈 상태에서 게시까지 도달하는 더 짧은 경로.',
+          's08-num': '07', 's08-title': '성과',
+          's08-m1': '이전 워크플로우 대비 콘텐츠 제작 속도 향상',
+          's08-m2': '게시 오류 감소',
+          's08-m3': '사용 편의성 긍정 평가',
+          's08-m4': '출시 이후 사용자 성장',
+          's08-p1': 'Letsee Creator는 AR 콘텐츠 제작의 진입 장벽을 낮추고, 교육을 더 몰입감 있고 인터랙티브하게 만들기 위해 만들어졌습니다. 많은 기술적 과제가 있었지만, 프로젝트의 중심은 신기술을 활용해 산업 현장의 일상적인 문제를 해결하는 일이었습니다. 더 나은 학습과 훈련 경험, 교육 비용 절감, 그리고 지식 정착과 성과 향상에 기여하는 것이 목표였습니다.',
+          's08-p2': '신기술의 새로운 경험을 보여주는 것보다, 그 기술을 누구나 쉽게 쓸 수 있게 만드는 일이 훨씬 더 어려운 도전이었습니다. 접근성과 단순함을 중심에 둔 디자인이, 이 도구를 실제 현장에서 실용적으로 쓸 수 있도록 만든 핵심이었습니다.',
+          'footer-prev-dir': '이전 작품',
+          'footer-prev': '광화수',
+          'footer-next-dir': '다음 작품',
+          'footer-next': 'MLB PitchAR',
+        }
+      };
+
+      function applyLang(lang) {
+        if (!i18n[lang]) lang = 'en';
+        document.documentElement.lang = lang;
+        document.body.dataset.lang = lang;
+        const dict = i18n[lang];
+        document.querySelectorAll('[data-i18n]').forEach(function (el) {
+          const key = el.getAttribute('data-i18n');
+          if (lang === 'en') {
+            if (el.dataset.i18nEn !== undefined) el.innerHTML = el.dataset.i18nEn;
+          } else if (dict[key] !== undefined) {
+            if (el.dataset.i18nEn === undefined) el.dataset.i18nEn = el.innerHTML;
+            el.innerHTML = dict[key];
+          }
+        });
+        const btn = document.getElementById('langToggle');
+        if (btn) btn.textContent = lang === 'en' ? '한국어' : 'English';
+        try { localStorage.setItem('portfolio-lang', lang); } catch (e) {}
+      }
+
+      document.querySelectorAll('[data-i18n]').forEach(function (el) {
+        el.dataset.i18nEn = el.innerHTML;
+      });
+
+      let saved = 'en';
+      try { saved = localStorage.getItem('portfolio-lang') || 'en'; } catch (e) {}
+      applyLang(saved);
+
+      const btn = document.getElementById('langToggle');
+      if (btn) {
+        btn.addEventListener('click', function () {
+          const cur = document.body.dataset.lang || 'en';
+          applyLang(cur === 'en' ? 'ko' : 'en');
+        });
+      }
+    })();
+  </script>
+</body>
+</html>

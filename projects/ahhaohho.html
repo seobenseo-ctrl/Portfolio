@@ -1,0 +1,1127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title data-i18n="page-title">AhhaOhho — Ben Seo</title>
+  <meta name="description" content="A creative learning platform encouraging children to explore, tinker, and learn from each other through shared projects and peer feedback.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='42' fill='%2350ff5a'/%3E%3Ctext x='50' y='73' text-anchor='middle' font-family='sans-serif' font-size='76' font-weight='700' fill='%230a0a0b'%3E%E3%85%85%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Michroma&family=Inter:wght@300;400;500;600&display=swap">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.min.css">
+  <script src="https://code.iconify.design/iconify-icon/2.3.0/iconify-icon.min.js"></script>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* Page-specific additions */
+    body[data-lang="ko"] {
+      font-family: 'Pretendard', 'Inter', system-ui, sans-serif;
+    }
+    body[data-lang="ko"] .proj-title,
+    body[data-lang="ko"] .proj-section-title,
+    body[data-lang="ko"] .ahha-pull,
+    body[data-lang="ko"] .ahha-decision h3,
+    body[data-lang="ko"] .ahha-screen-title {
+      /* Korean does poorly with Michroma — switch to Pretendard for headings */
+      font-family: 'Pretendard', 'Inter', system-ui, sans-serif;
+      letter-spacing: -0.015em;
+    }
+    body[data-lang="ko"] .proj-title { word-break: keep-all; }
+    body[data-lang="ko"] .ahha-pull { word-break: keep-all; line-height: 1.5; }
+
+    /* Wider editorial column — hero, cover, sections, footer all aligned at 78rem */
+    .proj-hero,
+    .proj-cover,
+    .proj-section,
+    .proj-footer-inner { max-width: 78rem !important; }
+
+    /* Problem, Research, Design Approach, Impact — full-section-width text */
+    .ahha-problem .ahha-pull,
+    .ahha-research .ahha-pull,
+    .ahha-approach .ahha-pull {
+      max-width: none;
+      padding-left: 2rem;
+    }
+    .ahha-problem .proj-block p,
+    .ahha-research .proj-block p,
+    .ahha-approach .proj-block p,
+    .ahha-impact .proj-block p,
+    .ahha-research > p[data-i18n="research-opening"] {
+      max-width: none !important;
+    }
+    /* Impact section — metrics, quote box, reflection block all span section width */
+    .ahha-impact .proj-metrics { max-width: none !important; }
+    .ahha-impact .ahha-impact-quote { max-width: none !important; }
+
+    /* Solution section — intro paragraph + loop overview figure */
+    .ahha-solution > p[data-i18n="solution-intro"] { max-width: none !important; }
+    .ahha-solution .ahha-screen-cap { max-width: none !important; }
+    /* Side-by-side: text left, media (video/image) right */
+    .ahha-solution .ahha-screen {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 2rem;
+      align-items: stretch;
+    }
+    @media (min-width: 900px) {
+      .ahha-solution .ahha-screen {
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
+        gap: 5rem;
+      }
+    }
+    .ahha-screen-media {
+      margin: 0 auto;
+      border-radius: 1.25rem;
+      overflow: hidden;
+      background: #ececec;
+      border: 1px solid rgba(0,0,0,0.06);
+      box-shadow: 0 14px 40px -16px rgba(0,0,0,0.18);
+      align-self: center;
+      height: 580px;
+      max-width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .ahha-screen-media video,
+    .ahha-screen-media img {
+      height: 100%;
+      width: auto;
+      max-width: 100%;
+      object-fit: contain;
+      display: block;
+    }
+    /* Stacked text blocks sharing media on the right */
+    .ahha-screen-text-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 2.5rem;
+    }
+    /* Pair of side-by-side videos as the media column */
+    .ahha-screen-media-pair {
+      display: flex;
+      gap: 1rem;
+      align-self: center;
+      justify-content: center;
+      flex-wrap: nowrap;
+      width: 100%;
+    }
+    .ahha-screen-media-pair .ahha-screen-media {
+      flex: 0 1 auto;
+      min-width: 0;
+      max-width: 100%;
+    }
+    .ahha-loop-overview {
+      margin: 2.5rem 0 3rem;
+      border-radius: 1rem;
+      overflow: hidden;
+      background: #ffffff;
+      border: 1px solid rgba(0,0,0,0.06);
+      aspect-ratio: auto !important;
+    }
+    .ahha-loop-overview img {
+      width: 100% !important;
+      height: auto !important;
+      display: block;
+      object-fit: contain !important;
+    }
+    /* Loop block — single container holding Primary Experience + 2 Strategies */
+    .ahha-loop-section + .ahha-loop-section {
+      margin-top: 2.5rem;
+      padding-top: 2.5rem;
+      border-top: 1px solid rgba(94,124,20,0.18);
+    }
+    /* All sections (including Primary Experience) — left-aligned for consistency */
+    .ahha-loop-steps {
+      justify-content: flex-start !important;
+      color: var(--ink-100) !important;
+      font-weight: 700 !important;
+    }
+    .ahha-loop-cap { text-align: left !important; margin-left: 0 !important; margin-right: 0 !important; max-width: none !important; width: 100%; }
+    /* Section label (used by all 3 sections) */
+    .ahha-strategy-label {
+      font-family: 'Michroma', monospace;
+      font-size: 0.78rem;
+      letter-spacing: 0.16em;
+      color: var(--accent);
+      text-transform: uppercase;
+      margin: 0 0 1.5rem;
+    }
+    body[data-lang="ko"] .ahha-strategy-label {
+      font-family: 'Pretendard', 'Inter', system-ui, sans-serif;
+      letter-spacing: -0.005em;
+      font-size: 0.95rem;
+    }
+    .ahha-strategy-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .ahha-strategy-list li {
+      position: relative;
+      padding-left: 1.5rem;
+      margin-bottom: 0.85rem;
+      font-size: 1rem;
+      line-height: 1.65;
+      color: var(--ink-200);
+    }
+    .ahha-strategy-list li:last-child { margin-bottom: 0; }
+    /* 2x2 grid variant — collapses to 1 column on narrow screens */
+    .ahha-strategy-list--grid2 {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1rem 2rem;
+    }
+    @media (min-width: 700px) {
+      .ahha-strategy-list--grid2 {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+    .ahha-strategy-list--grid2 li { margin-bottom: 0; }
+    .ahha-strategy-list li::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0.7rem;
+      width: 0.6rem; height: 1px;
+      background: var(--accent);
+    }
+    .ahha-strategy-list strong {
+      color: var(--ink-100);
+      font-weight: 500;
+    }
+    .ahha-problem-figure {
+      margin: 3rem 0 0;
+      border-radius: 1rem;
+      overflow: hidden;
+      background: #ffffff;
+      border: 1px solid rgba(0,0,0,0.06);
+      aspect-ratio: auto !important;
+    }
+    .ahha-problem-figure img {
+      width: 100% !important;
+      height: auto !important;
+      display: block;
+      object-fit: contain !important;
+    }
+
+    /* Hero side-by-side layout — title/intro left, mockup image right */
+    .ahha-hero-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 3rem;
+      align-items: start;
+    }
+    @media (min-width: 900px) {
+      .ahha-hero-grid {
+        grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+        gap: 4rem;
+        align-items: center;
+      }
+    }
+    .ahha-hero-image {
+      width: 100%;
+      aspect-ratio: 4 / 5;
+      border-radius: 1.5rem;
+      overflow: hidden;
+      background: #ececec;
+      border: 1px solid rgba(0,0,0,0.06);
+    }
+    .ahha-hero-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* Language toggle button */
+    .lang-toggle {
+      font-family: 'Michroma', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.16em;
+      background: transparent;
+      border: 1px solid rgba(0,0,0,0.12);
+      color: var(--ink-200);
+      padding: 0.45rem 0.9rem;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: border-color 0.2s ease, color 0.2s ease, background 0.2s ease;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+    .lang-toggle:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: rgba(94,124,20,0.05);
+    }
+    .proj-nav-right {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+    }
+
+    .ahha-tldr {
+      max-width: 64ch;
+      font-size: 1.15rem;
+      line-height: 1.65;
+      color: var(--ink-200);
+      font-weight: 300;
+      margin: 1.75rem 0 2rem;
+    }
+    .ahha-tldr strong { color: var(--ink-100); font-weight: 500; }
+
+    .ahha-scope {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      gap: 0.85rem 1.25rem;
+      margin: 0 0 2rem;
+      padding-top: 1.25rem;
+      border-top: 1px solid rgba(0,0,0,0.08);
+    }
+    .ahha-scope-label {
+      font-family: 'Michroma', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.22em;
+      color: var(--ink-400);
+      text-transform: uppercase;
+    }
+    .ahha-scope-body {
+      font-size: 0.95rem;
+      color: var(--ink-200);
+      line-height: 1.55;
+    }
+
+    .ahha-callouts {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      max-width: 36rem;
+      margin-top: 1rem;
+    }
+    @media (max-width: 600px) {
+      .ahha-callouts { grid-template-columns: 1fr; }
+    }
+    .ahha-callout {
+      padding: 1.25rem 1.5rem;
+      border-left: 2px solid var(--accent);
+      background: rgba(94,124,20,0.04);
+      border-radius: 0 0.6rem 0.6rem 0;
+    }
+    .ahha-callout .num {
+      font-family: 'Michroma', monospace;
+      font-size: 1.6rem;
+      color: var(--accent);
+      line-height: 1;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.35rem;
+    }
+    .ahha-callout .lab {
+      font-size: 0.78rem;
+      color: var(--ink-300);
+      letter-spacing: 0.02em;
+      line-height: 1.35;
+    }
+
+    .ahha-pull {
+      font-family: 'Michroma', monospace;
+      font-size: clamp(1.15rem, 1.7vw, 1.45rem);
+      line-height: 1.45;
+      color: var(--ink-100);
+      letter-spacing: -0.005em;
+      max-width: 40ch;
+      padding: 1.5rem 0 1.75rem 2rem;
+      border-left: 2px solid var(--accent);
+      margin: 0 0 2rem;
+      text-transform: none;
+    }
+
+    .ahha-image-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin: 2rem 0 3rem;
+    }
+    .ahha-image-row img {
+      width: 100%;
+      border-radius: 0.65rem;
+      border: 1px solid rgba(0,0,0,0.06);
+      background: #ececec;
+    }
+
+    .ahha-figure-full {
+      margin: 2rem 0 3rem;
+      border-radius: 1rem;
+      overflow: hidden;
+      border: 1px solid rgba(0,0,0,0.06);
+      background: #ececec;
+    }
+    .ahha-figure-full img { width: 100%; display: block; }
+
+    .ahha-decisions {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+    @media (min-width: 1024px) {
+      .ahha-decisions { gap: 2rem; }
+    }
+    .ahha-decision {
+      padding: 2.25rem 2rem;
+      background: rgba(0,0,0,0.025);
+      border: 1px solid rgba(0,0,0,0.07);
+      border-radius: 1rem;
+    }
+    .ahha-decision .num {
+      font-family: 'Michroma', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.18em;
+      color: var(--accent);
+      text-transform: uppercase;
+      margin-bottom: 0.85rem;
+    }
+    .ahha-decision h3 {
+      font-family: 'Michroma', monospace;
+      font-size: 1.15rem;
+      line-height: 1.3;
+      letter-spacing: -0.005em;
+      margin: 0 0 1.5rem;
+      color: var(--ink-100);
+      text-transform: none;
+    }
+    .ahha-decision-row {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.25rem;
+      margin-top: 1.25rem;
+    }
+    @media (min-width: 768px) {
+      .ahha-decision-row { grid-template-columns: 1fr 1fr 1fr; gap: 2rem; }
+    }
+    .ahha-decision-cell label {
+      display: block;
+      font-family: 'Michroma', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.18em;
+      color: var(--ink-400);
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+    .ahha-decision-cell p {
+      font-size: 0.95rem;
+      line-height: 1.55;
+      color: var(--ink-200);
+      margin: 0;
+    }
+
+    .ahha-screen {
+      margin: 3rem 0;
+      padding: 2rem 0;
+      border-top: 1px solid rgba(0,0,0,0.06);
+    }
+    .ahha-screen:first-of-type { border-top: none; padding-top: 0; }
+    .ahha-screen-header {
+      display: flex;
+      align-items: baseline;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+    .ahha-screen-num {
+      font-family: 'Michroma', monospace;
+      font-size: 0.7rem;
+      color: var(--accent);
+      letter-spacing: 0.18em;
+    }
+    .ahha-screen-title {
+      font-family: 'Michroma', monospace;
+      font-size: 1.05rem;
+      letter-spacing: -0.005em;
+      color: var(--ink-100);
+      text-transform: none;
+      margin: 0;
+    }
+    .ahha-screen-cap {
+      max-width: 56ch;
+      color: var(--ink-300);
+      font-size: 1rem;
+      line-height: 1.6;
+      margin: 0 0 1.5rem;
+    }
+    .ahha-screen-img {
+      border-radius: 0.85rem;
+      overflow: hidden;
+      border: 1px solid rgba(0,0,0,0.06);
+      background: #ececec;
+    }
+    .ahha-screen-img img { width: 100%; display: block; }
+
+    .ahha-loop {
+      margin: 2.5rem 0;
+      padding: 2.5rem 1.5rem;
+      background: linear-gradient(135deg, rgba(94,124,20,0.04), rgba(94,124,20,0.01));
+      border: 1px solid rgba(94,124,20,0.15);
+      border-radius: 1.25rem;
+    }
+    .ahha-loop-steps {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 0.6rem;
+      font-family: 'Michroma', monospace;
+      font-size: clamp(0.85rem, 1.2vw, 1.05rem);
+      letter-spacing: 0.04em;
+      color: var(--accent);
+    }
+    .ahha-loop-steps .arrow {
+      color: var(--ink-400);
+      font-size: 0.85em;
+    }
+    .ahha-loop-cap {
+      text-align: center;
+      margin-top: 1.75rem;
+      font-size: 0.92rem;
+      color: var(--ink-300);
+      max-width: 50ch;
+      margin-left: auto; margin-right: auto;
+      line-height: 1.55;
+    }
+
+    .ahha-impact-quote {
+      margin: 2.5rem 0 2rem;
+      padding: 1.75rem 2rem;
+      background: rgba(0,0,0,0.025);
+      border: 1px solid rgba(0,0,0,0.07);
+      border-radius: 1rem;
+      font-size: 1.05rem;
+      line-height: 1.6;
+      color: var(--ink-200);
+      font-style: italic;
+      max-width: 64ch;
+    }
+  </style>
+</head>
+<body data-lang="en">
+  <div class="noise" aria-hidden="true"></div>
+
+  <!-- NAV -->
+  <header class="proj-nav">
+    <div class="proj-nav-inner">
+      <a href="../index.html" class="proj-nav-back">
+        <iconify-icon icon="solar:arrow-left-linear"></iconify-icon>
+        <span data-i18n="nav-back">Back to all works</span>
+      </a>
+      <div class="proj-nav-right">
+        <button class="lang-toggle" id="langToggle" type="button" aria-label="Toggle language">한국어</button>
+        </div>
+    </div>
+  </header>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 1 — HERO + TL;DR                                    -->
+  <!-- ============================================================ -->
+  <section class="proj-hero">
+    <div class="ahha-hero-grid">
+      <div class="ahha-hero-text">
+        <p class="proj-eyebrow" data-i18n="hero-eyebrow">Project 01 · Children's Creative Learning</p>
+        <h1 class="proj-title" data-i18n="hero-title">Fostering Curiosity<br>Through Creative Learning</h1>
+        <p class="proj-tagline" data-i18n="hero-tagline">Creative Learning Platform · Smilegate FutureLab Foundation</p>
+
+        <p class="ahha-tldr" data-i18n="hero-tldr"><strong>AhhaOhho</strong> is a creative learning platform that encourages children to explore hands-on activities, express ideas through tinkering, and learn from each other through shared projects and peer feedback. As <strong>product design lead</strong> at Smilegate FutureLab Foundation, I shaped the end-to-end experience — from the creative spiral loop to the social engagement layer. Tested with <strong>3,000+ children</strong>. V1.0 launches June 2025.</p>
+
+        <div class="ahha-scope">
+          <span class="ahha-scope-label" data-i18n="scope-title">Scope</span>
+          <span class="ahha-scope-body" data-i18n="scope-body">Product Design · User Research · Prototyping · Data Analysis</span>
+        </div>
+
+        <div class="ahha-callouts">
+          <div class="ahha-callout">
+            <div class="num">3,000+</div>
+            <div class="lab" data-i18n="callout-1">children tested</div>
+          </div>
+          <div class="ahha-callout">
+            <div class="num">350+</div>
+            <div class="lab" data-i18n="callout-2">projects shared</div>
+          </div>
+          <div class="ahha-callout">
+            <div class="num">v1.0</div>
+            <div class="lab" data-i18n="callout-3">launching June 2025</div>
+          </div>
+        </div>
+      </div>
+
+      <figure class="ahha-hero-image">
+        <img src="assets/ahhaohho/hero-mockup.png" alt="AhhaOhho mobile app mockup" loading="eager">
+      </figure>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 1 — PROBLEM                                          -->
+  <!-- ============================================================ -->
+  <section class="proj-section ahha-problem">
+    <div class="proj-section-header">
+      <span class="proj-section-num">01</span>
+      <h2 class="proj-section-title" data-i18n="problem-title">The Problem</h2>
+    </div>
+    <blockquote class="ahha-pull" data-i18n="problem-pull">Children have the devices. What they lack is a space to be curious.</blockquote>
+    <div class="proj-block">
+      <p data-i18n="problem-p1">In Korea, academic pressure starts early. Most parents and students focus heavily on standardized testing from elementary school onward — leaving little room for open-ended exploration or creative risk-taking. Over <strong>90% of 6th graders own smartphones</strong>, but for most children these devices default to passive content consumption rather than hands-on expression.</p>
+      <p data-i18n="problem-p2">AhhaOhho is a creative learning platform that encourages children to discover making activities, share their own projects, and grow through peer feedback.</p>
+    </div>
+
+    <figure class="ahha-problem-figure">
+      <img src="assets/ahhaohho/ahhaohho_problem.png" alt="From passive consumption to creative participation — how AhhaOhho reframes the smartphone as a creative learning tool" loading="lazy">
+    </figure>
+
+    <h3 style="font-family:'Michroma',monospace;font-size:0.85rem;letter-spacing:0.12em;color:var(--accent);text-transform:uppercase;margin:3rem 0 1.25rem;" data-i18n="storyboards-title">Concept Board</h3>
+    <div class="ahha-image-row">
+      <img src="assets/ahhaohho/persona-3.png" alt="Storyboard 1">
+      <img src="assets/ahhaohho/storyboard-1.png" alt="Storyboard 2">
+      <img src="assets/ahhaohho/storyboard-2.png" alt="Storyboard 3">
+    </div>
+
+    <h3 style="font-family:'Michroma',monospace;font-size:0.85rem;letter-spacing:0.12em;color:var(--accent);text-transform:uppercase;margin:2.5rem 0 1.25rem;" data-i18n="personas-title">User Personas</h3>
+    <div class="ahha-image-row">
+      <img src="assets/ahhaohho/research-methodology.png" alt="Lost persona">
+      <img src="assets/ahhaohho/persona-1.png" alt="Passive Participant persona">
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 5 — DESIGN APPROACH + KEY DECISIONS                  -->
+  <!-- ============================================================ -->
+  <section class="proj-section ahha-approach">
+    <div class="proj-section-header">
+      <span class="proj-section-num">02</span>
+      <h2 class="proj-section-title" data-i18n="approach-title">Design Approach</h2>
+    </div>
+
+    <blockquote class="ahha-pull" data-i18n="approach-pull">Every design decision traced back to one question: can a child complete the full creative loop on his/her own?</blockquote>
+
+    <div class="proj-block">
+      <p data-i18n="approach-body">The core UX is built around <strong>Mitch Resnick's Creative Spiral</strong> , a iterative cycle of curiosity, making, reflecting, sharing.</p>
+    </div>
+
+    <div class="ahha-loop">
+      <!-- Primary Experience -->
+      <div class="ahha-loop-section">
+        <div class="ahha-strategy-label" data-i18n="loop-label">Primary Experience : Creative Loop</div>
+        <div class="ahha-loop-steps">
+          <span data-i18n="loop-1">Discover</span>
+          <span class="arrow">→</span>
+          <span data-i18n="loop-2">Make</span>
+          <span class="arrow">→</span>
+          <span data-i18n="loop-4">Reflect</span>
+          <span class="arrow">→</span>
+          <span data-i18n="loop-5">Share</span>
+          <span class="arrow">→</span>
+          <span data-i18n="loop-6">Feedback</span>
+        </div>
+        <p class="ahha-loop-cap" data-i18n="loop-caption">Curiosity and peer feedback are the strongest motivators to spark young users' creative loop.</p>
+      </div>
+
+      <!-- Facilitation Strategy -->
+      <div class="ahha-loop-section">
+        <div class="ahha-strategy-label" data-i18n="strategy-1-title">Facilitation Strategy : Interactive Emotional Scaffolding</div>
+        <ul class="ahha-strategy-list ahha-strategy-list--grid2">
+          <li data-i18n="strategy-1-li1">Personalized content curation</li>
+          <li data-i18n="strategy-1-li2">Tailored questions</li>
+          <li data-i18n="strategy-1-li3">Chunk Instruction</li>
+          <li data-i18n="strategy-1-li4">Individualized AI feedback</li>
+        </ul>
+      </div>
+
+      <!-- Gamification Strategy -->
+      <div class="ahha-loop-section">
+        <div class="ahha-strategy-label" data-i18n="strategy-2-title">Gamification Strategy</div>
+        <ul class="ahha-strategy-list">
+          <li data-i18n="strategy-2-li1"><strong>Narrative &amp; Role Assignment</strong> : Users join a mission-driven world with characters and streak-based onboarding rewards that boost early engagement</li>
+          <li data-i18n="strategy-2-li2"><strong>Achievement</strong> : Dashboard displays badges, levels, and quest progress to help users track their growth and feel accomplishment</li>
+          <li data-i18n="strategy-2-li3"><strong>Creative Empowerment</strong> : Missions allow free expression, remixing, and profile decoration. AI-guided prompts scaffold hesitant users</li>
+          <li data-i18n="strategy-2-li4"><strong>Peer Interaction</strong> : Social feedback (e.g., emoji reactions, peer feed) builds relatedness and encourages iteration</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- KEY DECISIONS -->
+  <section class="proj-section">
+    <div class="proj-section-header">
+      <span class="proj-section-num">03</span>
+      <h2 class="proj-section-title" data-i18n="decisions-title">3 design decisions<br>that shaped the product</h2>
+    </div>
+
+    <div class="ahha-decisions">
+
+      <div class="ahha-decision">
+        <div class="num" data-i18n="decision-1-num">Decision 01</div>
+        <h3 data-i18n="decision-2-title">Give every child a built-in facilitator.</h3>
+        <div class="ahha-decision-row">
+          <div class="ahha-decision-cell">
+            <label data-i18n="insight-label">Insight</label>
+            <p data-i18n="decision-2-insight">Teachers couldn't guide 20+ students through an unfamiliar app simultaneously. Children needed a reason to care before they'd engage.</p>
+          </div>
+          <div class="ahha-decision-cell">
+            <label data-i18n="decision-label">Decision</label>
+            <p data-i18n="decision-2-decision">Introduced <strong>Ahha &amp; Ohho</strong> — two mascot characters that act as the child's personal companion. They assign your first mission, walk you through challenges, celebrate uploads, and suggest what to try next. Think Duolingo's owl, but for creative learning.</p>
+          </div>
+          <div class="ahha-decision-cell">
+            <label data-i18n="impact-label">Impact</label>
+            <p data-i18n="decision-2-impact">Turned onboarding from a cold content menu into a guided narrative. Reduced teacher dependency for first-time users and gave the gamification system a meaningful entry point.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="ahha-decision">
+        <div class="num" data-i18n="decision-2-num">Decision 02</div>
+        <h3 data-i18n="decision-3-title">Close the creative loop inside one app.</h3>
+        <div class="ahha-decision-row">
+          <div class="ahha-decision-cell">
+            <label data-i18n="insight-label-2">Insight</label>
+            <p data-i18n="decision-3-insight">At every school, the creative cycle broke at "share." Teachers used Padlet for posting, YouTube for context, external tools for making. The app was a starting point, never the full journey.</p>
+          </div>
+          <div class="ahha-decision-cell">
+            <label data-i18n="decision-label-2">Decision</label>
+            <p data-i18n="decision-3-decision">Redesigned the platform so the entire creative spiral lives in one place: discover a challenge, make something, post to the feed, reflect on it, share with peers, and get feedback — without ever leaving.</p>
+          </div>
+          <div class="ahha-decision-cell">
+            <label data-i18n="impact-label-2">Impact</label>
+            <p data-i18n="decision-3-impact">The feed is where the loop restarts — a peer's project sparks the curiosity that begins the next creation cycle. No more tool-switching. One continuous creative experience.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="ahha-decision">
+        <div class="num" data-i18n="decision-3-num">Decision 03</div>
+        <h3 data-i18n="decision-1-title">Build the social layer as the product's core, not a feature.</h3>
+        <div class="ahha-decision-row">
+          <div class="ahha-decision-cell">
+            <label data-i18n="insight-label-3">Insight</label>
+            <p data-i18n="decision-1-insight">Peer recognition drove repeat creative output more than any content or reward mechanic. One teacher chose a competitor specifically for its community sharing.</p>
+          </div>
+          <div class="ahha-decision-cell">
+            <label data-i18n="decision-label-3">Decision</label>
+            <p data-i18n="decision-1-decision">Restructured the platform so reactions, peer visibility, and shared projects form the engagement spine — not a secondary tab, but the structural core every other feature connects to.</p>
+          </div>
+          <div class="ahha-decision-cell">
+            <label data-i18n="impact-label-3">Impact</label>
+            <p data-i18n="decision-1-impact">The social feed became the primary re-engagement driver. Students returned to see reactions on their posts and discover peers' work — creating organic revisit loops.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 4 — RESEARCH                                         -->
+  <!-- ============================================================ -->
+  <section class="proj-section ahha-research">
+    <div class="proj-section-header">
+      <span class="proj-section-num">04</span>
+      <h2 class="proj-section-title" data-i18n="research-title">User Research</h2>
+    </div>
+
+    <p style="font-size:1.1rem;line-height:1.65;color:var(--ink-100);font-weight:400;" data-i18n="research-opening">Field studies across schools, community centers, and a pop-up at the Busan International Kids &amp; Youth Film Festival : 500+ children, 15 facilitators, and 8 workshop programs.</p>
+
+    <div class="ahha-image-row">
+      <img src="assets/ahhaohho/field-1.jpg" alt="Workshop pop-up at Busan International Kids & Youth Film Festival">
+      <img src="assets/ahhaohho/field-2.jpg" alt="Children engaging with creative making activities at the field study">
+    </div>
+
+    <h3 style="font-family:'Michroma',monospace;font-size:0.85rem;letter-spacing:0.12em;color:var(--accent);text-transform:uppercase;margin:3rem 0 1.5rem;" data-i18n="findings-title">Key Findings</h3>
+
+    <div class="proj-block">
+      <h3 data-i18n="finding-1-title">Sharing mattered more than making.</h3>
+      <p data-i18n="finding-1-body">Students were motivated less by the activities themselves and more by the social layer around them — seeing peers' work, leaving reactions, getting noticed. At one school, the teacher chose a competitor specifically for its community sharing. <strong>This told me the engagement spine had to be social, not content.</strong></p>
+    </div>
+
+    <div class="proj-block">
+      <h3 data-i18n="finding-2-title">Every classroom bent the app to fit — none used it as designed.</h3>
+      <p data-i18n="finding-2-body">Teachers repurposed challenges, swapped in external tools for sharing, and compressed the app's role to a brief intro. The creative loop we designed wasn't wrong — but the platform forced teachers to complete it outside the app. <strong>The full cycle needed to live in one place.</strong></p>
+    </div>
+
+    <div class="proj-block">
+      <h3 data-i18n="finding-3-title">Device access didn't mean interface fluency.</h3>
+      <p data-i18n="finding-3-body">App crashes on older tablets, text-heavy screens that lost kids' attention, and navigation that required teacher intervention at every step. Designing for "children with smartphones" was the wrong frame. <strong>We needed to design for low-spec devices, short attention spans, and zero onboarding support.</strong></p>
+    </div>
+
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 6 — SOLUTION (screens)                               -->
+  <!-- ============================================================ -->
+  <section class="proj-section ahha-solution">
+    <div class="proj-section-header">
+      <span class="proj-section-num">05</span>
+      <h2 class="proj-section-title" data-i18n="solution-title">Solution</h2>
+    </div>
+
+    <p style="font-size:1.1rem;line-height:1.65;color:var(--ink-100);font-weight:400;" data-i18n="solution-intro">The full creative loop: discover, make, post, reflect, share, feedback.</p>
+
+    <figure class="ahha-loop-overview">
+      <img src="assets/ahhaohho/loop-overview.png" alt="The creative learning loop — Discover, Make, Reflect, Share, Feedback" loading="lazy">
+    </figure>
+
+    <article class="ahha-screen ahha-screen-all">
+      <div class="ahha-screen-text-stack">
+        <div class="ahha-screen-text">
+          <div class="ahha-screen-header">
+            <span class="ahha-screen-num">01</span>
+            <h3 class="ahha-screen-title" data-i18n="screen-1-title">Discover</h3>
+          </div>
+          <p class="ahha-screen-cap" data-i18n="screen-1-cap">Interest-driven exploration through curated and trending challenges — the starting point of every creative loop.</p>
+        </div>
+        <div class="ahha-screen-text">
+          <div class="ahha-screen-header">
+            <span class="ahha-screen-num">02</span>
+            <h3 class="ahha-screen-title" data-i18n="screen-2-title">Make</h3>
+          </div>
+          <p class="ahha-screen-cap" data-i18n="screen-2-cap">Step-by-step challenge flow with visual instructions, so children can follow at their own pace without teacher intervention.</p>
+        </div>
+        <div class="ahha-screen-text">
+          <div class="ahha-screen-header">
+            <span class="ahha-screen-num">03</span>
+            <h3 class="ahha-screen-title" data-i18n="screen-3-title">Reflect</h3>
+          </div>
+          <p class="ahha-screen-cap" data-i18n="screen-3-cap">Guided prompts that help children look back at their work, name what they learned, and notice what to try next.</p>
+        </div>
+        <div class="ahha-screen-text">
+          <div class="ahha-screen-header">
+            <span class="ahha-screen-num">04</span>
+            <h3 class="ahha-screen-title" data-i18n="screen-4-title">Share</h3>
+          </div>
+          <p class="ahha-screen-cap" data-i18n="screen-4-cap">Personal gallery and social feed bring each child's projects into the community where peers can encounter them.</p>
+        </div>
+        <div class="ahha-screen-text">
+          <div class="ahha-screen-header">
+            <span class="ahha-screen-num">05</span>
+            <h3 class="ahha-screen-title" data-i18n="screen-5-title">Feedback</h3>
+          </div>
+          <p class="ahha-screen-cap" data-i18n="screen-5-cap">Reactions, comments, and AI-guided cues from peers that spark the next cycle of curiosity.</p>
+        </div>
+      </div>
+      <div class="ahha-screen-media-pair">
+        <div class="ahha-screen-media">
+          <video autoplay muted loop playsinline preload="metadata">
+            <source src="assets/ahhaohho/discover-make-reflect.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="ahha-screen-media">
+          <video autoplay muted loop playsinline preload="metadata">
+            <source src="assets/ahhaohho/share-feedback.mp4" type="video/mp4">
+          </video>
+        </div>
+      </div>
+    </article>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 7 — IMPACT + REFLECTION                              -->
+  <!-- ============================================================ -->
+  <section class="proj-section ahha-impact">
+    <div class="proj-section-header">
+      <span class="proj-section-num">06</span>
+      <h2 class="proj-section-title" data-i18n="impact-title">Impact &amp; Reflection</h2>
+    </div>
+
+    <div class="proj-metrics">
+      <div class="proj-metric">
+        <div class="num">3,000+</div>
+        <div class="label" data-i18n="impact-metric-1">children tested across Korea</div>
+      </div>
+      <div class="proj-metric">
+        <div class="num">1,600+</div>
+        <div class="label" data-i18n="impact-metric-2">children users</div>
+      </div>
+      <div class="proj-metric">
+        <div class="num">2,000+</div>
+        <div class="label" data-i18n="impact-metric-3">projects shared</div>
+      </div>
+    </div>
+
+<div class="proj-block" style="margin-top:2.5rem;">
+      <h3 data-i18n="reflection-title">Reflection</h3>
+      <p data-i18n="reflection-p1">User tests showed that AhhaOhho could spark curiosity and creative agency in children, especially when they were able to make, document, and share their own interpretations. However, operating the product as a standalone service also revealed a key limitation: <strong>initial curiosity does not automatically lead to sustained engagement</strong>.</p>
+      <p data-i18n="reflection-p2">We learned that children need a clearer sense of purpose through <strong>missions, feedback, and growth</strong>. First-time users need a stronger onboarding path to understand the AhhaOhho universe and start creating without feeling lost. Facilitators also need practical tools that support group learning, not just individual exploration.</p>
+      <p data-i18n="reflection-p3">These learnings are shaping <strong>v1.0</strong> — with a stronger social feedback layer, personalized AI content curation, and facilitator tools designed to support repeat participation in both individual and classroom settings.</p>
+    </div>
+  </section>
+
+  <!-- FOOTER NAV -->
+  <footer class="proj-footer">
+    <div class="proj-footer-inner">
+      <a href="../index.html" class="proj-foot-link">
+        <div class="dir"><iconify-icon icon="solar:arrow-left-linear"></iconify-icon> <span data-i18n="footer-all-works-dir">All works</span></div>
+        <div class="label" data-i18n="footer-all-works">Selected Works</div>
+      </a>
+      <a href="gwanghwasu.html" class="proj-foot-link next">
+        <div class="dir"><span data-i18n="footer-next-dir">Next project</span> <iconify-icon icon="solar:arrow-right-linear"></iconify-icon></div>
+        <div class="label">Gwanghwa Su</div>
+      </a>
+    </div>
+  </footer>
+
+  <!-- Translations + language toggle -->
+  <script>
+    (function () {
+      const i18n = {
+        en: {
+          'page-title': 'AhhaOhho — Ben Seo',
+          'nav-back': 'Back to all works',
+          'hero-eyebrow': "Project 01 · Children's Creative Learning",
+          'hero-title': 'Fostering Curiosity<br>Through Creative Learning',
+          'hero-tagline': 'Creative Learning Platform · Smilegate FutureLab Foundation',
+          'hero-tldr': '<strong>AhhaOhho</strong> is a creative learning platform that encourages children to explore hands-on activities, express ideas through tinkering, and learn from each other through shared projects and peer feedback. As <strong>product design lead</strong> at Smilegate FutureLab Foundation, I shaped the end-to-end experience — from the creative spiral loop to the social engagement layer. Tested with <strong>3,000+ children</strong>. V1.0 launches June 2025.',
+          'callout-1': 'children tested',
+          
+          'callout-2': 'projects shared',
+          'callout-3': 'launching June 2025',
+
+          'overview-title': 'Overview',
+          'meta-company-label': 'Company',
+          'meta-company': 'Smilegate FutureLab Foundation',
+          'meta-role-label': 'Role',
+          'meta-role': 'Product Design Lead',
+          'meta-timeline-label': 'Timeline',
+          'meta-timeline': '2024 Q3 → v1.0 June 2025',
+          'meta-platform-label': 'Platform',
+          'scope-title': 'Scope',
+          'scope-body': 'Product Design · User Research · Prototyping · Data Analysis',
+
+          'problem-title': 'The Problem',
+          'problem-pull': 'Children have the devices. What they lack is a space to be curious.',
+          'problem-p1': 'In Korea, academic pressure starts early. Most parents and students focus heavily on standardized testing from elementary school onward — leaving little room for open-ended exploration or creative risk-taking. Over <strong>90% of 6th graders own smartphones</strong>, but for most children these devices default to passive content consumption rather than hands-on expression.',
+          'problem-p2': 'AhhaOhho is a creative learning platform that encourages children to discover making activities, share their own projects, and grow through peer feedback.',
+
+          'research-title': 'User Research',
+          'research-opening': 'Field studies across schools, community centers, and a pop-up at the Busan International Kids &amp; Youth Film Festival : 500+ children, 15 facilitators, and 8 workshop programs.',
+          'personas-title': 'User Personas',
+          'storyboards-title': 'Concept Board',
+          'findings-title': 'Key Findings',
+          'finding-1-title': 'Sharing mattered more than making.',
+          'finding-1-body': 'Students were motivated less by the activities themselves and more by the social layer around them — seeing peers\' work, leaving reactions, getting noticed. At one school, the teacher chose a competitor specifically for its community sharing. <strong>This told me the engagement spine had to be social, not content.</strong>',
+          'finding-2-title': 'Every classroom bent the app to fit — none used it as designed.',
+          'finding-2-body': 'Teachers repurposed challenges, swapped in external tools for sharing, and compressed the app\'s role to a brief intro. The creative loop we designed wasn\'t wrong — but the platform forced teachers to complete it outside the app. <strong>The full cycle needed to live in one place.</strong>',
+          'finding-3-title': 'Device access didn\'t mean interface fluency.',
+          'finding-3-body': 'App crashes on older tablets, text-heavy screens that lost kids\' attention, and navigation that required teacher intervention at every step. Designing for "children with smartphones" was the wrong frame. <strong>We needed to design for low-spec devices, short attention spans, and zero onboarding support.</strong>',
+
+          'approach-title': 'Design Approach',
+          'approach-pull': 'Every design decision traced back to one question: can a child complete the full creative loop on his/her own?',
+          'approach-body': 'The core UX is built around <strong>Mitch Resnick\'s Creative Spiral</strong> , a iterative cycle of curiosity, making, reflecting, sharing.',
+          'loop-1': 'Discover',
+          'loop-2': 'Make',
+          'loop-3': 'Post',
+          'loop-4': 'Reflect',
+          'loop-5': 'Share',
+          'loop-6': 'Feedback',
+          'loop-caption': 'Curiosity and peer feedback are the strongest motivators to spark young users\' creative loop.',
+          'loop-label': 'Primary Experience : Creative Loop',
+          'strategy-1-title': 'Facilitation Strategy : Interactive Emotional Scaffolding',
+          'strategy-1-li1': 'Personalized content curation',
+          'strategy-1-li2': 'Tailored questions',
+          'strategy-1-li3': 'Chunk Instruction',
+          'strategy-1-li4': 'Individualized AI feedback',
+          'strategy-2-title': 'Gamification Strategy',
+          'strategy-2-li1': '<strong>Narrative &amp; Role Assignment</strong> : Users join a mission-driven world with characters and streak-based onboarding rewards that boost early engagement',
+          'strategy-2-li2': '<strong>Achievement</strong> : Dashboard displays badges, levels, and quest progress to help users track their growth and feel accomplishment',
+          'strategy-2-li3': '<strong>Creative Empowerment</strong> : Missions allow free expression, remixing, and profile decoration. AI-guided prompts scaffold hesitant users',
+          'strategy-2-li4': '<strong>Peer Interaction</strong> : Social feedback (e.g., emoji reactions, peer feed) builds relatedness and encourages iteration',
+
+          'decisions-title': '3 design decisions<br>that shaped the product',
+          'decision-1-num': 'Decision 01',
+          'decision-1-title': 'Build the social layer as the product\'s core, not a feature.',
+          'insight-label': 'Insight',
+          'decision-1-insight': 'Peer recognition drove repeat creative output more than any content or reward mechanic. One teacher chose a competitor specifically for its community sharing.',
+          'decision-label': 'Decision',
+          'decision-1-decision': 'Restructured the platform so reactions, peer visibility, and shared projects form the engagement spine — not a secondary tab, but the structural core every other feature connects to.',
+          'impact-label': 'Impact',
+          'decision-1-impact': 'The social feed became the primary re-engagement driver. Students returned to see reactions on their posts and discover peers\' work — creating organic revisit loops.',
+          'decision-2-num': 'Decision 02',
+          'decision-2-title': 'Give every child a built-in facilitator.',
+          'insight-label-2': 'Insight',
+          'decision-2-insight': 'Teachers couldn\'t guide 20+ students through an unfamiliar app simultaneously. Children needed a reason to care before they\'d engage.',
+          'decision-label-2': 'Decision',
+          'decision-2-decision': 'Introduced <strong>Ahha &amp; Ohho</strong> — two mascot characters that act as the child\'s personal companion. They assign your first mission, walk you through challenges, celebrate uploads, and suggest what to try next. Think Duolingo\'s owl, but for creative learning.',
+          'impact-label-2': 'Impact',
+          'decision-2-impact': 'Turned onboarding from a cold content menu into a guided narrative. Reduced teacher dependency for first-time users and gave the gamification system a meaningful entry point.',
+          'decision-3-num': 'Decision 03',
+          'decision-3-title': 'Close the creative loop inside one app.',
+          'insight-label-3': 'Insight',
+          'decision-3-insight': 'At every school, the creative cycle broke at "share." Teachers used Padlet for posting, YouTube for context, external tools for making. The app was a starting point, never the full journey.',
+          'decision-label-3': 'Decision',
+          'decision-3-decision': 'Redesigned the platform so the entire creative spiral lives in one place: discover a challenge, make something, post to the feed, reflect on it, share with peers, and get feedback — without ever leaving.',
+          'impact-label-3': 'Impact',
+          'decision-3-impact': 'The feed is where the loop restarts — a peer\'s project sparks the curiosity that begins the next creation cycle. No more tool-switching. One continuous creative experience.',
+
+          'solution-title': 'Solution',
+          'solution-intro': 'The full creative loop: discover, make, post, reflect, share, feedback.',
+          'screen-1-title': 'Discover',
+          'screen-1-cap': 'Interest-driven exploration through curated and trending challenges — the starting point of every creative loop.',
+          'screen-2-title': 'Make',
+          'screen-2-cap': 'Step-by-step challenge flow with visual instructions, so children can follow at their own pace without teacher intervention.',
+          'screen-3-title': 'Reflect',
+          'screen-3-cap': 'Guided prompts that help children look back at their work, name what they learned, and notice what to try next.',
+          'screen-4-title': 'Share',
+          'screen-4-cap': 'Personal gallery and social feed bring each child\'s projects into the community where peers can encounter them.',
+          'screen-5-title': 'Feedback',
+          'screen-5-cap': 'Reactions, comments, and AI-guided cues from peers that spark the next cycle of curiosity.',
+
+          'impact-title': 'Impact &amp; Reflection',
+          'impact-metric-1': 'children tested across Korea',
+          'impact-metric-2': 'children users',
+          'impact-metric-3': 'projects shared',
+          'reflection-title': 'Reflection',
+          'reflection-p1': 'User tests showed that AhhaOhho could spark curiosity and creative agency in children, especially when they were able to make, document, and share their own interpretations. However, operating the product as a standalone service also revealed a key limitation: <strong>initial curiosity does not automatically lead to sustained engagement</strong>.',
+          'reflection-p2': 'We learned that children need a clearer sense of purpose through <strong>missions, feedback, and growth</strong>. First-time users need a stronger onboarding path to understand the AhhaOhho universe and start creating without feeling lost. Facilitators also need practical tools that support group learning, not just individual exploration.',
+          'reflection-p3': 'These learnings are shaping <strong>v1.0</strong> — with a stronger social feedback layer, personalized AI content curation, and facilitator tools designed to support repeat participation in both individual and classroom settings.',
+
+          'footer-all-works-dir': 'All works',
+          'footer-all-works': 'Selected Works',
+          'footer-next-dir': 'Next project',
+        },
+        ko: {
+          'page-title': '아하오호 — Ben Seo',
+          'nav-back': '전체 작품으로',
+          'hero-eyebrow': '프로젝트 01 · 어린이 창의학습 커뮤니티',
+          'hero-title': '어린이의 호기심을<br>키우는 법',
+          'hero-tagline': '어린이 창의학습 커뮤니티 · 스마일게이트 퓨처랩 재단',
+          'hero-tldr': '<strong>아하오호</strong>는 어린이가 손으로 직접 해보는 활동을 발견하고, 시도하며 아이디어를 표현하고, 또래의 프로젝트와 피드백 속에서 함께 성장하도록 돕는 어린이 창의학습 커뮤니티입니다. 저는 스마일게이트 퓨처랩 재단에서 <strong>프로덕트 디자인 리드</strong>로, 창작 루프부터 소셜 인게이지먼트 레이어까지 전체 경험을 설계했습니다. <strong>3,000명 이상의 어린이</strong>와 함께 테스트했고, v1.0은 2025년 6월에 출시합니다.',
+          'callout-1': '테스트 참여 어린이',
+          
+          'callout-2': '공유된 프로젝트',
+          'callout-3': '2025년 6월 출시',
+
+          'overview-title': '프로젝트 개요',
+          'meta-company-label': '회사',
+          'meta-company': '스마일게이트 퓨처랩 재단',
+          'meta-role-label': '역할',
+          'meta-role': '프로덕트 디자인 리드',
+          'meta-timeline-label': '타임라인',
+          'meta-timeline': '2024년 3분기 → v1.0 2025년 6월',
+          'meta-platform-label': '플랫폼',
+          'scope-title': '범위',
+          'scope-body': '프로덕트 디자인 · 사용자 리서치 · 프로토타이핑 · 데이터 분석',
+
+          'problem-title': '문제',
+          'problem-pull': '디바이스는 이미 대부분의 아이가 가지고 있죠. 부족한 건 동기와 창의성이 자라나는 환경이에요.',
+          'problem-p1': '한국에서는 학업 압박이 일찍 시작됩니다. 초등학교 시기부터 표준화된 시험에 집중하는 분위기 속에서, 어린이가 열린 탐험이나 창의적인 시도를 해볼 여지는 거의 없습니다. <strong>6학년의 90% 이상이 스마트폰을 갖고 있지만</strong>, 대부분의 어린이에게 스마트폰은 직접 만들고 표현하는 도구가 아니라 콘텐츠를 수동적으로 소비하는 도구로 굳어져 있습니다.',
+          'problem-p2': '아하오호는 어린이가 만들기 활동을 발견하고, 자신의 프로젝트를 공유하고, 또래의 피드백 속에서 성장하도록 돕는 어린이 창의학습 커뮤니티입니다.',
+
+          'research-title': '사용자 리서치',
+          'research-opening': '학교, 지역 커뮤니티 센터, 부산국제어린이청소년영화제 팝업까지 찾아갔습니다. 500명 이상의 어린이, 15명의 퍼실리테이터, 8개의 워크숍 프로그램과 함께 진행한 현장 리서치입니다.',
+          'personas-title': '사용자 퍼소나',
+          'storyboards-title': '컨셉 보드',
+          'findings-title': '핵심 발견',
+          'finding-1-title': '어린이에게는 만들기보다 공유가 더 큰 동기였습니다.',
+          'finding-1-body': '학생들은 활동 자체보다 그 주변의 소셜 레이어에서 더 큰 동기를 얻었습니다. 또래의 작품을 보고, 반응을 남기고, 자기 작품이 누군가에게 보이는 일 같은 것들이었습니다. 한 학교의 교사는 커뮤니티 공유 기능 때문에 경쟁 제품을 선택했습니다. <strong>참여를 이끄는 중심 축은 콘텐츠가 아니라 소셜이어야 한다는 신호였습니다.</strong>',
+          'finding-2-title': '어떤 교실도 앱을 설계 그대로 쓰지 않았습니다. 모두 자기 방식대로 바꿔서 썼습니다.',
+          'finding-2-body': '교사들은 챌린지를 다른 용도로 가져다 쓰고, 공유는 외부 도구로 대체하고, 앱의 역할은 짧은 도입부 정도로 줄였습니다. 우리가 설계한 창작 루프 자체가 잘못된 건 아니었지만, 플랫폼이 교사로 하여금 루프의 마지막을 앱 밖에서 마무리하도록 만들고 있었습니다. <strong>전체 사이클이 앱 안 한 곳에서 끝나야 했습니다.</strong>',
+          'finding-3-title': '기기가 있다고 인터페이스를 잘 다루는 건 아니었습니다.',
+          'finding-3-body': '구형 태블릿에서는 앱이 자주 멈췄고, 텍스트가 많은 화면은 어린이의 집중을 빠르게 잃었으며, 매 단계마다 교사가 개입해야 했습니다. "스마트폰을 가진 어린이"를 가정하고 만든 디자인이 잘못된 전제였습니다. <strong>저사양 기기, 짧은 집중 시간, 별도의 온보딩 도움이 없는 상황을 기준으로 다시 설계해야 했습니다.</strong>',
+
+          'approach-title': '디자인 접근',
+          'approach-pull': '모든 디자인 결정은 결국 하나의 질문으로 돌아왔습니다. 어린이가 혼자서 창작 루프 전체를 끝까지 완성할 수 있는가?',
+          'approach-body': '핵심 UX는 호기심, 만들기, 성찰, 공유로 이어지는 <strong>미치 레스닉의 크리에이티브 스파이럴</strong> 사이클을 중심으로 설계했습니다.',
+          'loop-1': '발견',
+          'loop-2': '만들기',
+          'loop-3': '게시',
+          'loop-4': '성찰',
+          'loop-5': '공유',
+          'loop-6': '피드백',
+          'loop-caption': '호기심과 또래 피드백은 어린 사용자의 창작 루프를 다시 시작하게 만드는 가장 강한 동기입니다.',
+          'loop-label': '주요 경험 · 크리에이티브 루프',
+          'strategy-1-title': '퍼실리테이션 전략 · 인터랙티브 감정 스캐폴딩',
+          'strategy-1-li1': '개인화된 콘텐츠 큐레이션',
+          'strategy-1-li2': '맞춤형 질문',
+          'strategy-1-li3': '단계별 안내 (Chunk Instruction)',
+          'strategy-1-li4': '개별 AI 피드백',
+          'strategy-2-title': '게이미피케이션 전략',
+          'strategy-2-li1': '<strong>내러티브와 역할 부여</strong> · 캐릭터가 등장하는 미션 기반 세계에 합류하고, 스트릭 기반 온보딩 보상으로 초기 참여를 끌어올립니다',
+          'strategy-2-li2': '<strong>성취</strong> · 대시보드에서 뱃지, 레벨, 퀘스트 진행도를 보여주어 사용자가 자신의 성장을 추적하고 성취감을 느끼게 합니다',
+          'strategy-2-li3': '<strong>창작 주도성</strong> · 미션은 자유로운 표현, 리믹스, 프로필 꾸미기를 허용합니다. AI 가이드 프롬프트가 망설이는 사용자에게 단계적 지원을 제공합니다',
+          'strategy-2-li4': '<strong>또래 인터랙션</strong> · 이모지 반응이나 또래 피드 같은 소셜 피드백이 관계감을 만들고 다시 시도할 동기를 만듭니다',
+
+          'decisions-title': '프로덕트의 방향을 정한<br>3가지 디자인 결정',
+          'decision-1-num': '결정 01',
+          'decision-1-title': '소셜 레이어를 부가 기능이 아니라 프로덕트의 중심에 둡니다.',
+          'insight-label': '인사이트',
+          'decision-1-insight': '또래에게 인정받는 경험은 어떤 콘텐츠나 보상 장치보다 어린이의 반복 창작을 더 강하게 끌어냈습니다. 한 교사는 커뮤니티 공유 기능 하나만 보고 경쟁 제품을 선택했습니다.',
+          'decision-label': '결정',
+          'decision-1-decision': '리액션, 또래 작품 노출, 프로젝트 공유가 참여를 이끄는 중심 축이 되도록 플랫폼을 재구조화했습니다. 보조 탭이 아니라, 다른 모든 기능이 연결되는 구조적 코어로 자리 잡게 했습니다.',
+          'impact-label': '임팩트',
+          'decision-1-impact': '결과적으로 소셜 피드가 가장 큰 재방문 동인이 됐습니다. 학생들은 자기 게시물에 달린 반응을 확인하러, 그리고 또래의 작품을 보러 다시 앱으로 돌아왔습니다. 자연스럽게 재방문 루프가 만들어졌습니다.',
+          'decision-2-num': '결정 02',
+          'decision-2-title': '모든 어린이에게 자기만의 퍼실리테이터를 붙입니다.',
+          'insight-label-2': '인사이트',
+          'decision-2-insight': '한 명의 교사가 20명이 넘는 학생을 낯선 앱 안에서 동시에 안내하는 건 불가능했습니다. 어린이는 참여하기 전에 먼저 마음이 끌리는 이유가 필요했습니다.',
+          'decision-label-2': '결정',
+          'decision-2-decision': '어린이 한 명마다 동반자가 되어 주는 두 캐릭터, <strong>아하 & 오호</strong>를 도입했습니다. 첫 미션을 건네고, 챌린지를 안내하고, 업로드를 축하하고, 다음에 해볼 만한 것을 추천합니다.',
+          'impact-label-2': '임팩트',
+          'decision-2-impact': '온보딩이 무미건조한 콘텐츠 메뉴에서 안내가 있는 이야기로 바뀌었습니다. 첫 사용자의 교사 의존도를 낮췄고, 게이미피케이션에 의미 있는 진입점을 만들어 줬습니다.',
+          'decision-3-num': '결정 03',
+          'decision-3-title': '창작 루프를 앱 하나 안에서 닫습니다.',
+          'insight-label-3': '인사이트',
+          'decision-3-insight': '방문한 모든 학교에서 창작 사이클은 "공유" 단계에서 끊어졌습니다. 교사들은 게시에는 패들렛, 맥락 설명에는 유튜브, 만들기에는 또 다른 외부 도구를 썼습니다. 앱은 시작점이었을 뿐, 전체 여정이 되지는 못했습니다.',
+          'decision-label-3': '결정',
+          'decision-3-decision': '크리에이티브 스파이럴 전체가 한 곳에서 흐르도록 플랫폼을 재설계했습니다. 챌린지 발견 → 만들기 → 피드에 게시 → 성찰 → 또래와 공유 → 피드백까지, 앱을 나가지 않고 모든 단계를 끝까지 할 수 있도록 만들었습니다.',
+          'impact-label-3': '임팩트',
+          'decision-3-impact': '피드는 루프가 다시 시작되는 자리가 됐습니다. 또래의 프로젝트가 호기심을 자극하고, 그 호기심이 다음 창작 사이클로 이어집니다. 더 이상 도구를 갈아탈 일이 없고, 경험은 하나로 이어집니다.',
+
+          'solution-title': '솔루션',
+          'solution-intro': '크리에이티브 루프: 발견, 만들기, 게시, 성찰, 공유, 피드백',
+          'screen-1-title': '발견',
+          'screen-1-cap': '큐레이션된 챌린지와 인기 챌린지를 통해 관심사 중심으로 탐색합니다. 모든 창작 루프의 시작점입니다.',
+          'screen-2-title': '만들기',
+          'screen-2-cap': '단계별 챌린지 플로우에 시각 가이드를 함께 제공해, 어린이가 교사의 개입 없이 자기 속도로 따라갈 수 있습니다.',
+          'screen-3-title': '성찰',
+          'screen-3-cap': '가이드 프롬프트가 어린이가 자기 작품을 돌아보고, 무엇을 배웠는지 말로 정리하고, 다음에 시도할 거리를 발견하도록 돕습니다.',
+          'screen-4-title': '공유',
+          'screen-4-cap': '개인 갤러리와 소셜 피드를 통해, 어린이의 작품이 또래가 만나는 커뮤니티 안으로 자연스럽게 올라옵니다.',
+          'screen-5-title': '피드백',
+          'screen-5-cap': '또래의 반응, 댓글, AI가 안내하는 단서가 다음 사이클의 호기심을 다시 켭니다.',
+
+          'impact-title': '임팩트 & 회고',
+          'impact-metric-1': '전국에서 함께 테스트한 어린이',
+          'impact-metric-2': '어린이 사용자',
+          'impact-metric-3': '공유된 프로젝트',
+          'reflection-title': '회고',
+          'reflection-p1': '사용자 테스트를 통해, 아하오호가 어린이의 호기심과 창작 주체성을 자극할 수 있음을 확인했습니다. 특히 어린이들이 직접 만들고, 자기 방식대로 기록하고, 자신의 해석을 공유할 수 있을 때 가장 강하게 작동했습니다. 다만 제품을 단독 서비스로 운영하면서 한 가지 한계도 분명히 드러났습니다. <strong>처음의 호기심이 그대로 지속적인 참여로 이어지지는 않는다는 점</strong>이었습니다.',
+          'reflection-p2': '어린이에게는 <strong>미션, 피드백, 성장의 감각</strong>을 통한 더 또렷한 목적의식이 필요했습니다. 처음 들어온 사용자는 아하오호의 세계관을 빠르게 이해하고, 헤매지 않고 창작을 시작할 수 있는 더 또렷한 온보딩 경로가 필요합니다. 퍼실리테이터에게도 개인 탐색뿐 아니라 그룹 학습을 함께 지원할 수 있는 실질적인 도구가 필요합니다.',
+          'reflection-p3': '이 배움들이 <strong>v1.0</strong>의 방향을 잡아 가고 있습니다. 더 단단해진 소셜 피드백 레이어, 개인화된 AI 콘텐츠 큐레이션, 그리고 개인 사용과 교실 사용 모두에서 반복 참여를 돕는 퍼실리테이터 도구를 함께 준비하고 있습니다.',
+
+          'footer-all-works-dir': '전체 작품',
+          'footer-all-works': '셀렉티드 워크',
+          'footer-next-dir': '다음 작품',
+        }
+      };
+
+      function applyLang(lang) {
+        if (!i18n[lang]) lang = 'en';
+        document.documentElement.lang = lang;
+        document.body.dataset.lang = lang;
+        const dict = i18n[lang];
+        document.querySelectorAll('[data-i18n]').forEach(function (el) {
+          const key = el.getAttribute('data-i18n');
+          if (dict[key] !== undefined) el.innerHTML = dict[key];
+        });
+        // Update the toggle button to indicate the OTHER language available
+        const btn = document.getElementById('langToggle');
+        if (btn) btn.textContent = lang === 'en' ? '한국어' : 'English';
+        try { localStorage.setItem('portfolio-lang', lang); } catch (e) {}
+      }
+
+      let saved = 'en';
+      try { saved = localStorage.getItem('portfolio-lang') || 'en'; } catch (e) {}
+      applyLang(saved);
+
+      const btn = document.getElementById('langToggle');
+      if (btn) {
+        btn.addEventListener('click', function () {
+          const cur = document.body.dataset.lang || 'en';
+          applyLang(cur === 'en' ? 'ko' : 'en');
+        });
+      }
+    })();
+  </script>
+</body>
+</html>

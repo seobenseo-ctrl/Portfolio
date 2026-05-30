@@ -1,0 +1,1562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ben Seo — Product Designer Portfolio</title>
+  <meta name="description" content="Product Designer specializing in immersive and playful UX. Designing and prototyping experiences that drive engagement, growth and connection.">
+
+  <!-- Open Graph / Social sharing -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Ben Seo — Product Designer">
+  <meta property="og:description" content="Designing immersive and playful experiences that drive engagement, growth and connection.">
+  <meta property="og:image" content="frames/f_060.webp">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Ben Seo — Product Designer">
+  <meta name="twitter:description" content="Designing immersive and playful experiences that drive engagement, growth and connection.">
+  <meta name="twitter:image" content="frames/f_060.webp">
+
+  <!-- Favicon: green dot matching the brand accent -->
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='42' fill='%2350ff5a'/%3E%3Ctext x='50' y='73' text-anchor='middle' font-family='sans-serif' font-size='76' font-weight='700' fill='%230a0a0b'%3E%E3%85%85%3C/text%3E%3C/svg%3E">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+  <script src="https://code.iconify.design/iconify-icon/2.3.0/iconify-icon.min.js"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Pretendard', 'Geist', 'system-ui', 'sans-serif'],
+            display: ['Geist', 'Pretendard', 'sans-serif'],
+            serif: ['Instrument Serif', 'serif'],
+          },
+          colors: {
+            ink: {
+              950: '#0a0a0b', 900: '#131315', 800: '#1c1c1f', 700: '#28282d',
+              600: '#3a3a40', 500: '#6b6b74', 400: '#9a9aa3', 300: '#c8c8cf',
+              200: '#e5e5ea', 100: '#f4f4f6',
+            },
+            accent: { DEFAULT: '#50ff5a', soft: '#a8ffae' }
+          },
+        },
+      },
+    }
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Pretendard', 'Geist', system-ui, sans-serif;
+      background-color: #0a0a0b; color: #e5e5ea;
+      -webkit-font-smoothing: antialiased; word-break: keep-all;
+    }
+    /* About badge — subtle vintage tint + rounded edge to match the badge silhouette */
+    .about-badge {
+      filter:
+        sepia(0.1)
+        contrast(0.96)
+        saturate(0.92)
+        brightness(0.98);
+      border-radius: 1.5rem;
+    }
+    @font-face {
+      font-family: 'Michroma';
+      src: url('fonts/Michroma-Regular.ttf') format('truetype');
+      font-weight: 400;
+      font-style: normal;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'Inter';
+      src: url('fonts/Inter-VariableFont.ttf') format('truetype-variations');
+      font-weight: 100 900;
+      font-style: normal;
+      font-display: swap;
+    }
+    .font-display { font-family: 'Geist', 'Pretendard', sans-serif; }
+    .font-serif-it { font-family: 'Instrument Serif', serif; font-style: italic; }
+    .font-michroma { font-family: 'Michroma', 'Geist', system-ui, sans-serif; }
+    .font-inter { font-family: 'Inter', 'Pretendard', system-ui, -apple-system, sans-serif; }
+
+    .noise {
+      position: fixed; inset: 0; z-index: 60; pointer-events: none; opacity: 0.035;
+      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+    }
+    .ambient {
+      position: absolute; inset: 0; pointer-events: none;
+      background:
+        radial-gradient(1200px 600px at 85% -10%, rgba(80, 255, 90, 0.08), transparent 60%),
+        radial-gradient(900px 500px at 10% 110%, rgba(120, 140, 255, 0.06), transparent 55%);
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(1.4rem); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .reveal { opacity: 0; animation: fadeUp 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+    .reveal-d1 { animation-delay: 120ms; }
+    .reveal-d2 { animation-delay: 260ms; }
+    .reveal-d3 { animation-delay: 400ms; }
+    .reveal-d4 { animation-delay: 540ms; }
+
+    @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+    .float { animation: float 6s ease-in-out infinite; }
+
+    @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+    .marquee-track { animation: marquee 40s linear infinite; }
+
+    .glass {
+      background: rgba(255,255,255,0.04);
+      backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255,255,255,0.08);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.08);
+    }
+    .magnet { transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.3s ease; }
+    .magnet:hover { transform: translateY(-2px) scale(1.02); }
+    .magnet:active { transform: translateY(0) scale(0.98); }
+
+    .project-card { transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s ease; }
+    .project-card:hover { transform: translateY(-4px); border-color: rgba(255,255,255,0.18); }
+    .project-card:hover .project-thumb { transform: scale(1.03); }
+    .project-thumb { transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+
+    .hover-underline {
+      background-image: linear-gradient(currentColor, currentColor);
+      background-size: 0% 1px; background-position: 0 100%; background-repeat: no-repeat;
+      transition: background-size 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .hover-underline:hover { background-size: 100% 1px; }
+
+    .grid-lines {
+      background-image:
+        linear-gradient(to right, rgba(255,255,255,0.035) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255,255,255,0.035) 1px, transparent 1px);
+      background-size: 80px 80px;
+    }
+    .ticker-divider::before {
+      content: "●"; color: #50ff5a; margin: 0 1.5rem; font-size: 0.5rem; vertical-align: middle;
+    }
+    .orb { filter: blur(80px); opacity: 0.5; }
+
+    @media (prefers-reduced-motion: reduce) {
+      .reveal, .float, .marquee-track { animation: none !important; opacity: 1 !important; }
+    }
+
+    /* Scroll-scrub hero */
+    .hero-pin { height: 200vh; }
+    @media (max-width: 767px) { .hero-pin { height: 180vh; } }
+    .hero-sticky {
+      position: sticky; top: 0; left: 0;
+      height: 100dvh; width: 100%;
+      overflow: hidden;
+    }
+    /* Ambient hero video panel (no card chrome) */
+    .hero-media {
+      position: absolute; inset: 0;
+      z-index: 0; overflow: hidden; pointer-events: none;
+      will-change: transform, opacity, filter;
+      transform-origin: 72% 50%;
+    }
+    .hero-bg-layers { will-change: opacity, transform; }
+    .hero-media-inner {
+      position: absolute;
+      inset: 0;
+    }
+    .hero-media-inner canvas {
+      display: block; width: 100%; height: 100%;
+    }
+    /* Vignette + gradient for headline legibility on the left */
+    .hero-media::after {
+      content: ''; position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse 120% 90% at 50% 50%, transparent 40%, rgba(10,10,11,0.45) 85%, rgba(10,10,11,0.75) 100%),
+        linear-gradient(to right, rgba(10,10,11,0.72) 0%, rgba(10,10,11,0.35) 42%, rgba(10,10,11,0.05) 72%, rgba(10,10,11,0) 100%),
+        linear-gradient(to bottom, rgba(10,10,11,0.45) 0%, rgba(10,10,11,0) 22%, rgba(10,10,11,0) 70%, rgba(10,10,11,0.55) 100%);
+      pointer-events: none;
+      z-index: 1;
+    }
+    .hero-media-loaded .hero-loader { opacity: 0; pointer-events: none; }
+    @media (max-width: 1023px) {
+      .hero-media::after {
+        background:
+          linear-gradient(to right, rgba(10,10,11,0.82) 0%, rgba(10,10,11,0.55) 35%, rgba(10,10,11,0.15) 70%, rgba(10,10,11,0) 100%),
+          linear-gradient(to bottom, rgba(10,10,11,0.5) 0%, rgba(10,10,11,0) 25%, rgba(10,10,11,0.55) 100%);
+      }
+    }
+    @media (max-width: 767px) {
+      .hero-media::after {
+        background: linear-gradient(to bottom, rgba(10,10,11,0.55) 0%, rgba(10,10,11,0.2) 32%, rgba(10,10,11,0.55) 78%, rgba(10,10,11,0.8) 100%);
+      }
+    }
+
+    .hero-text-layer { will-change: transform, opacity; position: relative; z-index: 2; }
+    .hero-hint {
+      position: absolute; bottom: 2.25rem; left: 50%;
+      transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+      color: rgba(229,229,234,0.5); font-size: 0.7rem; letter-spacing: 0.2em;
+      text-transform: uppercase;
+      transition: opacity 0.4s ease;
+    }
+    .hero-hint .line {
+      width: 1px; height: 28px; background: linear-gradient(to bottom, transparent, rgba(229,229,234,0.5));
+      animation: hintPulse 1.6s ease-in-out infinite;
+    }
+    @keyframes hintPulse {
+      0%,100% { opacity: 0.3; transform: scaleY(0.6); transform-origin: top; }
+      50% { opacity: 1; transform: scaleY(1); transform-origin: top; }
+    }
+
+    .hero-loader {
+      position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+      background: #0f0f12; z-index: 2; transition: opacity 0.6s ease;
+    }
+    .hero-loader-bar {
+      width: 60%; height: 2px; background: rgba(255,255,255,0.06); border-radius: 2px; overflow: hidden;
+    }
+    .hero-loader-bar > span {
+      display: block; height: 100%; width: 0%; background: #50ff5a;
+      transition: width 0.2s ease;
+    }
+
+    /* Selected Works section — overlaps the hero pin by 138vh so that
+       its sticky child is glued at scroll 62vh (synced with sheetStart=0.62).
+       Works fade-in now overlaps slightly with the tail of the hero
+       zoom-out, eliminating the held-black middle while preserving the
+       sequential feel (hero fades out → works fades in to first project). */
+    #work {
+      position: relative;
+      z-index: 3;
+      background: #0a0a0b;
+      margin-top: -138vh;
+      isolation: isolate;
+      will-change: transform, opacity;
+      opacity: 0;
+    }
+
+    /* ============================================================
+       SELECTED WORKS — Vertical Orbital Carousel
+       ============================================================ */
+    .works-pin {
+      height: 440vh;            /* 5 projects × ~88vh transition runway */
+      position: relative;
+    }
+    @media (max-width: 767px) {
+      .works-pin { height: 380vh; }
+    }
+    .works-sticky {
+      position: sticky; top: 0;
+      height: 100dvh; width: 100%;
+      overflow: hidden;
+      isolation: isolate;
+    }
+
+    /* Decorative grid + scanline background */
+    .works-bg {
+      position: absolute; inset: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(ellipse 90% 70% at 50% 35%, rgba(80,255,90,0.05) 0%, rgba(80,255,90,0) 60%),
+        linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px) 0 0 / 100% 4px,
+        linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px) 0 0 / 60px 60px,
+        linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px) 0 0 / 60px 60px;
+      mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 30%, transparent 90%);
+      -webkit-mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 30%, transparent 90%);
+      opacity: 0.6;
+      z-index: 0;
+    }
+    /* "What have you done?" CRT terminal backdrop — recreates the dystopian
+       green-phosphor wall-of-text reference. Pure CSS/text so it scales
+       crisply at any size and shares the page's typographic system. */
+    .works-plaque {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+      font-family: 'Courier New', 'Monaco', ui-monospace, monospace;
+      font-size: clamp(1.05rem, 1.8vw, 1.7rem);
+      font-weight: 900;
+      color: rgba(80, 255, 90, 0.42);
+      letter-spacing: 0.04em;
+      line-height: 1.35;
+      text-transform: none;
+      white-space: pre;
+      padding: 1.2rem 0;
+      text-shadow:
+        0 0 2px rgba(80, 255, 90, 0.45),
+        0 0 6px rgba(80, 255, 90, 0.18);
+      /* vignette so edges fade out instead of cutting */
+      mask-image: radial-gradient(ellipse 78% 78% at 50% 50%, black 28%, transparent 92%);
+      -webkit-mask-image: radial-gradient(ellipse 78% 78% at 50% 50%, black 28%, transparent 92%);
+    }
+    /* Dim overlay — darkens the plaque text so foreground stays readable.
+       Sits ABOVE the text (z-index 1) but inside the plaque's stacking
+       context, so it doesn't dim the orbs or meta panel which are siblings
+       of .works-plaque at higher z-index. */
+    .works-plaque::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1;
+      background:
+        radial-gradient(ellipse 70% 65% at 50% 50%,
+          rgba(10,10,11,0.78) 0%,
+          rgba(10,10,11,0.55) 55%,
+          rgba(10,10,11,0.45) 100%);
+    }
+    /* CRT scanline overlay for authenticity (above dim) */
+    .works-plaque::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 2;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent 0px,
+        transparent 2px,
+        rgba(0,0,0,0.18) 3px,
+        transparent 4px
+      );
+    }
+    @media (max-width: 1023px) {
+      .works-plaque { font-size: clamp(0.95rem, 3vw, 1.4rem); }
+    }
+
+    /* Top header */
+    .works-header {
+      position: absolute;
+      top: 5.5rem; left: 50%;
+      transform: translateX(-50%);
+      width: calc(100% - 4rem);
+      max-width: 80rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      z-index: 5;
+      pointer-events: none;
+    }
+    .works-eyebrow {
+      font-size: 0.7rem; letter-spacing: 0.22em;
+      color: rgba(229,229,234,0.45);
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+    .works-title {
+      font-size: 1rem;
+      letter-spacing: 0.18em;
+      color: rgba(229,229,234,0.85);
+      display: flex; align-items: center; gap: 0.4em;
+    }
+    .works-title-slash {
+      color: var(--accent, #50ff5a);
+      font-family: 'Michroma', sans-serif;
+      opacity: 0.85;
+    }
+    @media (min-width: 768px) {
+      .works-title { font-size: 1.1rem; }
+    }
+    .works-counter {
+      font-family: 'Michroma', monospace, sans-serif;
+      font-size: 0.85rem;
+      color: rgba(229,229,234,0.7);
+      letter-spacing: 0.12em;
+      display: flex; align-items: baseline; gap: 0.3em;
+    }
+    .counter-current {
+      color: #50ff5a;
+      font-size: 1.4rem;
+      font-weight: 700;
+      transition: color 0.3s;
+    }
+    .counter-divider {
+      color: rgba(229,229,234,0.3);
+    }
+    .counter-total {
+      color: rgba(229,229,234,0.4);
+    }
+
+    /* Vertical scale — accent ladder on the left */
+    .works-scale {
+      position: absolute;
+      left: 1.5rem; top: 50%;
+      transform: translateY(-50%);
+      display: flex; flex-direction: column;
+      align-items: center;
+      gap: 0.6rem;
+      z-index: 4;
+      pointer-events: none;
+    }
+    @media (min-width: 1024px) {
+      .works-scale { left: 2.5rem; }
+    }
+    .scale-label {
+      font-family: 'Michroma', monospace, sans-serif;
+      font-size: 0.55rem;
+      letter-spacing: 0.2em;
+      color: rgba(229,229,234,0.35);
+    }
+    .scale-track {
+      position: relative;
+      width: 4px; height: 240px;
+      background: rgba(255,255,255,0.06);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+    .scale-fill {
+      position: absolute; top: 0; left: 0; right: 0;
+      height: 0%;
+      background: linear-gradient(to bottom, #50ff5a 0%, rgba(80,255,90,0.3) 100%);
+      transition: height 0.18s linear;
+    }
+    .scale-marker {
+      position: absolute; top: 0; left: -3px;
+      width: 10px; height: 2px;
+      background: #50ff5a;
+      box-shadow: 0 0 12px rgba(80,255,90,0.6);
+      transition: top 0.18s linear;
+      transform: translateY(-50%);
+    }
+    @media (max-width: 767px) {
+      .works-scale { display: none; }
+    }
+
+    /* Stage — holds all the orbs */
+    .works-stage {
+      position: absolute; inset: 0;
+      z-index: 2;
+      pointer-events: none;
+    }
+    .work-orb {
+      position: absolute;
+      top: 0; left: 0;
+      /* Fluid sizing prevents overlap with meta panel at intermediate widths.
+         clamp lower bound = comfortable mobile size; upper bound = desktop comfort. */
+      width: clamp(300px, 36vw, 480px);
+      height: clamp(300px, 36vw, 480px);
+      transform-origin: 50% 50%;
+      will-change: transform, opacity, filter;
+      pointer-events: none;
+      /* Each orb is positioned via JS using transform; default state is invisible */
+      opacity: 0;
+    }
+    @media (max-width: 1023px) {
+      .work-orb {
+        width: clamp(280px, 50vw, 400px);
+        height: clamp(280px, 50vw, 400px);
+      }
+    }
+    @media (max-width: 767px) {
+      .work-orb {
+        width: clamp(240px, 70vw, 320px);
+        height: clamp(240px, 70vw, 320px);
+      }
+    }
+    /* Orb link wraps the entire shell. Inherits sizing & positioning from
+       parent .work-orb. Click is enabled only on the active orb. */
+    .orb-link {
+      display: block;
+      width: 100%; height: 100%;
+      border-radius: 50%;
+      color: inherit;
+      text-decoration: none;
+    }
+    .orb-link:focus-visible {
+      outline: 2px solid var(--accent, #d4ff3a);
+      outline-offset: 6px;
+    }
+    /* ============ Wireframe Thumbnail Frame ============
+       Clean neon line strokes — concentric rings + cardinal/intercardinal
+       tick marks rendered in SVG. No glass, no halo, no glow noise.
+       Inside the disc: LED dot matrix overlay (cyan) → fade on hover to
+       reveal the original image. */
+    .orb-shell {
+      position: relative;
+      width: 100%; height: 100%;
+      border-radius: 50%;
+    }
+    .orb-disc {
+      position: absolute; inset: 0;
+      border-radius: 50%;
+      overflow: hidden;
+      /* Just a clean floating shadow */
+      box-shadow: 0 30px 60px -10px rgba(0,0,0,0.6);
+    }
+    .orb-img {
+      position: absolute; inset: 0;
+      background-size: cover;
+      background-position: center;
+      filter: saturate(1.05) contrast(1.05);
+    }
+    /* 80s LED dot-matrix overlay — covers .orb-img by default,
+       fades on hover (active orb only) to reveal the photo. */
+    .orb-led {
+      position: absolute; inset: 0;
+      background: #160404;
+      pointer-events: none;
+      transition: opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+      box-shadow: inset 0 0 80px rgba(0,0,0,0.55);
+    }
+    .orb-led::before {
+      content: '';
+      position: absolute; inset: 0;
+      background-image: var(--src);
+      background-size: cover;
+      background-position: center;
+      /* photo → vintage retro-sunset red (target ≈ #e83a2c).
+         Sepia maps brightness → hue (60° at bright, 30° at dark).
+         hue-rotate(315deg) shifts so BRIGHT pixels land near hue 15°
+         (warm red) and dark pixels at ~345° (red-magenta) — no yellow
+         even in highlights. */
+      filter:
+        grayscale(1)
+        contrast(1.8)
+        brightness(0.9)
+        sepia(1)
+        hue-rotate(315deg)
+        saturate(7)
+        brightness(1.1);
+      /* Square LED pixels — Framer LED Matrix style */
+      -webkit-mask-image: url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 6 6'%3E%3Crect x='1.5' y='1.5' width='3' height='3' fill='%23000'/%3E%3C/svg%3E");
+              mask-image: url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 6 6'%3E%3Crect x='1.5' y='1.5' width='3' height='3' fill='%23000'/%3E%3C/svg%3E");
+      -webkit-mask-size: 6px 6px;
+              mask-size: 6px 6px;
+      -webkit-mask-repeat: repeat;
+              mask-repeat: repeat;
+    }
+    .orb-led::after {
+      content: '';
+      position: absolute; inset: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at 50% 50%, transparent 60%, rgba(0,0,0,0.5) 100%),
+        radial-gradient(circle at 50% 30%, rgba(232,58,44,0.20), transparent 55%);
+    }
+    /* Active orb gets pointer events so hover works */
+    .work-orb.is-active { pointer-events: auto; }
+    .work-orb.is-active .orb-disc { cursor: pointer; }
+    .work-orb.is-active:hover .orb-led { opacity: 0; }
+
+
+    /* Active project meta panel (text — positioned right of the primary orb) */
+    .works-meta {
+      position: absolute;
+      /* Anchor to orb's right side (orb center 38vw + radius ~18vw + 4vw gap)
+         so meta sits consistently close to the thumbnail across viewports. */
+      left: 60vw;
+      right: 4vw;
+      top: 50%;
+      transform: translateY(-50%);
+      max-width: 460px;
+      z-index: 3;
+      color: var(--ink-100, #f4f4f6);
+      transition: opacity 0.22s ease, transform 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    @media (max-width: 1023px) {
+      .works-meta {
+        right: auto; left: 50%;
+        top: auto; bottom: 7rem;
+        transform: translateX(-50%);
+        text-align: center;
+        max-width: 90%;
+      }
+    }
+    .meta-tag {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      font-size: 0.7rem;
+      letter-spacing: 0.22em;
+      color: #50ff5a;
+      text-transform: uppercase;
+      margin-bottom: 0.85rem;
+    }
+    .meta-tag::before {
+      content: ''; width: 6px; height: 6px;
+      background: #50ff5a;
+      border-radius: 50%;
+      box-shadow: 0 0 8px rgba(80,255,90,0.7);
+      animation: blink 1.6s ease-in-out infinite;
+    }
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.35; }
+    }
+    .meta-client {
+      font-family: 'Michroma', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.18em;
+      color: rgba(229,229,234,0.75);
+      margin-bottom: 1rem;
+      text-transform: uppercase;
+    }
+    .meta-title {
+      font-size: 1.7rem;
+      line-height: 1.18;
+      letter-spacing: -0.01em;
+      color: #f4f4f6;
+      margin-bottom: 1rem;
+      word-break: keep-all;
+    }
+    @media (min-width: 1280px) {
+      .meta-title { font-size: 2.05rem; }
+    }
+    .meta-summary {
+      font-size: 1.15rem;
+      line-height: 1.55;
+      color: rgba(229,229,234,0.75);
+      margin-bottom: 1.5rem;
+      word-break: keep-all;
+      max-width: 42ch;
+    }
+    @media (min-width: 1280px) {
+      .meta-summary { font-size: 1.25rem; }
+    }
+    @media (max-width: 1023px) {
+      .meta-summary { margin-left: auto; margin-right: auto; }
+    }
+    .meta-link {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      font-size: 0.85rem;
+      color: #50ff5a;
+      letter-spacing: 0.05em;
+      transition: gap 0.25s ease;
+    }
+    .meta-link:hover { gap: 0.7rem; }
+
+    /* Scroll hint at bottom */
+    .works-hint {
+      position: absolute;
+      bottom: 2.25rem; left: 50%;
+      transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: 0.4rem;
+      color: rgba(229,229,234,0.4);
+      font-size: 0.6rem;
+      letter-spacing: 0.25em;
+      font-family: 'Michroma', sans-serif;
+      pointer-events: none;
+      z-index: 4;
+      animation: hintBob 2s ease-in-out infinite;
+    }
+    .works-hint iconify-icon {
+      font-size: 1.2rem;
+      color: rgba(80,255,90,0.6);
+    }
+    @keyframes hintBob {
+      0%, 100% { transform: translate(-50%, 0); opacity: 0.55; }
+      50% { transform: translate(-50%, 6px); opacity: 0.9; }
+    }
+
+    /* Meta crossfade animation hook */
+    .works-meta.meta-swap {
+      opacity: 0;
+      transform: translateY(calc(-50% + 12px));
+    }
+    @media (max-width: 1023px) {
+      .works-meta.meta-swap {
+        transform: translateX(-50%) translateY(8px);
+      }
+    }
+  </style>
+</head>
+<body class="antialiased">
+  <div class="noise"></div>
+
+  <!-- NAV -->
+  <header class="fixed top-5 left-1/2 -translate-x-1/2 z-40 w-[calc(100%-2rem)] max-w-5xl">
+    <nav class="glass rounded-full px-5 py-3 flex items-center justify-between">
+      <a href="#top" class="flex items-center gap-2.5 group">
+        <span class="w-7 h-7 rounded-full bg-accent flex items-center justify-center text-ink-950 font-bold text-xl leading-none" style="font-family: 'Pretendard Variable', 'Noto Sans KR', sans-serif; padding-bottom: 2px;">ㅅ</span>
+        <span class="font-display font-semibold tracking-tight text-ink-100" data-i18n="brand-name">Ben Seo</span>
+      </a>
+      <div class="hidden md:flex items-center gap-7 text-sm text-ink-300">
+        <a href="#work" class="hover-underline" data-i18n="nav-works">Selected Works</a>
+        <a href="#about" class="hover-underline" data-i18n="nav-about">About Me</a>
+      </div>
+      <div class="flex items-center gap-2">
+        <button id="langToggle" type="button" aria-label="Toggle language"
+                class="inline-flex items-center rounded-full border border-ink-700 hover:border-ink-500 text-ink-200 px-3 py-2 text-xs font-medium tracking-[0.16em] uppercase transition-colors"
+                style="font-family:'Michroma',monospace;">한국어</button>
+        <a href="https://www.linkedin.com/in/ben-jungbin-seo-57a193109/" target="_blank" rel="noopener noreferrer" class="magnet inline-flex items-center gap-1.5 rounded-full bg-ink-100 text-ink-950 px-4 py-2 text-sm font-medium">
+          LinkedIn
+          <iconify-icon icon="solar:arrow-right-up-linear" class="text-base"></iconify-icon>
+        </a>
+      </div>
+    </nav>
+  </header>
+
+  <!-- HERO (scroll-pinned with WebP frame scrub) -->
+  <section id="top" class="relative">
+    <link rel="preload" as="image" href="frames/f_001.webp" type="image/webp">
+    <link rel="preload" as="image" href="frames/f_060.webp" type="image/webp">
+    <link rel="preload" as="image" href="frames/f_120.webp" type="image/webp">
+
+    <div class="hero-pin relative">
+      <div class="hero-sticky">
+        <div class="hero-bg-layers absolute inset-0" id="heroBgLayers">
+          <div class="ambient"></div>
+          <div class="absolute inset-0 grid-lines opacity-70"></div>
+          <div class="absolute -top-32 -right-40 w-[520px] h-[520px] rounded-full bg-accent orb"></div>
+        </div>
+
+        <!-- Ambient video panel (right-anchored, no card chrome) -->
+        <div class="hero-media" id="heroMedia">
+          <div class="hero-media-inner">
+            <canvas id="heroCanvas" width="1280" height="720" aria-label="프로덕트 디자인 인터랙션 데모"></canvas>
+          </div>
+          <div class="hero-loader" id="heroLoader" aria-hidden="true">
+            <div class="hero-loader-bar"><span id="heroLoaderBar"></span></div>
+          </div>
+        </div>
+
+        <div class="absolute inset-0 flex items-center pt-24 md:pt-16">
+          <div class="max-w-7xl mx-auto w-full px-6 lg:px-10">
+            <div class="grid grid-cols-12 gap-6 lg:gap-10 items-center">
+              <div class="col-span-12 md:col-span-10 lg:col-span-9 xl:col-span-8 hero-text-layer" id="heroText">
+                <div class="font-michroma uppercase text-ink-300 text-[15px] md:text-[17px] mb-6 md:mb-8" style="letter-spacing: 0.12em;" data-i18n="hero-eyebrow">
+                  As a product designer, I question
+                </div>
+                <h1 class="font-michroma uppercase text-ink-100 text-[2rem] sm:text-[2.5rem] md:text-[3.25rem] lg:text-[4.25rem] xl:text-[4.75rem]" style="line-height: 1.15; letter-spacing: -0.01em;" data-i18n="hero-title">
+                  How do we stay <span class="text-accent">human</span> in the future<span class="font-inter font-normal">?</span>
+                </h1>
+                <p class="font-inter font-light mt-7 md:mt-9 max-w-2xl text-[20px] md:text-[23px] text-ink-300" style="line-height: 1.55;" data-i18n="hero-tagline">
+                  We are living in the sci-fi future we once imagined. In this tech-saturated world, I ask how we can leverage technology to maintain human choices: making the future more accessible, ethical, and playful.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-hint" id="heroHint">
+          <span data-i18n="hero-scroll">Scroll</span>
+          <span class="line"></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SELECTED WORK — Vertical orbital carousel -->
+  <section id="work" class="relative">
+    <div class="works-pin" id="worksPin">
+      <div class="works-sticky">
+        <!-- Decorative grid + scanlines -->
+        <div class="works-bg" aria-hidden="true"></div>
+        <!-- NASA Pioneer plaque backdrop (public domain) -->
+        <div class="works-plaque" aria-hidden="true"></div>
+
+        <!-- Top header bar -->
+        <div class="works-header">
+          <div class="works-header-left">
+            <p class="works-eyebrow" data-i18n="works-eyebrow">Selected Work · 2022–2026</p>
+            <h2 class="works-title">
+              <span class="font-michroma">PROJECT</span><span class="works-title-slash">//</span><span class="font-michroma">BRIEF</span>
+            </h2>
+          </div>
+          <div class="works-counter" aria-live="polite">
+            <span class="counter-current" id="worksCounterCurrent">01</span>
+            <span class="counter-divider">/</span>
+            <span class="counter-total">05</span>
+          </div>
+        </div>
+
+        <!-- Vertical scale (decorative, animates with progress) -->
+        <div class="works-scale" aria-hidden="true">
+          <span class="scale-label">MAX</span>
+          <div class="scale-track">
+            <div class="scale-fill" id="worksScaleFill"></div>
+            <div class="scale-marker" id="worksScaleMarker"></div>
+          </div>
+          <span class="scale-label">MIN</span>
+        </div>
+
+        <!-- Stage: 6 project orbs orbiting through slot positions.
+             Each orb's <a> wraps the disc, linking to its case-study page. -->
+        <div class="works-stage" id="worksStage">
+          <article class="work-orb" data-idx="0" data-href="projects/ahhaohho.html" data-tag="PROJECT 01" data-client="Smilegate Futurelab · 2024" data-title="Ahha Ohho" data-summary="A creative-learning app turning the smartphone into a tool for curiosity, self-directed making, and peer feedback." data-tag-ko="프로젝트 01" data-client-ko="스마일게이트 퓨처랩 · 2024" data-title-ko="아하오호" data-summary-ko="스마트폰을 호기심·자발적 창작·또래 피드백의 도구로 바꾸는 어린이 창의 학습 앱.">
+            <a class="orb-link" href="projects/ahhaohho.html" aria-label="Open AhhaOhho case study">
+              <div class="orb-shell">
+                <div class="orb-disc">
+                  <div class="orb-img" style="background-image: url('projects/assets/ahhaohho/hero-mockup.png')"></div>
+                  <div class="orb-led" style="--src: url('projects/assets/ahhaohho/hero-mockup.png')" aria-hidden="true"></div>
+                </div>
+              </div>
+            </a>
+          </article>
+          <article class="work-orb" data-idx="1" data-href="projects/gwanghwasu.html" data-tag="PROJECT 02" data-client="KOCCA · 2022" data-title="Gwanghwa Su" data-summary="A machine-learning XR monument visualizing national emotion" data-tag-ko="프로젝트 02" data-client-ko="한국콘텐츠진흥원 · 2022" data-title-ko="광화수" data-summary-ko="국민의 감정을 시각화하는 머신러닝 기반 XR 모뉴먼트">
+            <a class="orb-link" href="projects/gwanghwasu.html" aria-label="Open Gwanghwa Su case study">
+              <div class="orb-shell">
+                <div class="orb-disc">
+                  <div class="orb-img" style="background-image: url('projects/assets/gwanghwasu/hero.png')"></div>
+                  <div class="orb-led" style="--src: url('projects/assets/gwanghwasu/hero.png')" aria-hidden="true"></div>
+                </div>
+              </div>
+            </a>
+          </article>
+          <article class="work-orb" data-idx="2" data-href="projects/letsee-creator.html" data-tag="PROJECT 03" data-client="Letsee · 2022" data-title="Letsee Creator" data-summary="A no-code WebAR authoring tool." data-tag-ko="프로젝트 03" data-client-ko="Letsee · 2022" data-title-ko="Letsee Creator" data-summary-ko="노코드 WebAR 저작 도구.">
+            <a class="orb-link" href="projects/letsee-creator.html" aria-label="Open Letsee Creator case study">
+              <div class="orb-shell">
+                <div class="orb-disc">
+                  <div class="orb-img" style="background-image: url('projects/assets/letsee/hero.png')"></div>
+                  <div class="orb-led" style="--src: url('projects/assets/letsee/hero.png')" aria-hidden="true"></div>
+                </div>
+              </div>
+            </a>
+          </article>
+          <article class="work-orb" data-idx="3" data-href="projects/mlb-pitchar.html" data-tag="PROJECT 04" data-client="MLB Advanced Media · 2023" data-title="MLB PitchAR" data-summary="A mobile AR app that teaches baseball pitch types through spatial 3D visualization." data-tag-ko="프로젝트 04" data-client-ko="MLB Advanced Media · 2023" data-title-ko="MLB PitchAR" data-summary-ko="모바일 AR 경험으로 야구의 재미를 배워보자">
+            <a class="orb-link" href="projects/mlb-pitchar.html" aria-label="Open MLB PitchAR case study">
+              <div class="orb-shell">
+                <div class="orb-disc">
+                  <div class="orb-img" style="background-image: url('projects/assets/mlb-pitchar/hero-mockup.png')"></div>
+                  <div class="orb-led" style="--src: url('projects/assets/mlb-pitchar/hero-mockup.png')" aria-hidden="true"></div>
+                </div>
+              </div>
+            </a>
+          </article>
+          <article class="work-orb" data-idx="4" data-href="projects/twinworld.html" data-tag="PROJECT 05" data-client="DoubleMe · 2020" data-title="Twin World" data-summary="A social metaverse app for HoloLens 2" data-tag-ko="프로젝트 05" data-client-ko="DoubleMe · 2020" data-title-ko="트윈 월드" data-summary-ko="혼합현실 소셜 메타버스 앱">
+            <a class="orb-link" href="projects/twinworld.html" aria-label="Open Twin World case study">
+              <div class="orb-shell">
+                <div class="orb-disc">
+                  <div class="orb-img" style="background-image: url('projects/assets/twinworld/hero-room.jpg')"></div>
+                  <div class="orb-led" style="--src: url('projects/assets/twinworld/hero-room.jpg')" aria-hidden="true"></div>
+                </div>
+              </div>
+            </a>
+          </article>
+        </div>
+
+        <!-- Active project meta panel (text content, swaps with active orb) -->
+        <div class="works-meta" id="worksMeta">
+          <div class="meta-tag font-michroma" id="metaTag">&gt; PROJECT 01</div>
+          <div class="meta-client" id="metaClient">Stellar Bank · 2025</div>
+          <h3 class="meta-title font-display" id="metaTitle">Ahha Ohho</h3>
+          <p class="meta-summary" id="metaSummary">A creative-learning app turning the smartphone into a tool for curiosity, self-directed making, and peer feedback.</p>
+          <a href="projects/ahhaohho.html" class="meta-link" id="metaLink">
+            <span data-i18n="works-cta">View case study</span>
+            <iconify-icon icon="solar:arrow-right-linear"></iconify-icon>
+          </a>
+        </div>
+
+        <!-- Scroll hint -->
+        <div class="works-hint" aria-hidden="true">
+          <iconify-icon icon="solar:double-alt-arrow-down-linear"></iconify-icon>
+          <span data-i18n="works-scroll">SCROLL TO ROTATE</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about" class="relative py-24 md:py-36 border-t border-ink-800 overflow-hidden">
+    <div class="absolute -left-40 top-20 w-[400px] h-[400px] rounded-full bg-accent orb opacity-30"></div>
+    <div class="relative max-w-7xl mx-auto px-6 lg:px-10">
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-16">
+        <div class="md:col-span-5">
+          <div class="md:pt-[2.5rem]">
+            <!-- Badge only · vintage filter · transparent letterbox -->
+            <div class="aspect-square relative">
+              <img src="assets/about/ben-2.png" alt="Ben Seo — VR portrait"
+                   class="about-badge absolute inset-0 w-full h-full object-contain"
+                   loading="lazy" decoding="async">
+            </div>
+          </div>
+        </div>
+
+        <div class="md:col-span-7">
+          <p class="text-xs tracking-[0.2em] text-ink-500 uppercase mb-6" data-i18n="about-eyebrow">About Me</p>
+          <p class="font-display font-normal text-2xl md:text-3xl lg:text-[2.25rem] tracking-tight text-ink-100" style="line-height: 1.6;" data-i18n="about-p1">
+            Product Designer specializing in <span class="text-accent">immersive</span> and <span class="text-accent">playful UX</span>, designing and prototyping experiences that drive engagement, growth and connection.
+          </p>
+
+          <!-- Capabilities grid -->
+          <div class="mt-14 grid grid-cols-2 md:grid-cols-3 gap-px bg-ink-800 border border-ink-800 rounded-2xl overflow-hidden">
+            <div class="bg-ink-950 p-5">
+              <iconify-icon icon="solar:magnifer-linear" class="text-accent text-xl mb-3"></iconify-icon>
+              <div class="text-sm text-ink-100" data-i18n="cap-1-t">사용자 리서치</div>
+              <div class="text-xs text-ink-500 mt-1" data-i18n="cap-1-d">심층 인터뷰 · 다이어리 스터디</div>
+            </div>
+            <div class="bg-ink-950 p-5">
+              <iconify-icon icon="solar:widget-5-linear" class="text-accent text-xl mb-3"></iconify-icon>
+              <div class="text-sm text-ink-100" data-i18n="cap-2-t">디자인 시스템</div>
+              <div class="text-xs text-ink-500 mt-1" data-i18n="cap-2-d">토큰 · 컴포넌트 · 거버넌스</div>
+            </div>
+            <div class="bg-ink-950 p-5">
+              <iconify-icon icon="solar:graph-new-linear" class="text-accent text-xl mb-3"></iconify-icon>
+              <div class="text-sm text-ink-100" data-i18n="cap-3-t">데이터 설계</div>
+              <div class="text-xs text-ink-500 mt-1" data-i18n="cap-3-d">이벤트 택소노미 · 퍼널</div>
+            </div>
+            <div class="bg-ink-950 p-5">
+              <iconify-icon icon="solar:routing-2-linear" class="text-accent text-xl mb-3"></iconify-icon>
+              <div class="text-sm text-ink-100" data-i18n="cap-4-t">IA &amp; 플로우</div>
+              <div class="text-xs text-ink-500 mt-1" data-i18n="cap-4-d">트리테스트 · 카드소팅</div>
+            </div>
+            <div class="bg-ink-950 p-5">
+              <iconify-icon icon="solar:code-square-linear" class="text-accent text-xl mb-3"></iconify-icon>
+              <div class="text-sm text-ink-100" data-i18n="cap-5-t">프론트엔드 협업</div>
+              <div class="text-xs text-ink-500 mt-1" data-i18n="cap-5-d">Flutter · Three.js · Unity</div>
+            </div>
+            <div class="bg-ink-950 p-5">
+              <iconify-icon icon="solar:dialog-2-linear" class="text-accent text-xl mb-3"></iconify-icon>
+              <div class="text-sm text-ink-100" data-i18n="cap-6-t">협업</div>
+              <div class="text-xs text-ink-500 mt-1" data-i18n="cap-6-d">크로스펑셔널 팀</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="border-t border-ink-800">
+    <div class="max-w-7xl mx-auto px-6 lg:px-10 py-12 text-center">
+      <div class="text-xs text-ink-600" data-i18n="footer-copy">
+        © 2026 Ben Seo · This site was designed and built by me.
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // ------- Reveal IO for project cards -------
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('reveal');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+
+    document.querySelectorAll('.project-card').forEach((el, i) => {
+      el.style.animationDelay = `${Math.min(i * 80, 420)}ms`;
+      io.observe(el);
+    });
+
+    // ------- Hero scroll-scrub frame animation -------
+    (function heroScrub() {
+      const TOTAL = 120;
+      const pad = (n) => String(n).padStart(3, '0');
+      const frames = new Array(TOTAL);
+      const canvas = document.getElementById('heroCanvas');
+      const media  = document.getElementById('heroMedia');
+      const mediaInner = media ? media.querySelector('.hero-media-inner') : null;
+      const wrap   = mediaInner;
+      const pin    = document.querySelector('.hero-pin');
+      const textEl = document.getElementById('heroText');
+      const hint   = document.getElementById('heroHint');
+      const loaderBar = document.getElementById('heroLoaderBar');
+      const workSection = document.getElementById('work');
+      const bgLayers = document.getElementById('heroBgLayers');
+      if (!canvas || !pin || !wrap) return;
+
+      const ctx = canvas.getContext('2d', { alpha: true });
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+      let loaded = 0;
+      let readyFirst = false;
+      let targetIndex = 0;
+      let currentIndex = 0;
+
+      function setCanvasSize() {
+        const rect = wrap.getBoundingClientRect();
+        canvas.width  = Math.round(rect.width * dpr);
+        canvas.height = Math.round(rect.height * dpr);
+        canvas.style.width  = rect.width + 'px';
+        canvas.style.height = rect.height + 'px';
+      }
+
+      function drawFrame(idx) {
+        const img = frames[Math.max(0, Math.min(TOTAL - 1, idx))];
+        if (!img || !img.complete) return;
+        const cw = canvas.width, ch = canvas.height;
+        const iw = img.naturalWidth, ih = img.naturalHeight;
+        // cover fit
+        const scale = Math.max(cw / iw, ch / ih);
+        const dw = iw * scale, dh = ih * scale;
+        const dx = (cw - dw) / 2, dy = (ch - dh) / 2;
+        ctx.clearRect(0, 0, cw, ch);
+        ctx.drawImage(img, dx, dy, dw, dh);
+      }
+
+      function preload() {
+        let firstDone = false;
+        for (let i = 0; i < TOTAL; i++) {
+          const img = new Image();
+          img.decoding = 'async';
+          img.src = `frames/f_${pad(i + 1)}.webp`;
+          img.onload = () => {
+            loaded++;
+            const pct = Math.round((loaded / TOTAL) * 100);
+            if (loaderBar) loaderBar.style.width = pct + '%';
+            if (!firstDone && i === 0) {
+              firstDone = true;
+              readyFirst = true;
+              setCanvasSize();
+              drawFrame(0);
+              media.classList.add('hero-media-loaded');
+            }
+            if (loaded === TOTAL) {
+              frames.forEach(f => f.decode && f.decode().catch(() => {}));
+            }
+          };
+          frames[i] = img;
+        }
+      }
+
+      function computeProgress() {
+        const rect = pin.getBoundingClientRect();
+        const vh = window.innerHeight || document.documentElement.clientHeight;
+        const total = pin.offsetHeight - vh;
+        const scrolled = -rect.top;
+        if (total <= 0) return 0;
+        return Math.max(0, Math.min(1, scrolled / total));
+      }
+
+      function lerp(a, b, t) { return a + (b - a) * t; }
+      function clamp01(v) { return v < 0 ? 0 : v > 1 ? 1 : v; }
+      // easeOutCubic for text outro, easeInOutCubic for frame scrub
+      function easeOutCubic(t) { return 1 - Math.pow(1 - t, 3); }
+
+      function updateLayers(p) {
+        // Phase map (overlapping crossover — no held-black middle):
+        //   0.00 - 0.08 : intro, text visible, first frame
+        //   0.08 - 0.44 : frame scrub, hero text fades + lifts
+        //   0.44 - 0.68 : camera dolly-in — media scales up + fades to black
+        //   0.62 - 1.00 : Selected Works fades in (~38%, easeOutCubic)
+        //                 Hero (0.62→0.68) and Works (0.62→start) overlap so
+        //                 there's never a moment where everything is at 0.
+        //                 works-sticky is already glued (margin-top:-138vh)
+        //                 so the user sees the FIRST PROJECT at PRIMARY
+        //                 fading in directly during the crossover.
+        const fadeStart = 0.08, fadeEnd = 0.44;
+        const textT = clamp01((p - fadeStart) / (fadeEnd - fadeStart));
+        const textEased = easeOutCubic(textT);
+        if (textEl) {
+          textEl.style.opacity = (1 - textEased).toFixed(3);
+          textEl.style.transform = `translate3d(0, ${(-textEased * 44).toFixed(1)}px, 0)`;
+        }
+        if (hint) hint.style.opacity = (1 - clamp01(p / 0.14)).toFixed(3);
+
+        // Hero media: dolly-in + blur + fade — completes by p=0.68
+        const pushStart = 0.44;
+        const pushEnd   = 0.68;
+        const pushT = easeInOutCubic(clamp01((p - pushStart) / (pushEnd - pushStart)));
+        if (media) {
+          const scale = lerp(1.0, 1.5, pushT);
+          const tx = lerp(0, -4, pushT);
+          const op = lerp(1, 0.0, pushT);
+          const blur = lerp(0, 14, pushT);
+          media.style.transform = `translate3d(${tx.toFixed(2)}vw, 0, 0) scale(${scale.toFixed(3)})`;
+          media.style.opacity = op.toFixed(3);
+          media.style.filter = `blur(${blur.toFixed(1)}px)`;
+        }
+        if (bgLayers) {
+          const bgScale = lerp(1.0, 1.08, pushT);
+          const bgOp = lerp(1, 0.0, pushT);
+          bgLayers.style.transform = `scale(${bgScale.toFixed(3)})`;
+          bgLayers.style.opacity = bgOp.toFixed(3);
+        }
+
+        // Works fade-in starts mid-hero-fade (overlap) and finishes by p=1.
+        // easeOutCubic — quick visible rise so the dark moment is minimized,
+        // smooth deceleration toward full opacity (preserves "스르륵" feel
+        // at settle).
+        const sheetStart = 0.62;
+        const sheetT = easeOutCubic(clamp01((p - sheetStart) / (1 - sheetStart)));
+        if (workSection) {
+          workSection.style.transform = '';
+          workSection.style.opacity = sheetT.toFixed(3);
+        }
+      }
+
+      function easeInOutCubic(t) {
+        return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+      }
+
+      function frameIndexFor(p) {
+        const scrubStart = 0.06;
+        const scrubEnd   = 0.82;
+        const t = Math.max(0, Math.min(1, (p - scrubStart) / (scrubEnd - scrubStart)));
+        // slight easing for more cinematic feel (easeInOutCubic)
+        const eased = t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+        return Math.round(eased * (TOTAL - 1));
+      }
+
+      let rafId = null;
+      function tick() {
+        rafId = null;
+        // lerp for smoother frame transitions (especially on trackpad inertia)
+        const delta = targetIndex - currentIndex;
+        if (Math.abs(delta) < 0.35) {
+          currentIndex = targetIndex;
+        } else {
+          currentIndex += delta * 0.28;
+          rafId = requestAnimationFrame(tick);
+        }
+        if (readyFirst) drawFrame(Math.round(currentIndex));
+      }
+
+      function onScroll() {
+        const p = computeProgress();
+        targetIndex = frameIndexFor(p);
+        updateLayers(p);
+        if (rafId == null) rafId = requestAnimationFrame(tick);
+      }
+
+      // Resize handling
+      let rTimer = null;
+      function onResize() {
+        clearTimeout(rTimer);
+        rTimer = setTimeout(() => {
+          setCanvasSize();
+          drawFrame(Math.round(currentIndex));
+        }, 80);
+      }
+
+      // Respect reduced motion: show only first frame, skip pin scrub
+      const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      preload();
+      if (prefersReduced) {
+        pin.style.height = 'auto';
+        document.querySelector('.hero-sticky').style.position = 'relative';
+        document.querySelector('.hero-sticky').style.height = 'auto';
+        document.querySelector('.hero-sticky').style.paddingTop = '9rem';
+        document.querySelector('.hero-sticky').style.paddingBottom = '5rem';
+        if (workSection) {
+          workSection.style.opacity = '1';
+          workSection.style.transform = 'none';
+          workSection.style.marginTop = '0';
+        }
+        return;
+      }
+
+      window.addEventListener('scroll', onScroll, { passive: true });
+      window.addEventListener('resize', onResize);
+      // Paint initial layout state immediately (doesn't need frame to be decoded)
+      updateLayers(computeProgress());
+      // Paint initial state once first frame loads
+      const firstFrame = frames[0];
+      const kick = () => { onScroll(); };
+      if (firstFrame && firstFrame.complete) { setCanvasSize(); kick(); }
+      else if (firstFrame) firstFrame.addEventListener('load', () => { setCanvasSize(); kick(); });
+    })();
+
+    /* ============================================================
+       SELECTED WORKS — Vertical Orbital Carousel
+       Each project is an orb that travels from queued slots up an arc
+       into the primary slot at the top center.
+       ============================================================ */
+    /* Fill the .works-plaque element with repeated CRT text — phrases
+       alternate WITHIN each row, so vertically each column shows the
+       same phrase: "What have I done?" stacks above itself, "What I have
+       done." stacks above itself, side by side. Both phrases are 17 chars
+       so they align perfectly in the monospace font. */
+    (function fillPlaque() {
+      const el = document.querySelector('.works-plaque');
+      if (!el) return;
+      const phraseQ = 'What have I done?  ';
+      const phraseD = 'What I have done.  ';
+      const reps = 14;   // copies per line
+      const lines = 28;  // total lines
+      let out = '';
+      for (let i = 0; i < lines; i++) {
+        let row = '';
+        for (let j = 0; j < reps; j++) {
+          row += (j % 2 === 0 ? phraseQ : phraseD);
+        }
+        out += row + '\n';
+      }
+      el.textContent = out;
+    })();
+
+
+    (function worksCarousel() {
+      const pin = document.getElementById('worksPin');
+      const stage = document.getElementById('worksStage');
+      const meta = document.getElementById('worksMeta');
+      const metaTag = document.getElementById('metaTag');
+      const metaClient = document.getElementById('metaClient');
+      const metaTitle = document.getElementById('metaTitle');
+      const metaSummary = document.getElementById('metaSummary');
+      const metaLink = document.getElementById('metaLink');
+      const counterCurrent = document.getElementById('worksCounterCurrent');
+      const scaleFill = document.getElementById('worksScaleFill');
+      const scaleMarker = document.getElementById('worksScaleMarker');
+      if (!pin || !stage) return;
+
+      const orbs = Array.from(stage.querySelectorAll('.work-orb'));
+      const N = orbs.length;
+      if (!N) return;
+
+      // -------- Slot keyframes (viewport-relative anchor positions) --------
+      // x, y: percentage of viewport (where 50% = center). Used as translate target.
+      // The orb is positioned via top:0,left:0 then translate(-50%,-50%) so the
+      // (x, y) values describe the orb's CENTER in viewport units.
+      // Layout: primary orb is centered (-ish) on the left half; meta panel sits
+      // on the right (desktop). Queued orbs stack down the LEFT side, leaving the
+      // right column free for text.
+      // -------- Slot keyframes (Primary at viewport center) --------
+      // Primary y=50 vertically aligns with the meta panel (top: 50%).
+      // Queue cascade: 50 → 100 → 118 → 132 → 144 (gaps: 50, 18, 14, 12)
+      const KEY = {
+        '-2': { x: 38, y: -28, scale: 0.40, opacity: 0,    blur: 2.0 }, // gone (above)
+        '-1': { x: 38, y:   8, scale: 0.70, opacity: 0.25, blur: 0.5 }, // departing up
+         '0': { x: 38, y:  50, scale: 1.00, opacity: 1,    blur: 0   }, // PRIMARY (centered with meta)
+         '1': { x: 24, y: 100, scale: 0.42, opacity: 0.85, blur: 0   }, // NEXT (peeking from bottom edge)
+         '2': { x: 12, y: 118, scale: 0.22, opacity: 0.35, blur: 0   }, // QUEUED (off-screen below)
+         '3': { x:  4, y: 132, scale: 0.13, opacity: 0.14, blur: 0.4 },
+         '4': { x: -2, y: 144, scale: 0.08, opacity: 0,    blur: 1.5 }  // gone (below)
+      };
+
+      function lerp(a, b, t) { return a + (b - a) * t; }
+      function clamp01(v) { return v < 0 ? 0 : v > 1 ? 1 : v; }
+      // easeInOutCubic — natural ease for slot transitions (linear-ish middle,
+      // soft at slot boundaries). Snap behaviour is handled separately at the
+      // target level so the middle range scrolls naturally.
+      function easeInOutCubic(t) {
+        return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+      }
+
+      // Magnetic snap on the raw activePos: when target is within SNAP_ZONE
+      // of an integer slot, pull it gently toward that integer. Outside the
+      // zone, return the raw value (natural linear scroll). The pull strength
+      // peaks at the integer and tapers smoothly to 0 at the zone edge.
+      const SNAP_ZONE = 0.18;     // ±18% of a slot around each integer
+      const SNAP_STRENGTH = 1.0;  // 1.0 = continuously tapered pull, no clamp
+      function applySnap(pos) {
+        const nearest = Math.round(pos);
+        const offset = pos - nearest;
+        const absOffset = Math.abs(offset);
+        if (absOffset >= SNAP_ZONE) return pos;
+        // t: 0 at integer, 1 at zone edge
+        const t = absOffset / SNAP_ZONE;
+        // Continuous quadratic taper. With STRENGTH=1.0, pull ≤ 1 always,
+        // so no clamp activates and the curve has continuous derivative
+        // throughout the snap zone — eliminates the brief "stuck" core
+        // that produced perceived jitter at higher strengths.
+        const pull = (1 - t) * (1 - t) * SNAP_STRENGTH;
+        return nearest + offset * (1 - pull);
+      }
+
+      // Slot transition uses easeInOutCubic — linear-ish middle so the user
+      // perceives natural scroll, with subtle softness at slot boundaries.
+      // Arc uses sin² so it has zero derivative at boundaries (no shake).
+      function slotKF(s) {
+        const lo = Math.floor(s);
+        const hi = lo + 1;
+        const t = s - lo;
+        const e = easeInOutCubic(t);
+        const a = KEY[String(lo)] || KEY[lo > 0 ? '4' : '-2'];
+        const b = KEY[String(hi)] || KEY[hi > 0 ? '4' : '-2'];
+
+        let arcY = 0;
+        if (lo === 0 && hi === 1) {
+          const s = Math.sin(t * Math.PI);
+          arcY = -s * s * 8;
+        }
+        return {
+          x:       lerp(a.x,       b.x,       e),
+          y:       lerp(a.y,       b.y,       e) + arcY,
+          scale:   lerp(a.scale,   b.scale,   e),
+          opacity: lerp(a.opacity, b.opacity, e),
+          blur:    lerp(a.blur,    b.blur,    e),
+        };
+      }
+
+      function buildTransform(kf) {
+        return `translate(calc(${kf.x}vw - 50%), calc(${kf.y}vh - 50%)) ` +
+               `scale(${kf.scale.toFixed(3)})`;
+      }
+
+      function computeProgress() {
+        const rect = pin.getBoundingClientRect();
+        const vh = window.innerHeight || document.documentElement.clientHeight;
+        const total = pin.offsetHeight - vh;
+        const scrolled = -rect.top;
+        if (total <= 0) return 0;
+        return Math.max(0, Math.min(1, scrolled / total));
+      }
+
+      // idleHead reserves the head of the works-pin scroll for "AhhaOhho
+      // holds at slot 0" — must be large enough that the hero finishes fading
+      // out before Ahha Ohho starts morphing. Kept short so scroll doesn't
+      // feel "stuck" on the first project.
+      const idleHead = 0.12;
+      const idleTail = 0.06;
+      const span = 1 - idleHead - idleTail;
+
+      // -------- Inertial scroll smoothing --------
+      // Scroll updates a TARGET activePos. A RAF loop lerps the SMOOTH
+      // activePos toward the target each frame at 18% per tick (~25-frame
+      // settle ≈ 400ms). This decouples visual motion from raw scroll, so
+      // fast scrolling no longer teleports the orbs.
+      let targetActivePos = 0;
+      let smoothActivePos = 0;
+      let isAnimating = false;
+      let firstPaint = true;
+      let activeIdx = -1;
+
+      function paint(pos) {
+        let closestI = 0;
+        let closestDist = Infinity;
+        orbs.forEach((orb, i) => {
+          const slot = i - pos;
+          const kf = slotKF(slot);
+          orb.style.transform = buildTransform(kf);
+          orb.style.opacity = kf.opacity.toFixed(3);
+          orb.style.filter = kf.blur > 0.05 ? `blur(${kf.blur.toFixed(1)}px)` : '';
+          const dist = Math.abs(slot);
+          if (dist < closestDist) { closestDist = dist; closestI = i; }
+        });
+        // Closest-orb wins active state — guarantees exactly one active orb,
+        // no threshold flicker when crossing slot 0.5.
+        orbs.forEach((orb, i) => {
+          orb.classList.toggle('is-active', i === closestI);
+        });
+
+        // Scale fill + marker tracks normalized progress
+        const norm = (N > 1) ? pos / (N - 1) : 0;
+        if (scaleFill)   scaleFill.style.height = `${(norm * 100).toFixed(1)}%`;
+        if (scaleMarker) scaleMarker.style.top   = `${(norm * 100).toFixed(1)}%`;
+
+        // Meta swap on rounded-position change
+        const newActiveIdx = Math.round(pos);
+        if (newActiveIdx !== activeIdx && newActiveIdx >= 0 && newActiveIdx < N) {
+          activeIdx = newActiveIdx;
+          const orb = orbs[activeIdx];
+          if (orb && meta) {
+            meta.classList.add('meta-swap');
+            setTimeout(() => {
+              const lang = document.body.dataset.lang || 'en';
+              const pick = (key) => (lang === 'ko' && orb.dataset[key + 'Ko']) || orb.dataset[key] || '';
+              metaTag.textContent     = '> ' + pick('tag');
+              metaClient.textContent  = pick('client');
+              metaTitle.textContent   = pick('title');
+              metaSummary.textContent = pick('summary');
+              if (metaLink && orb.dataset.href) metaLink.setAttribute('href', orb.dataset.href);
+              meta.classList.remove('meta-swap');
+            }, 120);
+          }
+          if (counterCurrent) {
+            counterCurrent.textContent = String(activeIdx + 1).padStart(2, '0');
+          }
+        }
+      }
+
+      function tick() {
+        const dist = targetActivePos - smoothActivePos;
+        if (Math.abs(dist) < 0.0005) {
+          smoothActivePos = targetActivePos;
+          paint(smoothActivePos);
+          isAnimating = false;
+          return;
+        }
+        // 0.14 lerp = ~33-frame settle (~550ms) for a chewier "쫄깃" feel.
+        // Combined with easeInOutCubic on slot fraction → smooth weighted glide.
+        smoothActivePos += dist * 0.14;
+        paint(smoothActivePos);
+        requestAnimationFrame(tick);
+      }
+
+      function ensureAnimating() {
+        if (!isAnimating) {
+          isAnimating = true;
+          requestAnimationFrame(tick);
+        }
+      }
+
+      function update() {
+        const p = computeProgress();
+        const norm = clamp01((p - idleHead) / span);
+        const rawActive = norm * (N - 1);
+        // Apply magnetic snap: pull target toward nearest integer when
+        // within SNAP_ZONE. Middle range scrolls naturally (linear).
+        targetActivePos = applySnap(rawActive);
+        if (firstPaint) {
+          // Snap on first paint so we don't run an unwanted intro animation
+          // when the user lands mid-page.
+          smoothActivePos = targetActivePos;
+          paint(smoothActivePos);
+          firstPaint = false;
+        } else {
+          ensureAnimating();
+        }
+      }
+
+      function onScroll() { update(); }
+      function onResize() { update(); }
+
+      // Reduced motion: collapse the carousel to a static stack of cards
+      const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (prefersReduced) {
+        pin.style.height = 'auto';
+        const sticky = pin.querySelector('.works-sticky');
+        if (sticky) {
+          sticky.style.position = 'relative';
+          sticky.style.height = 'auto';
+          sticky.style.padding = '6rem 1rem';
+        }
+        orbs.forEach((orb) => {
+          orb.style.position = 'relative';
+          orb.style.opacity = '1';
+          orb.style.transform = 'none';
+          orb.style.margin = '2rem auto';
+        });
+        return;
+      }
+
+      window.addEventListener('scroll', onScroll, { passive: true });
+      window.addEventListener('resize', onResize);
+      // Paint initial state
+      update();
+    })();
+  </script>
+
+  <!-- ============================================================
+       i18n — Language toggle (English default, Korean alternate)
+       ============================================================ -->
+  <script>
+    (function () {
+      const i18n = {
+        en: {
+          'brand-name': 'Ben Seo',
+          'nav-works': 'Selected Works',
+          'nav-about': 'About Me',
+          'hero-eyebrow': 'As a product designer, I question',
+          'hero-title': 'How do we stay <span class="text-accent">human</span> in the future<span class="font-inter font-normal">?</span>',
+          'hero-tagline': 'We are living in the sci-fi future we once imagined. In this tech-saturated world, I ask how we can leverage technology to maintain human choices: making the future more accessible, ethical, and playful.',
+          'hero-scroll': 'Scroll',
+          'works-eyebrow': 'Selected Work · 2022–2026',
+          'works-cta': 'View case study',
+          'works-scroll': 'SCROLL TO ROTATE',
+          'about-eyebrow': 'About Me',
+          'about-p1': 'Product Designer specializing in <span class="text-accent">immersive</span> and <span class="text-accent">playful UX</span>, designing and prototyping experiences that drive engagement, growth and connection.',
+          'cap-1-t': 'User Research',
+          'cap-1-d': 'In-depth interviews · Diary studies',
+          'cap-2-t': 'Design Systems',
+          'cap-2-d': 'Tokens · Components · Governance',
+          'cap-3-t': 'Data Design',
+          'cap-3-d': 'Event taxonomy · Funnels',
+          'cap-4-t': 'IA &amp; Flows',
+          'cap-4-d': 'Tree testing · Card sorting',
+          'cap-5-t': 'Front-end Collaboration',
+          'cap-5-d': 'Flutter · Three.js · Unity',
+          'cap-6-t': 'Collaboration',
+          'cap-6-d': 'Cross-functional team',
+          'footer-role': 'Independent Product Designer · Seoul',
+          'footer-copy': '© 2026 Ben Seo · This site was designed and built by me.',
+        },
+        ko: {
+          'brand-name': '서정빈',
+          'nav-works': '프로젝트',
+          'nav-about': '소개',
+          'hero-eyebrow': '프로덕트 디자이너로서, 저는 이렇게 묻습니다',
+          'hero-title': '우리는 어떻게 <span class="text-accent">인간</span>으로 살아갈 수 있을까요<span class="font-inter font-normal">?</span>',
+          'hero-tagline': '우리는 한때 상상하던 SF의 미래를 살고 있습니다. 기술이 가득한 이 세계에서, 저는 인간적인 선택을 지켜내기 위해 기술을 어떻게 활용할 수 있을지 묻습니다 — 미래를 더 접근하기 쉽고, 윤리적이고, 즐거운 곳으로 만드는 일을요.',
+          'hero-scroll': '스크롤',
+          'works-eyebrow': '프로젝트 · 2022–2026',
+          'works-cta': '케이스 스터디 보기',
+          'works-scroll': '스크롤하면 회전합니다',
+          'about-eyebrow': 'About Me',
+          'about-p1': '<span class="text-accent">몰입감있고</span> <span class="text-accent">재미있는</span> UX를 설계하는 프로덕트 디자이너입니다. 경험을 통해 사용자의 몰입, 성장, 연결을 이끌어냅니다.',
+          'cap-1-t': '사용자 리서치',
+          'cap-1-d': '심층 인터뷰 · 다이어리 스터디',
+          'cap-2-t': '디자인 시스템',
+          'cap-2-d': '토큰 · 컴포넌트 · 거버넌스',
+          'cap-3-t': '데이터 설계',
+          'cap-3-d': '이벤트 택소노미 · 퍼널',
+          'cap-4-t': 'IA &amp; 플로우',
+          'cap-4-d': '트리테스트 · 카드소팅',
+          'cap-5-t': '프론트엔드 협업',
+          'cap-5-d': 'Flutter · Three.js · Unity',
+          'cap-6-t': '협업',
+          'cap-6-d': '크로스펑셔널 팀',
+          'footer-role': '독립 프로덕트 디자이너 · 서울',
+          'footer-copy': '© 2026 서정빈 · 이 사이트는 본인이 직접 디자인·제작했습니다.',
+        }
+      };
+
+      function applyLang(lang) {
+        if (!i18n[lang]) lang = 'en';
+        document.documentElement.lang = lang;
+        document.body.dataset.lang = lang;
+        const dict = i18n[lang];
+        document.querySelectorAll('[data-i18n]').forEach(function (el) {
+          const key = el.getAttribute('data-i18n');
+          if (dict[key] !== undefined) el.innerHTML = dict[key];
+        });
+        // Toggle button shows the OTHER language
+        const btn = document.getElementById('langToggle');
+        if (btn) btn.textContent = lang === 'en' ? '한국어' : 'English';
+
+        // Re-trigger meta panel update so the active orb's title/summary
+        // refreshes in the new language. The carousel exposes no public API,
+        // so we read the active orb directly and copy the right attributes.
+        const activeOrb = document.querySelector('.work-orb.is-active');
+        const metaTag = document.getElementById('metaTag');
+        const metaClient = document.getElementById('metaClient');
+        const metaTitle = document.getElementById('metaTitle');
+        const metaSummary = document.getElementById('metaSummary');
+        if (activeOrb && metaTitle) {
+          const pick = (key) => (lang === 'ko' && activeOrb.dataset[key + 'Ko']) || activeOrb.dataset[key] || '';
+          if (metaTag) metaTag.textContent = '> ' + pick('tag');
+          if (metaClient) metaClient.textContent = pick('client');
+          metaTitle.textContent = pick('title');
+          if (metaSummary) metaSummary.textContent = pick('summary');
+        }
+
+        try { localStorage.setItem('portfolio-lang', lang); } catch (e) {}
+      }
+
+      let saved = 'en';
+      try { saved = localStorage.getItem('portfolio-lang') || 'en'; } catch (e) {}
+      applyLang(saved);
+
+      const btn = document.getElementById('langToggle');
+      if (btn) {
+        btn.addEventListener('click', function () {
+          const cur = document.body.dataset.lang || 'en';
+          applyLang(cur === 'en' ? 'ko' : 'en');
+        });
+      }
+    })();
+  </script>
+
+  <!-- ============================================================
+       Smart anchor for "Selected Works" — lands the user at the
+       end of the hero scroll-pin so the carousel is fully opaque
+       and at slot 0, instead of mid-transition (dark zone).
+       ============================================================ -->
+  <script>
+    (function () {
+      function scrollToWorks(smooth) {
+        const heroPin = document.querySelector('.hero-pin');
+        if (!heroPin) {
+          // Fallback: native anchor jump
+          const target = document.getElementById('work');
+          if (target) target.scrollIntoView({ behavior: smooth ? 'smooth' : 'auto' });
+          return;
+        }
+        // Hero pin height === scroll runway. Scrolling to its bottom edge
+        // puts the works section at full opacity and primary slot.
+        const top = heroPin.offsetTop + heroPin.offsetHeight;
+        window.scrollTo({ top: top, behavior: smooth ? 'smooth' : 'auto' });
+      }
+
+      document.querySelectorAll('a[href="#work"]').forEach(function (a) {
+        a.addEventListener('click', function (e) {
+          e.preventDefault();
+          scrollToWorks(true);
+        });
+      });
+
+      // Also handle initial-load deep-links to /#work
+      if (window.location.hash === '#work') {
+        // Wait one frame so layout is final
+        requestAnimationFrame(function () { scrollToWorks(false); });
+      }
+    })();
+  </script>
+</body>
+</html>
