@@ -50,8 +50,18 @@
     html { scroll-behavior: smooth; }
     body {
       font-family: 'Pretendard', 'Geist', system-ui, sans-serif;
-      background-color: #0a0a0b; color: #e5e5ea;
+      background-color: #ffffff; color: #0a0a0b;
       -webkit-font-smoothing: antialiased; word-break: keep-all;
+    }
+
+    /* Cinematic white flash overlay — rises as hero zooms out into white world below */
+    .hero-flash {
+      position: fixed; inset: 0;
+      background: #ffffff;
+      pointer-events: none;
+      opacity: 0;
+      z-index: 5;
+      will-change: opacity;
     }
     /* About badge — subtle vintage tint + rounded edge to match the badge silhouette */
     .about-badge {
@@ -146,7 +156,7 @@
 
     /* Scroll-scrub hero */
     .hero-pin { height: 200vh; }
-    @media (max-width: 767px) { .hero-pin { height: 180vh; } }
+    @media (max-width: 767px) { .hero-pin { height: 175vh; } }
     .hero-sticky {
       position: sticky; top: 0; left: 0;
       height: 100dvh; width: 100%;
@@ -229,12 +239,14 @@
     #work {
       position: relative;
       z-index: 3;
-      background: #0a0a0b;
-      margin-top: -138vh;
+      background: #fafafa;
       isolation: isolate;
-      will-change: transform, opacity;
-      opacity: 0;
+      /* Pull the dossier up over the hero-pin's dead tail (pin height − 100vh)
+         so it sits exactly at the unpin point — flash clears straight onto it,
+         no empty white scroll in between. */
+      margin-top: -95vh;
     }
+    @media (max-width: 767px) { #work { margin-top: -72vh; } }
 
     /* ============================================================
        SELECTED WORKS — Vertical Orbital Carousel
@@ -490,55 +502,69 @@
       position: absolute; inset: 0;
       background-size: cover;
       background-position: center;
-      filter: saturate(1.05) contrast(1.05);
+      /* Clean porthole — image centered, push-in for convex depth.
+         No geometric warp (flat UI screenshots look broken when fish-eyed);
+         the dome shading + magnification sell the spherical feel instead. */
+      transform: scale(1.12);
+      filter: saturate(0.96) contrast(1.04);
+      transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1), filter 0.45s ease;
     }
-    /* 80s LED dot-matrix overlay — covers .orb-img by default,
-       fades on hover (active orb only) to reveal the photo. */
+    /* Convex porthole glass lens — replaces the old LED dot matrix.
+       Reads as a curved CRT / spaceship viewport: edge curvature darkening,
+       top-left specular highlight, faint scanlines, subtle chromatic rim. */
     .orb-led {
       position: absolute; inset: 0;
-      background: #160404;
       pointer-events: none;
+      border-radius: 50%;
       transition: opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1);
-      box-shadow: inset 0 0 80px rgba(0,0,0,0.55);
+      background:
+        /* crisp top-edge glass glint — sharp arc of light like a glass ball */
+        radial-gradient(ellipse 70% 22% at 50% 12%, rgba(255,255,255,0.55) 0%, rgba(255,255,255,0) 60%),
+        /* big soft dome reflection (upper-left) */
+        radial-gradient(ellipse 55% 45% at 36% 28%, rgba(255,255,255,0.30) 0%, rgba(255,255,255,0) 52%),
+        /* bottom bounce light — convex underside catches light */
+        radial-gradient(ellipse 60% 30% at 50% 92%, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0) 55%),
+        /* central clarity zone stays bright, then spherical falloff to dark rim */
+        radial-gradient(circle at 50% 46%, transparent 0%, transparent 34%, rgba(0,0,0,0.10) 58%, rgba(0,0,0,0.40) 82%, rgba(0,0,0,0.70) 95%, rgba(0,0,0,0.85) 100%);
+      box-shadow:
+        inset 0 0 70px rgba(0,0,0,0.50),
+        inset 0 4px 14px rgba(255,255,255,0.40),
+        inset 0 -10px 22px rgba(0,0,0,0.38);
     }
+    /* Scanline layer — thin CRT lines, very subtle */
     .orb-led::before {
       content: '';
       position: absolute; inset: 0;
-      background-image: var(--src);
-      background-size: cover;
-      background-position: center;
-      /* photo → vintage retro-sunset red (target ≈ #e83a2c).
-         Sepia maps brightness → hue (60° at bright, 30° at dark).
-         hue-rotate(315deg) shifts so BRIGHT pixels land near hue 15°
-         (warm red) and dark pixels at ~345° (red-magenta) — no yellow
-         even in highlights. */
-      filter:
-        grayscale(1)
-        contrast(1.8)
-        brightness(0.9)
-        sepia(1)
-        hue-rotate(315deg)
-        saturate(7)
-        brightness(1.1);
-      /* Square LED pixels — Framer LED Matrix style */
-      -webkit-mask-image: url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 6 6'%3E%3Crect x='1.5' y='1.5' width='3' height='3' fill='%23000'/%3E%3C/svg%3E");
-              mask-image: url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 6 6'%3E%3Crect x='1.5' y='1.5' width='3' height='3' fill='%23000'/%3E%3C/svg%3E");
-      -webkit-mask-size: 6px 6px;
-              mask-size: 6px 6px;
-      -webkit-mask-repeat: repeat;
-              mask-repeat: repeat;
+      border-radius: 50%;
+      background: repeating-linear-gradient(
+        to bottom,
+        rgba(0,0,0,0.07) 0px,
+        rgba(0,0,0,0.07) 1px,
+        transparent 1px,
+        transparent 3px
+      );
+      mix-blend-mode: multiply;
+      opacity: 0.55;
     }
+    /* Glass rim — bright outer ring like a lens bezel reflection */
     .orb-led::after {
       content: '';
       position: absolute; inset: 0;
+      border-radius: 50%;
       pointer-events: none;
-      background:
-        radial-gradient(circle at 50% 50%, transparent 60%, rgba(0,0,0,0.5) 100%),
-        radial-gradient(circle at 50% 30%, rgba(232,58,44,0.20), transparent 55%);
+      box-shadow:
+        inset 0 0 0 1px rgba(255,255,255,0.22),
+        inset 0 0 14px rgba(255,255,255,0.10);
     }
     /* Active orb gets pointer events so hover works */
     .work-orb.is-active { pointer-events: auto; }
     .work-orb.is-active .orb-disc { cursor: pointer; }
+    /* On hover the glass clears — overlay fades out, photo comes alive,
+       revealing the clean original screen. */
+    .work-orb.is-active:hover .orb-img {
+      transform: scale(1.0);
+      filter: saturate(1.06) contrast(1.05) brightness(1.02);
+    }
     .work-orb.is-active:hover .orb-led { opacity: 0; }
 
 
@@ -659,10 +685,221 @@
         transform: translateX(-50%) translateY(8px);
       }
     }
+
+    /* ============================================================
+       LIGHT THEME — from Selected Works onwards
+       ============================================================
+       Hero stays cinematic dark (it has its own opaque ambient layers).
+       Everything past the hero flash transitions to a clean white gallery. */
+
+    /* Light-theme accent — deep olive (#5e7c14), matches project detail pages.
+       Neon green (#50ff5a) only survives in the dark hero above. */
+
+    /* About section — light card grid */
+    #about { background: #fafafa !important; border-top: 1px solid rgba(0,0,0,0.08) !important; }
+    /* Accent text/icons inside About — neon green is illegible on white, use deep olive */
+    #about .text-accent { color: #5e7c14 !important; }
+    #about .text-ink-100 { color: #0a0a0b !important; }
+    #about .text-ink-200 { color: #2a2a30 !important; }
+    #about .text-ink-300 { color: #56575f !important; }
+    #about .text-ink-400 { color: #87888f !important; }
+    #about .text-ink-500 { color: #87888f !important; }
+    #about .bg-ink-950 { background: #ffffff !important; }
+    #about .bg-ink-800 { background: rgba(0,0,0,0.08) !important; }
+    #about .border-ink-800 { border-color: rgba(0,0,0,0.08) !important; }
+    /* About badge image — already styled but ensure transparent bg shows white */
+    #about .bg-ink-900 { background: transparent !important; }
+
+    /* Footer — white with dark text */
+    footer.border-t.border-ink-800 {
+      background: #ffffff !important;
+      border-top: 1px solid rgba(0,0,0,0.08) !important;
+    }
+    footer .text-ink-600 { color: #87888f !important; }
+
+    /* Nav glass pill — slight tint for light bg readability */
+    .glass {
+      background: rgba(255,255,255,0.7) !important;
+      border-color: rgba(0,0,0,0.08) !important;
+    }
+    .glass a, .glass span:not(.lang-toggle) { color: #2a2a30 !important; }
+    .glass .text-ink-100 { color: #0a0a0b !important; }
+    .glass .text-ink-300 { color: #2a2a30 !important; }
+    /* CTA button (LinkedIn) — invert: dark bg, white text */
+    .glass a.bg-ink-100 {
+      background: #0a0a0b !important;
+      color: #ffffff !important;
+    }
+    /* Language toggle button on light nav */
+    #langToggle {
+      border-color: rgba(0,0,0,0.15) !important;
+      color: #2a2a30 !important;
+    }
+    #langToggle:hover {
+      border-color: #0a0a0b !important;
+      color: #0a0a0b !important;
+    }
+
+    /* ============================================================
+       SELECTED WORK — Subject Dossier terminal cards (white blueprint)
+       ============================================================ */
+    .dossier-section {
+      background: #fafafa;
+      padding: 3rem 1.5rem 8rem;
+    }
+    @media (min-width: 768px) { .dossier-section { padding: 3.5rem 2rem 10rem; } }
+    .dossier-wrap { max-width: 64rem; margin: 0 auto; }
+
+    /* Section header */
+    .dossier-section-head { margin-bottom: 3.5rem; }
+    .dossier-eyebrow {
+      font-family: 'Michroma', monospace;
+      font-size: 0.7rem; letter-spacing: 0.22em; text-transform: uppercase;
+      color: #56575f; margin-bottom: 0.9rem;
+    }
+    .dossier-section-title {
+      font-family: 'Michroma', monospace;
+      font-size: clamp(1.6rem, 4vw, 2.6rem);
+      letter-spacing: -0.01em; color: #0a0a0b; line-height: 1;
+    }
+    .dossier-slash { color: #5e7c14; margin: 0 0.15em; }
+
+    /* Card */
+    .dossier {
+      display: block;
+      position: relative;
+      border: 1px solid rgba(94,124,20,0.40);
+      border-radius: 0.5rem;
+      background:
+        linear-gradient(rgba(94,124,20,0.018), rgba(94,124,20,0.018)),
+        #ffffff;
+      padding: 1.1rem 1.25rem 1.25rem;
+      margin-bottom: 1.5rem;
+      text-decoration: none;
+      transition: border-color 0.3s ease, transform 0.3s cubic-bezier(0.16,1,0.3,1), box-shadow 0.3s ease;
+      /* faint blueprint grid inside */
+      background-image:
+        linear-gradient(rgba(94,124,20,0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(94,124,20,0.05) 1px, transparent 1px);
+      background-size: 28px 28px, 28px 28px;
+    }
+    .dossier:hover {
+      border-color: rgba(94,124,20,0.85);
+      transform: translateY(-3px);
+      box-shadow: 0 18px 40px -22px rgba(94,124,20,0.45);
+    }
+    /* corner brackets */
+    .dossier::before, .dossier::after {
+      content: ''; position: absolute; width: 12px; height: 12px;
+      border: 1px solid #5e7c14; pointer-events: none;
+    }
+    .dossier::before { top: 6px; left: 6px; border-right: 0; border-bottom: 0; }
+    .dossier::after  { bottom: 6px; right: 6px; border-left: 0; border-top: 0; }
+
+    /* Top bar */
+    .dossier-topbar {
+      display: flex; align-items: center; justify-content: space-between;
+      padding-bottom: 0.9rem; margin-bottom: 1.1rem;
+      border-bottom: 1px solid rgba(94,124,20,0.25);
+    }
+    .dossier-id {
+      font-family: 'Michroma', monospace;
+      font-size: 0.82rem; letter-spacing: 0.16em; color: #0a0a0b;
+    }
+    .dossier-chip {
+      font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+      font-size: 0.62rem; letter-spacing: 0.12em; color: #5e7c14;
+      border: 1px solid rgba(94,124,20,0.4); border-radius: 3px;
+      padding: 0.2rem 0.5rem;
+    }
+
+    /* Body: image left, data right */
+    .dossier-body {
+      display: grid; grid-template-columns: 1fr; gap: 1.25rem;
+    }
+    @media (min-width: 680px) {
+      .dossier-body { grid-template-columns: 0.85fr 1.15fr; gap: 1.5rem; }
+    }
+    .dossier-visual {
+      position: relative; overflow: hidden;
+      border: 1px solid rgba(94,124,20,0.3);
+      border-radius: 0.35rem;
+      background: #f0f0ec;
+      aspect-ratio: 4 / 3;
+    }
+    .dossier-visual img {
+      width: 100%; height: 100%; object-fit: cover; display: block;
+      /* gentle monochrome — keeps tonal detail, dither grain sits on top */
+      filter: grayscale(1) contrast(1.25) brightness(1.05);
+      image-rendering: pixelated;
+      transition: filter 0.4s ease, transform 0.5s cubic-bezier(0.16,1,0.3,1);
+    }
+    /* Fine dither — tiny dense black dots (2px grid) like a stippled scan. */
+    .dossier-visual::after {
+      content: ''; position: absolute; inset: 0; pointer-events: none;
+      background-image: radial-gradient(circle, rgba(0,0,0,0.9) 32%, transparent 38%);
+      background-size: 2px 2px;
+      mix-blend-mode: multiply;
+      opacity: 0.5;
+    }
+    /* offset olive micro-dot layer + fine scanlines → blueprint grain */
+    .dossier-scan {
+      position: absolute; inset: 0; pointer-events: none;
+      background:
+        radial-gradient(circle, rgba(94,124,20,0.40) 28%, transparent 36%) 1px 1px / 2px 2px,
+        repeating-linear-gradient(to bottom, rgba(0,0,0,0.05) 0 1px, transparent 1px 2px);
+      mix-blend-mode: multiply; opacity: 0.55;
+    }
+    /* On hover the dot screen lifts — photo resolves to clean colour */
+    .dossier:hover .dossier-visual img {
+      filter: grayscale(0) contrast(1.04) brightness(1.0) saturate(1.05);
+      image-rendering: auto;
+      transform: scale(1.04);
+    }
+    .dossier:hover .dossier-visual::after,
+    .dossier:hover .dossier-scan {
+      opacity: 0; transition: opacity 0.4s ease;
+    }
+
+    /* Data rows */
+    .dossier-data { display: flex; flex-direction: column; justify-content: center; gap: 0; }
+    .drow {
+      display: grid; grid-template-columns: 7.5rem 1fr;
+      align-items: baseline; gap: 0.75rem;
+      padding: 0.5rem 0;
+      border-bottom: 1px dotted rgba(94,124,20,0.28);
+      font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+    }
+    .drow:last-child { border-bottom: 0; }
+    .dlabel { font-size: 0.62rem; letter-spacing: 0.14em; color: #5e7c14; text-transform: uppercase; }
+    .dval   { font-size: 0.82rem; letter-spacing: 0.02em; color: #0a0a0b; }
+    .dval-live  { color: #5e7c14; }
+    .dval-proto { color: #87888f; }
+
+    /* Footer */
+    .dossier-foot {
+      display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between;
+      gap: 1rem; margin-top: 1.25rem; padding-top: 1rem;
+      border-top: 1px solid rgba(94,124,20,0.25);
+    }
+    .dossier-brief {
+      font-size: 0.92rem; line-height: 1.55; color: #2a2a30;
+      max-width: 46ch; margin: 0;
+    }
+    .dossier-open {
+      font-family: 'Michroma', monospace;
+      font-size: 0.7rem; letter-spacing: 0.12em; color: #5e7c14;
+      white-space: nowrap; transition: letter-spacing 0.25s ease;
+    }
+    .dossier:hover .dossier-open { letter-spacing: 0.2em; }
+
+    /* Korean — switch dossier brief to Pretendard, keep-all */
+    body[data-lang="ko"] .dossier-brief { font-family: 'Pretendard','Geist',sans-serif; word-break: keep-all; }
   </style>
 </head>
 <body class="antialiased">
   <div class="noise"></div>
+
 
   <!-- NAV -->
   <header class="fixed top-5 left-1/2 -translate-x-1/2 z-40 w-[calc(100%-2rem)] max-w-5xl">
@@ -692,6 +929,9 @@
     <link rel="preload" as="image" href="frames/f_001.webp" type="image/webp">
     <link rel="preload" as="image" href="frames/f_060.webp" type="image/webp">
     <link rel="preload" as="image" href="frames/f_120.webp" type="image/webp">
+
+    <!-- Cinematic flash overlay: rises during hero zoom-out, transitions into white world below -->
+    <div class="hero-flash" id="heroFlash" aria-hidden="true"></div>
 
     <div class="hero-pin relative">
       <div class="hero-sticky">
@@ -737,113 +977,135 @@
     </div>
   </section>
 
-  <!-- SELECTED WORK — Vertical orbital carousel -->
-  <section id="work" class="relative">
-    <div class="works-pin" id="worksPin">
-      <div class="works-sticky">
-        <!-- Decorative grid + scanlines -->
-        <div class="works-bg" aria-hidden="true"></div>
-        <!-- NASA Pioneer plaque backdrop (public domain) -->
-        <div class="works-plaque" aria-hidden="true"></div>
+  <!-- SELECTED WORK — Subject dossier terminal cards -->
+  <section id="work" class="dossier-section">
+    <div class="dossier-wrap">
+      <header class="dossier-section-head">
+        <p class="dossier-eyebrow" data-i18n="works-eyebrow">Selected Work · 2022–2026</p>
+        <h2 class="dossier-section-title">
+          <span class="font-michroma">PROJECT</span><span class="dossier-slash">//</span><span class="font-michroma">ARCHIVE</span>
+        </h2>
+      </header>
 
-        <!-- Top header bar -->
-        <div class="works-header">
-          <div class="works-header-left">
-            <p class="works-eyebrow" data-i18n="works-eyebrow">Selected Work · 2022–2026</p>
-            <h2 class="works-title">
-              <span class="font-michroma">PROJECT</span><span class="works-title-slash">//</span><span class="font-michroma">BRIEF</span>
-            </h2>
+      <!-- ===== DOSSIER 01 — Ahha Ohho ===== -->
+      <a class="dossier" href="projects/ahhaohho.html" aria-label="Open Ahha Ohho case study">
+        <div class="dossier-topbar">
+          <span class="dossier-id">SUBJECT 01</span>
+          <span class="dossier-chip">REF // AHHA-OHHO</span>
+        </div>
+        <div class="dossier-body">
+          <div class="dossier-visual">
+            <img src="projects/assets/ahhaohho/hero-mockup.png" alt="Ahha Ohho" loading="lazy">
+            <span class="dossier-scan" aria-hidden="true"></span>
           </div>
-          <div class="works-counter" aria-live="polite">
-            <span class="counter-current" id="worksCounterCurrent">01</span>
-            <span class="counter-divider">/</span>
-            <span class="counter-total">05</span>
+          <div class="dossier-data">
+            <div class="drow"><span class="dlabel">NAME</span><span class="dval">AHHA OHHO</span></div>            <div class="drow"><span class="dlabel">CLIENT</span><span class="dval">SMILEGATE FUTURELAB</span></div>
+            <div class="drow"><span class="dlabel">FUNCTION</span><span class="dval">PRODUCT DESIGN LEAD</span></div>
+            <div class="drow"><span class="dlabel">DOMAIN</span><span class="dval">CREATIVE LEARNING · MOBILE</span></div>
+            <div class="drow"><span class="dlabel">STATUS</span><span class="dval dval-live">● SHIPPED</span></div>
           </div>
         </div>
+        <div class="dossier-foot">
+          <p class="dossier-brief" data-i18n="dossier-1-brief">A creative-learning app turning the smartphone into a tool for curiosity, self-directed making, and peer feedback.</p>
+          <span class="dossier-open" data-i18n="works-cta">Open file →</span>
+        </div>
+      </a>
 
-        <!-- Vertical scale (decorative, animates with progress) -->
-        <div class="works-scale" aria-hidden="true">
-          <span class="scale-label">MAX</span>
-          <div class="scale-track">
-            <div class="scale-fill" id="worksScaleFill"></div>
-            <div class="scale-marker" id="worksScaleMarker"></div>
+      <!-- ===== DOSSIER 02 — Gwanghwa Su ===== -->
+      <a class="dossier" href="projects/gwanghwasu.html" aria-label="Open Gwanghwa Su case study">
+        <div class="dossier-topbar">
+          <span class="dossier-id">SUBJECT 02</span>
+          <span class="dossier-chip">REF // GWANGHWA-SU</span>
+        </div>
+        <div class="dossier-body">
+          <div class="dossier-visual">
+            <img src="projects/assets/gwanghwasu/hero.png" alt="Gwanghwa Su" loading="lazy">
+            <span class="dossier-scan" aria-hidden="true"></span>
           </div>
-          <span class="scale-label">MIN</span>
+          <div class="dossier-data">
+            <div class="drow"><span class="dlabel">NAME</span><span class="dval">GWANGHWA SU</span></div>            <div class="drow"><span class="dlabel">CLIENT</span><span class="dval">KOCCA</span></div>
+            <div class="drow"><span class="dlabel">FUNCTION</span><span class="dval">UX DESIGNER · COORDINATOR</span></div>
+            <div class="drow"><span class="dlabel">DOMAIN</span><span class="dval">ML · XR MONUMENT</span></div>
+            <div class="drow"><span class="dlabel">STATUS</span><span class="dval dval-live">● INSTALLED</span></div>
+          </div>
         </div>
+        <div class="dossier-foot">
+          <p class="dossier-brief" data-i18n="dossier-2-brief">A machine-learning XR monument visualizing national emotion across mobile, kiosk, and head-mounted displays.</p>
+          <span class="dossier-open" data-i18n="works-cta">Open file →</span>
+        </div>
+      </a>
 
-        <!-- Stage: 6 project orbs orbiting through slot positions.
-             Each orb's <a> wraps the disc, linking to its case-study page. -->
-        <div class="works-stage" id="worksStage">
-          <article class="work-orb" data-idx="0" data-href="projects/ahhaohho.html" data-tag="PROJECT 01" data-client="Smilegate Futurelab · 2024" data-title="Ahha Ohho" data-summary="A creative-learning app turning the smartphone into a tool for curiosity, self-directed making, and peer feedback." data-tag-ko="프로젝트 01" data-client-ko="스마일게이트 퓨처랩 · 2024" data-title-ko="아하오호" data-summary-ko="스마트폰을 호기심·자발적 창작·또래 피드백의 도구로 바꾸는 어린이 창의 학습 앱.">
-            <a class="orb-link" href="projects/ahhaohho.html" aria-label="Open AhhaOhho case study">
-              <div class="orb-shell">
-                <div class="orb-disc">
-                  <div class="orb-img" style="background-image: url('projects/assets/ahhaohho/hero-mockup.png')"></div>
-                  <div class="orb-led" style="--src: url('projects/assets/ahhaohho/hero-mockup.png')" aria-hidden="true"></div>
-                </div>
-              </div>
-            </a>
-          </article>
-          <article class="work-orb" data-idx="1" data-href="projects/gwanghwasu.html" data-tag="PROJECT 02" data-client="KOCCA · 2022" data-title="Gwanghwa Su" data-summary="A machine-learning XR monument visualizing national emotion" data-tag-ko="프로젝트 02" data-client-ko="한국콘텐츠진흥원 · 2022" data-title-ko="광화수" data-summary-ko="국민의 감정을 시각화하는 머신러닝 기반 XR 모뉴먼트">
-            <a class="orb-link" href="projects/gwanghwasu.html" aria-label="Open Gwanghwa Su case study">
-              <div class="orb-shell">
-                <div class="orb-disc">
-                  <div class="orb-img" style="background-image: url('projects/assets/gwanghwasu/hero.png')"></div>
-                  <div class="orb-led" style="--src: url('projects/assets/gwanghwasu/hero.png')" aria-hidden="true"></div>
-                </div>
-              </div>
-            </a>
-          </article>
-          <article class="work-orb" data-idx="2" data-href="projects/letsee-creator.html" data-tag="PROJECT 03" data-client="Letsee · 2022" data-title="Letsee Creator" data-summary="A no-code WebAR authoring tool." data-tag-ko="프로젝트 03" data-client-ko="Letsee · 2022" data-title-ko="Letsee Creator" data-summary-ko="노코드 WebAR 저작 도구.">
-            <a class="orb-link" href="projects/letsee-creator.html" aria-label="Open Letsee Creator case study">
-              <div class="orb-shell">
-                <div class="orb-disc">
-                  <div class="orb-img" style="background-image: url('projects/assets/letsee/hero.png')"></div>
-                  <div class="orb-led" style="--src: url('projects/assets/letsee/hero.png')" aria-hidden="true"></div>
-                </div>
-              </div>
-            </a>
-          </article>
-          <article class="work-orb" data-idx="3" data-href="projects/mlb-pitchar.html" data-tag="PROJECT 04" data-client="MLB Advanced Media · 2023" data-title="MLB PitchAR" data-summary="A mobile AR app that teaches baseball pitch types through spatial 3D visualization." data-tag-ko="프로젝트 04" data-client-ko="MLB Advanced Media · 2023" data-title-ko="MLB PitchAR" data-summary-ko="모바일 AR 경험으로 야구의 재미를 배워보자">
-            <a class="orb-link" href="projects/mlb-pitchar.html" aria-label="Open MLB PitchAR case study">
-              <div class="orb-shell">
-                <div class="orb-disc">
-                  <div class="orb-img" style="background-image: url('projects/assets/mlb-pitchar/hero-mockup.png')"></div>
-                  <div class="orb-led" style="--src: url('projects/assets/mlb-pitchar/hero-mockup.png')" aria-hidden="true"></div>
-                </div>
-              </div>
-            </a>
-          </article>
-          <article class="work-orb" data-idx="4" data-href="projects/twinworld.html" data-tag="PROJECT 05" data-client="DoubleMe · 2020" data-title="Twin World" data-summary="A social metaverse app for HoloLens 2" data-tag-ko="프로젝트 05" data-client-ko="DoubleMe · 2020" data-title-ko="트윈 월드" data-summary-ko="혼합현실 소셜 메타버스 앱">
-            <a class="orb-link" href="projects/twinworld.html" aria-label="Open Twin World case study">
-              <div class="orb-shell">
-                <div class="orb-disc">
-                  <div class="orb-img" style="background-image: url('projects/assets/twinworld/hero-room.jpg')"></div>
-                  <div class="orb-led" style="--src: url('projects/assets/twinworld/hero-room.jpg')" aria-hidden="true"></div>
-                </div>
-              </div>
-            </a>
-          </article>
+      <!-- ===== DOSSIER 03 — Letsee Creator ===== -->
+      <a class="dossier" href="projects/letsee-creator.html" aria-label="Open Letsee Creator case study">
+        <div class="dossier-topbar">
+          <span class="dossier-id">SUBJECT 03</span>
+          <span class="dossier-chip">REF // LETSEE-CREATOR</span>
         </div>
+        <div class="dossier-body">
+          <div class="dossier-visual">
+            <img src="projects/assets/letsee/hero.png" alt="Letsee Creator" loading="lazy">
+            <span class="dossier-scan" aria-hidden="true"></span>
+          </div>
+          <div class="dossier-data">
+            <div class="drow"><span class="dlabel">NAME</span><span class="dval">LETSEE CREATOR</span></div>            <div class="drow"><span class="dlabel">CLIENT</span><span class="dval">LETSEE</span></div>
+            <div class="drow"><span class="dlabel">FUNCTION</span><span class="dval">PRODUCT DESIGN LEAD</span></div>
+            <div class="drow"><span class="dlabel">DOMAIN</span><span class="dval">NO-CODE WEBAR TOOL</span></div>
+            <div class="drow"><span class="dlabel">STATUS</span><span class="dval dval-live">● BETA</span></div>
+          </div>
+        </div>
+        <div class="dossier-foot">
+          <p class="dossier-brief" data-i18n="dossier-3-brief">A no-code WebAR authoring tool — 38% faster content creation, 89% positive ease-of-use.</p>
+          <span class="dossier-open" data-i18n="works-cta">Open file →</span>
+        </div>
+      </a>
 
-        <!-- Active project meta panel (text content, swaps with active orb) -->
-        <div class="works-meta" id="worksMeta">
-          <div class="meta-tag font-michroma" id="metaTag">&gt; PROJECT 01</div>
-          <div class="meta-client" id="metaClient">Stellar Bank · 2025</div>
-          <h3 class="meta-title font-display" id="metaTitle">Ahha Ohho</h3>
-          <p class="meta-summary" id="metaSummary">A creative-learning app turning the smartphone into a tool for curiosity, self-directed making, and peer feedback.</p>
-          <a href="projects/ahhaohho.html" class="meta-link" id="metaLink">
-            <span data-i18n="works-cta">View case study</span>
-            <iconify-icon icon="solar:arrow-right-linear"></iconify-icon>
-          </a>
+      <!-- ===== DOSSIER 04 — MLB PitchAR ===== -->
+      <a class="dossier" href="projects/mlb-pitchar.html" aria-label="Open MLB PitchAR case study">
+        <div class="dossier-topbar">
+          <span class="dossier-id">SUBJECT 04</span>
+          <span class="dossier-chip">REF // MLB-PITCHAR</span>
         </div>
+        <div class="dossier-body">
+          <div class="dossier-visual">
+            <img src="projects/assets/mlb-pitchar/hero-mockup.png" alt="MLB PitchAR" loading="lazy">
+            <span class="dossier-scan" aria-hidden="true"></span>
+          </div>
+          <div class="dossier-data">
+            <div class="drow"><span class="dlabel">NAME</span><span class="dval">MLB PITCHAR</span></div>            <div class="drow"><span class="dlabel">CLIENT</span><span class="dval">MLB ADVANCED MEDIA</span></div>
+            <div class="drow"><span class="dlabel">FUNCTION</span><span class="dval">UX RESEARCH · INTERACTION</span></div>
+            <div class="drow"><span class="dlabel">DOMAIN</span><span class="dval">MOBILE AR · SPORTS</span></div>
+            <div class="drow"><span class="dlabel">STATUS</span><span class="dval dval-proto">◐ PROTOTYPE</span></div>
+          </div>
+        </div>
+        <div class="dossier-foot">
+          <p class="dossier-brief" data-i18n="dossier-4-brief">A mobile AR app that teaches baseball pitch types through spatial 3D visualization.</p>
+          <span class="dossier-open" data-i18n="works-cta">Open file →</span>
+        </div>
+      </a>
 
-        <!-- Scroll hint -->
-        <div class="works-hint" aria-hidden="true">
-          <iconify-icon icon="solar:double-alt-arrow-down-linear"></iconify-icon>
-          <span data-i18n="works-scroll">SCROLL TO ROTATE</span>
+      <!-- ===== DOSSIER 05 — Twin World ===== -->
+      <a class="dossier" href="projects/twinworld.html" aria-label="Open Twin World case study">
+        <div class="dossier-topbar">
+          <span class="dossier-id">SUBJECT 05</span>
+          <span class="dossier-chip">REF // TWIN-WORLD</span>
         </div>
-      </div>
+        <div class="dossier-body">
+          <div class="dossier-visual">
+            <img src="projects/assets/twinworld/hero-room.jpg" alt="Twin World" loading="lazy">
+            <span class="dossier-scan" aria-hidden="true"></span>
+          </div>
+          <div class="dossier-data">
+            <div class="drow"><span class="dlabel">NAME</span><span class="dval">TWIN WORLD</span></div>            <div class="drow"><span class="dlabel">CLIENT</span><span class="dval">DOUBLEME</span></div>
+            <div class="drow"><span class="dlabel">FUNCTION</span><span class="dval">PRODUCT DESIGNER (MR)</span></div>
+            <div class="drow"><span class="dlabel">DOMAIN</span><span class="dval">HOLOLENS 2 · SOCIAL XR</span></div>
+            <div class="drow"><span class="dlabel">STATUS</span><span class="dval dval-proto">◐ PROTOTYPE</span></div>
+          </div>
+        </div>
+        <div class="dossier-foot">
+          <p class="dossier-brief" data-i18n="dossier-5-brief">A social metaverse app for HoloLens 2 — easing first-time XR users past gestural friction.</p>
+          <span class="dossier-open" data-i18n="works-cta">Open file →</span>
+        </div>
+      </a>
     </div>
   </section>
 
@@ -1028,7 +1290,7 @@
         //                 works-sticky is already glued (margin-top:-138vh)
         //                 so the user sees the FIRST PROJECT at PRIMARY
         //                 fading in directly during the crossover.
-        const fadeStart = 0.08, fadeEnd = 0.44;
+        const fadeStart = 0.08, fadeEnd = 0.48;
         const textT = clamp01((p - fadeStart) / (fadeEnd - fadeStart));
         const textEased = easeOutCubic(textT);
         if (textEl) {
@@ -1037,9 +1299,9 @@
         }
         if (hint) hint.style.opacity = (1 - clamp01(p / 0.14)).toFixed(3);
 
-        // Hero media: dolly-in + blur + fade — completes by p=0.68
-        const pushStart = 0.44;
-        const pushEnd   = 0.68;
+        // Hero media: dolly-in + blur + fade — long, occupies most of the pin
+        const pushStart = 0.50;
+        const pushEnd   = 0.82;
         const pushT = easeInOutCubic(clamp01((p - pushStart) / (pushEnd - pushStart)));
         if (media) {
           const scale = lerp(1.0, 1.5, pushT);
@@ -1061,11 +1323,31 @@
         // easeOutCubic — quick visible rise so the dark moment is minimized,
         // smooth deceleration toward full opacity (preserves "스르륵" feel
         // at settle).
-        const sheetStart = 0.62;
-        const sheetT = easeOutCubic(clamp01((p - sheetStart) / (1 - sheetStart)));
+        const sheetStart = 0.84;
+        const sheetT = easeOutCubic(clamp01((p - sheetStart) / (1.0 - sheetStart)));
         if (workSection) {
           workSection.style.transform = '';
           workSection.style.opacity = sheetT.toFixed(3);
+        }
+
+        // Cinematic white flash — bright burst as hero zooms out, then HOLDS
+        // white through the pin tail so the emptied hero never shows. It only
+        // clears at the very end (p→1) exactly as the white dossier scrolls in,
+        // giving a seamless cut with no dead middle scroll.
+        const heroFlash = document.getElementById('heroFlash');
+        if (heroFlash) {
+          let flashOp = 0;
+          if (p >= 0.70 && p <= 0.86) {
+            // flash blooms in over the tail of the zoom (masks the emptied hero)
+            flashOp = easeInOutCubic((p - 0.70) / 0.16);
+          } else if (p > 0.86 && p <= 0.92) {
+            // brief full-white hold
+            flashOp = 1;
+          } else if (p > 0.92 && p < 1.0) {
+            // clears right at the pin end → Selected Works is immediately there
+            flashOp = 1 - easeInOutCubic((p - 0.92) / 0.08);
+          }
+          heroFlash.style.opacity = flashOp.toFixed(3);
         }
       }
 
@@ -1075,7 +1357,7 @@
 
       function frameIndexFor(p) {
         const scrubStart = 0.06;
-        const scrubEnd   = 0.82;
+        const scrubEnd   = 0.80;
         const t = Math.max(0, Math.min(1, (p - scrubStart) / (scrubEnd - scrubStart)));
         // slight easing for more cinematic feel (easeInOutCubic)
         const eased = t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
@@ -1428,7 +1710,12 @@
           'hero-tagline': 'We are living in the sci-fi future we once imagined. In this tech-saturated world, I ask how we can leverage technology to maintain human choices: making the future more accessible, ethical, and playful.',
           'hero-scroll': 'Scroll',
           'works-eyebrow': 'Selected Work · 2022–2026',
-          'works-cta': 'View case study',
+          'works-cta': 'Open file →',
+          'dossier-1-brief': 'A creative-learning app turning the smartphone into a tool for curiosity, self-directed making, and peer feedback.',
+          'dossier-2-brief': 'A machine-learning XR monument visualizing national emotion across mobile, kiosk, and head-mounted displays.',
+          'dossier-3-brief': 'A no-code WebAR authoring tool — 38% faster content creation, 89% positive ease-of-use.',
+          'dossier-4-brief': 'A mobile AR app that teaches baseball pitch types through spatial 3D visualization.',
+          'dossier-5-brief': 'A social metaverse app for HoloLens 2 — easing first-time XR users past gestural friction.',
           'works-scroll': 'SCROLL TO ROTATE',
           'about-eyebrow': 'About Me',
           'about-p1': 'Product Designer specializing in <span class="text-accent">immersive</span> and <span class="text-accent">playful UX</span>, designing and prototyping experiences that drive engagement, growth and connection.',
@@ -1456,7 +1743,12 @@
           'hero-tagline': '우리는 한때 상상하던 SF의 미래를 살고 있습니다. 기술이 가득한 이 세계에서, 저는 인간적인 선택을 지켜내기 위해 기술을 어떻게 활용할 수 있을지 묻습니다 — 미래를 더 접근하기 쉽고, 윤리적이고, 즐거운 곳으로 만드는 일을요.',
           'hero-scroll': '스크롤',
           'works-eyebrow': '프로젝트 · 2022–2026',
-          'works-cta': '케이스 스터디 보기',
+          'works-cta': '파일 열기 →',
+          'dossier-1-brief': '스마트폰을 호기심·자발적 창작·또래 피드백의 도구로 바꾸는 어린이 창의 학습 앱.',
+          'dossier-2-brief': '모바일·키오스크·HMD를 가로질러 국민의 감정을 시각화하는 머신러닝 기반 XR 모뉴먼트.',
+          'dossier-3-brief': '노코드 WebAR 저작 도구 — 콘텐츠 제작 38% 빨라짐, 사용 편의성 긍정 평가 89%.',
+          'dossier-4-brief': '공간감 있는 3D 시각화로 야구 구종을 가르치는 모바일 AR 앱.',
+          'dossier-5-brief': 'HoloLens 2용 소셜 메타버스 앱 — XR 첫 사용자의 제스처 진입 마찰을 낮춤.',
           'works-scroll': '스크롤하면 회전합니다',
           'about-eyebrow': 'About Me',
           'about-p1': '<span class="text-accent">몰입감있고</span> <span class="text-accent">재미있는</span> UX를 설계하는 프로덕트 디자이너입니다. 경험을 통해 사용자의 몰입, 성장, 연결을 이끌어냅니다.',
