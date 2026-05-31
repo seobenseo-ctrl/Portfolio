@@ -875,23 +875,34 @@
     .dval   { font-size: 0.82rem; letter-spacing: 0.02em; color: #0a0a0b; }
     .dval-live  { color: #5e7c14; }
     .dval-proto { color: #87888f; }
+    /* BRIEF row — matches the other data values, uppercase like the rest */
+    .dval-brief {
+      font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+      font-size: 0.82rem; line-height: 1.45; color: #0a0a0b;
+      letter-spacing: 0.02em; text-transform: uppercase;
+    }
+    body[data-lang="ko"] .dval-brief { font-family: 'Pretendard','Geist',sans-serif; word-break: keep-all; }
 
     /* Footer */
     .dossier-foot {
-      display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between;
-      gap: 1rem; margin-top: 1.25rem; padding-top: 1rem;
+      display: flex; align-items: center; justify-content: flex-end;
+      margin-top: 1.25rem; padding-top: 1rem;
       border-top: 1px solid rgba(94,124,20,0.25);
     }
-    .dossier-brief {
-      font-size: 0.92rem; line-height: 1.55; color: #2a2a30;
-      max-width: 46ch; margin: 0;
-    }
+    /* Open file — pill button, bottom-right */
     .dossier-open {
       font-family: 'Michroma', monospace;
-      font-size: 0.7rem; letter-spacing: 0.12em; color: #5e7c14;
-      white-space: nowrap; transition: letter-spacing 0.25s ease;
+      font-size: 0.66rem; letter-spacing: 0.12em; color: #5e7c14;
+      white-space: nowrap;
+      display: inline-flex; align-items: center;
+      padding: 0.6rem 1.1rem;
+      border: 1px solid rgba(94,124,20,0.45);
+      border-radius: 999px;
+      transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease, gap 0.25s ease;
     }
-    .dossier:hover .dossier-open { letter-spacing: 0.2em; }
+    .dossier:hover .dossier-open {
+      background: #5e7c14; color: #ffffff; border-color: #5e7c14;
+    }
 
     /* Korean — switch dossier brief to Pretendard, keep-all */
     body[data-lang="ko"] .dossier-brief { font-family: 'Pretendard','Geist',sans-serif; word-break: keep-all; }
@@ -1000,13 +1011,13 @@
           </div>
           <div class="dossier-data">
             <div class="drow"><span class="dlabel">NAME</span><span class="dval">AHHA OHHO</span></div>            <div class="drow"><span class="dlabel">CLIENT</span><span class="dval">SMILEGATE FUTURELAB</span></div>
-            <div class="drow"><span class="dlabel">FUNCTION</span><span class="dval">PRODUCT DESIGN LEAD</span></div>
+            <div class="drow"><span class="dlabel">ROLE</span><span class="dval">PRODUCT DESIGN LEAD</span></div>
             <div class="drow"><span class="dlabel">DOMAIN</span><span class="dval">CREATIVE LEARNING · MOBILE</span></div>
+            <div class="drow drow-brief"><span class="dlabel">BRIEF</span><span class="dval dval-brief" data-i18n="dossier-1-brief">A children's creative-learning app turning the smartphone into a tool for curiosity, self-directed making, and peer feedback.</span></div>
             <div class="drow"><span class="dlabel">STATUS</span><span class="dval dval-live">● SHIPPED</span></div>
           </div>
         </div>
         <div class="dossier-foot">
-          <p class="dossier-brief" data-i18n="dossier-1-brief">A creative-learning app turning the smartphone into a tool for curiosity, self-directed making, and peer feedback.</p>
           <span class="dossier-open" data-i18n="works-cta">Open file →</span>
         </div>
       </a>
@@ -1024,13 +1035,13 @@
           </div>
           <div class="dossier-data">
             <div class="drow"><span class="dlabel">NAME</span><span class="dval">GWANGHWA SU</span></div>            <div class="drow"><span class="dlabel">CLIENT</span><span class="dval">KOCCA</span></div>
-            <div class="drow"><span class="dlabel">FUNCTION</span><span class="dval">UX DESIGNER · COORDINATOR</span></div>
+            <div class="drow"><span class="dlabel">ROLE</span><span class="dval">UX DESIGNER · COORDINATOR</span></div>
             <div class="drow"><span class="dlabel">DOMAIN</span><span class="dval">ML · XR MONUMENT</span></div>
+            <div class="drow drow-brief"><span class="dlabel">BRIEF</span><span class="dval dval-brief" data-i18n="dossier-2-brief">A machine-learning XR monument visualizing national emotion across mobile, kiosk, and head-mounted displays.</span></div>
             <div class="drow"><span class="dlabel">STATUS</span><span class="dval dval-live">● INSTALLED</span></div>
           </div>
         </div>
         <div class="dossier-foot">
-          <p class="dossier-brief" data-i18n="dossier-2-brief">A machine-learning XR monument visualizing national emotion across mobile, kiosk, and head-mounted displays.</p>
           <span class="dossier-open" data-i18n="works-cta">Open file →</span>
         </div>
       </a>
@@ -1048,13 +1059,13 @@
           </div>
           <div class="dossier-data">
             <div class="drow"><span class="dlabel">NAME</span><span class="dval">LETSEE CREATOR</span></div>            <div class="drow"><span class="dlabel">CLIENT</span><span class="dval">LETSEE</span></div>
-            <div class="drow"><span class="dlabel">FUNCTION</span><span class="dval">PRODUCT DESIGN LEAD</span></div>
+            <div class="drow"><span class="dlabel">ROLE</span><span class="dval">PRODUCT DESIGN LEAD</span></div>
             <div class="drow"><span class="dlabel">DOMAIN</span><span class="dval">NO-CODE WEBAR TOOL</span></div>
+            <div class="drow drow-brief"><span class="dlabel">BRIEF</span><span class="dval dval-brief" data-i18n="dossier-3-brief">A no-code WebAR authoring tool — 38% faster content creation, 89% positive ease-of-use.</span></div>
             <div class="drow"><span class="dlabel">STATUS</span><span class="dval dval-live">● BETA</span></div>
           </div>
         </div>
         <div class="dossier-foot">
-          <p class="dossier-brief" data-i18n="dossier-3-brief">A no-code WebAR authoring tool — 38% faster content creation, 89% positive ease-of-use.</p>
           <span class="dossier-open" data-i18n="works-cta">Open file →</span>
         </div>
       </a>
@@ -1072,13 +1083,13 @@
           </div>
           <div class="dossier-data">
             <div class="drow"><span class="dlabel">NAME</span><span class="dval">MLB PITCHAR</span></div>            <div class="drow"><span class="dlabel">CLIENT</span><span class="dval">MLB ADVANCED MEDIA</span></div>
-            <div class="drow"><span class="dlabel">FUNCTION</span><span class="dval">UX RESEARCH · INTERACTION</span></div>
+            <div class="drow"><span class="dlabel">ROLE</span><span class="dval">UX RESEARCH · INTERACTION</span></div>
             <div class="drow"><span class="dlabel">DOMAIN</span><span class="dval">MOBILE AR · SPORTS</span></div>
+            <div class="drow drow-brief"><span class="dlabel">BRIEF</span><span class="dval dval-brief" data-i18n="dossier-4-brief">A mobile AR app that teaches baseball pitch types through spatial 3D visualization.</span></div>
             <div class="drow"><span class="dlabel">STATUS</span><span class="dval dval-proto">◐ PROTOTYPE</span></div>
           </div>
         </div>
         <div class="dossier-foot">
-          <p class="dossier-brief" data-i18n="dossier-4-brief">A mobile AR app that teaches baseball pitch types through spatial 3D visualization.</p>
           <span class="dossier-open" data-i18n="works-cta">Open file →</span>
         </div>
       </a>
@@ -1096,13 +1107,13 @@
           </div>
           <div class="dossier-data">
             <div class="drow"><span class="dlabel">NAME</span><span class="dval">TWIN WORLD</span></div>            <div class="drow"><span class="dlabel">CLIENT</span><span class="dval">DOUBLEME</span></div>
-            <div class="drow"><span class="dlabel">FUNCTION</span><span class="dval">PRODUCT DESIGNER (MR)</span></div>
+            <div class="drow"><span class="dlabel">ROLE</span><span class="dval">PRODUCT DESIGNER (MR)</span></div>
             <div class="drow"><span class="dlabel">DOMAIN</span><span class="dval">HOLOLENS 2 · SOCIAL XR</span></div>
+            <div class="drow drow-brief"><span class="dlabel">BRIEF</span><span class="dval dval-brief" data-i18n="dossier-5-brief">A social metaverse app for HoloLens 2 — easing first-time XR users past gestural friction.</span></div>
             <div class="drow"><span class="dlabel">STATUS</span><span class="dval dval-proto">◐ PROTOTYPE</span></div>
           </div>
         </div>
         <div class="dossier-foot">
-          <p class="dossier-brief" data-i18n="dossier-5-brief">A social metaverse app for HoloLens 2 — easing first-time XR users past gestural friction.</p>
           <span class="dossier-open" data-i18n="works-cta">Open file →</span>
         </div>
       </a>
@@ -1711,7 +1722,7 @@
           'hero-scroll': 'Scroll',
           'works-eyebrow': 'Selected Work · 2022–2026',
           'works-cta': 'Open file →',
-          'dossier-1-brief': 'A creative-learning app turning the smartphone into a tool for curiosity, self-directed making, and peer feedback.',
+          'dossier-1-brief': "A children's creative-learning app turning the smartphone into a tool for curiosity, self-directed making, and peer feedback.",
           'dossier-2-brief': 'A machine-learning XR monument visualizing national emotion across mobile, kiosk, and head-mounted displays.',
           'dossier-3-brief': 'A no-code WebAR authoring tool — 38% faster content creation, 89% positive ease-of-use.',
           'dossier-4-brief': 'A mobile AR app that teaches baseball pitch types through spatial 3D visualization.',
