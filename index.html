@@ -17,7 +17,7 @@
   <meta name="twitter:image" content="frames/f_060.webp">
 
   <!-- Favicon: green dot matching the brand accent -->
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='42' fill='%2350ff5a'/%3E%3Ctext x='50' y='73' text-anchor='middle' font-family='sans-serif' font-size='76' font-weight='700' fill='%230a0a0b'%3E%E3%85%85%3C/text%3E%3C/svg%3E">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='42' fill='%230a0a0b'/%3E%3Ctext x='50' y='73' text-anchor='middle' font-family='sans-serif' font-size='76' font-weight='700' fill='%23ffffff'%3E%E3%85%85%3C/text%3E%3C/svg%3E">
 
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.min.css">
@@ -40,7 +40,7 @@
               600: '#3a3a40', 500: '#6b6b74', 400: '#9a9aa3', 300: '#c8c8cf',
               200: '#e5e5ea', 100: '#f4f4f6',
             },
-            accent: { DEFAULT: '#50ff5a', soft: '#a8ffae' }
+            accent: { DEFAULT: '#5e7c14', soft: '#8aa830' }
           },
         },
       },
@@ -50,14 +50,15 @@
     html { scroll-behavior: smooth; }
     body {
       font-family: 'Pretendard', 'Geist', system-ui, sans-serif;
-      background-color: #ffffff; color: #0a0a0b;
+      background-color: #fafafa; color: #0a0a0b;
       -webkit-font-smoothing: antialiased; word-break: keep-all;
     }
 
-    /* Cinematic white flash overlay — rises as hero zooms out into white world below */
+    /* Cinematic flash overlay — matches the dossier section tone (#fafafa) so
+       the transition into Selected Works is seamless (no white-on-offwhite seam). */
     .hero-flash {
       position: fixed; inset: 0;
-      background: #ffffff;
+      background: #fafafa;
       pointer-events: none;
       opacity: 0;
       z-index: 5;
@@ -146,7 +147,7 @@
       background-size: 80px 80px;
     }
     .ticker-divider::before {
-      content: "●"; color: #50ff5a; margin: 0 1.5rem; font-size: 0.5rem; vertical-align: middle;
+      content: "●"; color: #5e7c14; margin: 0 1.5rem; font-size: 0.5rem; vertical-align: middle;
     }
     .orb { filter: blur(80px); opacity: 0.5; }
 
@@ -202,6 +203,8 @@
     }
 
     .hero-text-layer { will-change: transform, opacity; position: relative; z-index: 2; }
+    /* Hero sits on dark — brighter olive-lime so the accent reads against black */
+    #heroText .text-accent { color: #a8c83c; }
     .hero-hint {
       position: absolute; bottom: 2.25rem; left: 50%;
       transform: translateX(-50%);
@@ -227,7 +230,7 @@
       width: 60%; height: 2px; background: rgba(255,255,255,0.06); border-radius: 2px; overflow: hidden;
     }
     .hero-loader-bar > span {
-      display: block; height: 100%; width: 0%; background: #50ff5a;
+      display: block; height: 100%; width: 0%; background: #5e7c14;
       transition: width 0.2s ease;
     }
 
@@ -270,7 +273,7 @@
       position: absolute; inset: 0;
       pointer-events: none;
       background:
-        radial-gradient(ellipse 90% 70% at 50% 35%, rgba(80,255,90,0.05) 0%, rgba(80,255,90,0) 60%),
+        radial-gradient(ellipse 90% 70% at 50% 35%, rgba(94,124,20,0.05) 0%, rgba(94,124,20,0) 60%),
         linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px) 0 0 / 100% 4px,
         linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px) 0 0 / 60px 60px,
         linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px) 0 0 / 60px 60px;
@@ -365,7 +368,7 @@
       display: flex; align-items: center; gap: 0.4em;
     }
     .works-title-slash {
-      color: var(--accent, #50ff5a);
+      color: var(--accent, #5e7c14);
       font-family: 'Michroma', sans-serif;
       opacity: 0.85;
     }
@@ -380,7 +383,7 @@
       display: flex; align-items: baseline; gap: 0.3em;
     }
     .counter-current {
-      color: #50ff5a;
+      color: #5e7c14;
       font-size: 1.4rem;
       font-weight: 700;
       transition: color 0.3s;
@@ -422,14 +425,14 @@
     .scale-fill {
       position: absolute; top: 0; left: 0; right: 0;
       height: 0%;
-      background: linear-gradient(to bottom, #50ff5a 0%, rgba(80,255,90,0.3) 100%);
+      background: linear-gradient(to bottom, #5e7c14 0%, rgba(94,124,20,0.3) 100%);
       transition: height 0.18s linear;
     }
     .scale-marker {
       position: absolute; top: 0; left: -3px;
       width: 10px; height: 2px;
-      background: #50ff5a;
-      box-shadow: 0 0 12px rgba(80,255,90,0.6);
+      background: #5e7c14;
+      box-shadow: 0 0 12px rgba(94,124,20,0.6);
       transition: top 0.18s linear;
       transform: translateY(-50%);
     }
@@ -595,15 +598,15 @@
       display: inline-flex; align-items: center; gap: 0.5rem;
       font-size: 0.7rem;
       letter-spacing: 0.22em;
-      color: #50ff5a;
+      color: #5e7c14;
       text-transform: uppercase;
       margin-bottom: 0.85rem;
     }
     .meta-tag::before {
       content: ''; width: 6px; height: 6px;
-      background: #50ff5a;
+      background: #5e7c14;
       border-radius: 50%;
-      box-shadow: 0 0 8px rgba(80,255,90,0.7);
+      box-shadow: 0 0 8px rgba(94,124,20,0.7);
       animation: blink 1.6s ease-in-out infinite;
     }
     @keyframes blink {
@@ -646,7 +649,7 @@
     .meta-link {
       display: inline-flex; align-items: center; gap: 0.4rem;
       font-size: 0.85rem;
-      color: #50ff5a;
+      color: #5e7c14;
       letter-spacing: 0.05em;
       transition: gap 0.25s ease;
     }
@@ -668,7 +671,7 @@
     }
     .works-hint iconify-icon {
       font-size: 1.2rem;
-      color: rgba(80,255,90,0.6);
+      color: rgba(94,124,20,0.6);
     }
     @keyframes hintBob {
       0%, 100% { transform: translate(-50%, 0); opacity: 0.55; }
@@ -693,7 +696,7 @@
        Everything past the hero flash transitions to a clean white gallery. */
 
     /* Light-theme accent — deep olive (#5e7c14), matches project detail pages.
-       Neon green (#50ff5a) only survives in the dark hero above. */
+       Neon green (#5e7c14) only survives in the dark hero above. */
 
     /* About section — light card grid */
     #about { background: #fafafa !important; border-top: 1px solid rgba(0,0,0,0.08) !important; }
@@ -722,7 +725,8 @@
       background: rgba(255,255,255,0.7) !important;
       border-color: rgba(0,0,0,0.08) !important;
     }
-    .glass a, .glass span:not(.lang-toggle) { color: #2a2a30 !important; }
+    .glass a, .glass span:not(.lang-toggle):not(.logo-mark) { color: #2a2a30 !important; }
+    .glass .logo-mark { color: #ffffff !important; }
     .glass .text-ink-100 { color: #0a0a0b !important; }
     .glass .text-ink-300 { color: #2a2a30 !important; }
     /* CTA button (LinkedIn) — invert: dark bg, white text */
@@ -897,7 +901,7 @@
   <header class="fixed top-5 left-1/2 -translate-x-1/2 z-40 w-[calc(100%-2rem)] max-w-5xl">
     <nav class="glass rounded-full px-5 py-3 flex items-center justify-between">
       <a href="#top" class="flex items-center gap-2.5 group">
-        <span class="w-7 h-7 rounded-full bg-accent flex items-center justify-center text-ink-950 font-bold text-xl leading-none" style="font-family: 'Pretendard Variable', 'Noto Sans KR', sans-serif; padding-bottom: 2px;">ㅅ</span>
+        <span class="logo-mark w-7 h-7 rounded-full flex items-center justify-center text-white font-bold text-xl leading-none" style="background: #0a0a0b; font-family: 'Pretendard Variable', 'Noto Sans KR', sans-serif; padding-bottom: 2px;">ㅅ</span>
         <span class="font-display font-semibold tracking-tight text-ink-100" data-i18n="brand-name">Ben Seo</span>
       </a>
       <div class="hidden md:flex items-center gap-7 text-sm text-ink-300">
@@ -948,13 +952,13 @@
             <div class="grid grid-cols-12 gap-6 lg:gap-10 items-center">
               <div class="col-span-12 md:col-span-10 lg:col-span-9 xl:col-span-8 hero-text-layer" id="heroText">
                 <div class="font-michroma uppercase text-ink-300 text-[15px] md:text-[17px] mb-6 md:mb-8" style="letter-spacing: 0.12em;" data-i18n="hero-eyebrow">
-                  As a product designer, I question
+                  In this sci-fi future we once imagined,
                 </div>
                 <h1 class="font-michroma uppercase text-ink-100 text-[2rem] sm:text-[2.5rem] md:text-[3.25rem] lg:text-[4.25rem] xl:text-[4.75rem]" style="line-height: 1.15; letter-spacing: -0.01em;" data-i18n="hero-title">
                   How do we stay <span class="text-accent">human</span> in the future<span class="font-inter font-normal">?</span>
                 </h1>
                 <p class="font-inter font-light mt-7 md:mt-9 max-w-2xl text-[20px] md:text-[23px] text-ink-300" style="line-height: 1.55;" data-i18n="hero-tagline">
-                  We are living in the sci-fi future we once imagined. In this tech-saturated world, I ask how we can leverage technology to maintain human choices: making the future more accessible, ethical, and playful.
+                  I'm a Senior Product Designer turning emerging technology into usable 0→1 products. Across creative learning, XR, and immersive system, I design and prototype B2B/B2C experiences from ambiguity to launch.
                 </p>
               </div>
             </div>
@@ -1123,9 +1127,18 @@
 
         <div class="md:col-span-7">
           <p class="text-xs tracking-[0.2em] text-ink-500 uppercase mb-6" data-i18n="about-eyebrow">About Me</p>
-          <p class="font-display font-normal text-2xl md:text-3xl lg:text-[2.1rem] tracking-tight text-ink-100" style="line-height: 1.55;" data-i18n="about-p1">
-            Product Designer specializing in <span class="text-accent">immersive</span> and <span class="text-accent">playful UX</span>, designing and prototyping experiences that drive engagement, growth and connection.
+          <p class="font-display font-normal text-2xl md:text-3xl lg:text-[2.1rem] tracking-tight text-ink-100" style="line-height: 1.5;" data-i18n="about-p1">
+            I'm strongest when the product is <span class="text-accent">ambiguous</span>, <span class="text-accent">complex</span> and <span class="text-accent">technical</span>.
           </p>
+          <div class="mt-8 text-base md:text-lg" style="line-height: 1.7;">
+            <p class="mb-3 text-ink-300" data-i18n="about-role-label">My role is to:</p>
+            <ol class="space-y-2 text-ink-100" style="list-style: decimal outside; padding-left: 1.5rem;">
+              <li data-i18n="about-role-1">define the product problem,</li>
+              <li data-i18n="about-role-2">prototype the riskiest assumptions,</li>
+              <li data-i18n="about-role-3">align PM, engineering, and stakeholders,</li>
+              <li data-i18n="about-role-4">turn complex technology into usable product flows.</li>
+            </ol>
+          </div>
 
           <!-- Capabilities grid -->
           <div class="mt-14 grid grid-cols-2 md:grid-cols-3 gap-px bg-ink-800 border border-ink-800 rounded-2xl overflow-hidden">
@@ -1705,9 +1718,9 @@
           'brand-name': 'Ben Seo',
           'nav-works': 'Selected Works',
           'nav-about': 'About Me',
-          'hero-eyebrow': 'As a product designer, I question',
+          'hero-eyebrow': 'In this sci-fi future we once imagined,',
           'hero-title': 'How do we stay <span class="text-accent">human</span> in the future<span class="font-inter font-normal">?</span>',
-          'hero-tagline': 'We are living in the sci-fi future we once imagined. In this tech-saturated world, I ask how we can leverage technology to maintain human choices: making the future more accessible, ethical, and playful.',
+          'hero-tagline': "I'm a Senior Product Designer turning emerging technology into usable 0→1 products. Across creative learning, XR, and immersive system, I design and prototype B2B/B2C experiences from ambiguity to launch.",
           'hero-scroll': 'Scroll',
           'works-eyebrow': 'Selected Work · 2022–2026',
           'works-cta': 'Open file →',
@@ -1718,7 +1731,12 @@
           'dossier-5-brief': 'A social metaverse app for HoloLens 2 — easing first-time XR users past gestural friction.',
           'works-scroll': 'SCROLL TO ROTATE',
           'about-eyebrow': 'About Me',
-          'about-p1': 'Product Designer specializing in <span class="text-accent">immersive</span> and <span class="text-accent">playful UX</span>, designing and prototyping experiences that drive engagement, growth and connection.',
+          'about-p1': 'I\'m strongest when the product is <span class="text-accent">ambiguous</span>, <span class="text-accent">complex</span> and <span class="text-accent">technical</span>.',
+          'about-role-label': 'My role is to:',
+          'about-role-1': 'define the product problem,',
+          'about-role-2': 'prototype the riskiest assumptions,',
+          'about-role-3': 'align PM, engineering, and stakeholders,',
+          'about-role-4': 'turn complex technology into usable product flows.',
           'cap-1-t': 'User Research',
           'cap-1-d': 'In-depth interviews · Diary studies',
           'cap-2-t': 'Design Systems',
@@ -1738,9 +1756,9 @@
           'brand-name': '서정빈',
           'nav-works': '프로젝트',
           'nav-about': '소개',
-          'hero-eyebrow': '프로덕트 디자이너로서, 저는 이렇게 묻습니다',
+          'hero-eyebrow': '우리가 한때 상상했던 SF의 미래에서,',
           'hero-title': '우리는 어떻게 <span class="text-accent">인간</span>으로 살아갈 수 있을까요<span class="font-inter font-normal">?</span>',
-          'hero-tagline': '우리는 한때 상상하던 SF의 미래를 살고 있습니다. 기술이 가득한 이 세계에서, 저는 인간적인 선택을 지켜내기 위해 기술을 어떻게 활용할 수 있을지 묻습니다 — 미래를 더 접근하기 쉽고, 윤리적이고, 즐거운 곳으로 만드는 일을요.',
+          'hero-tagline': '저는 신기술을 실제로 쓸 수 있는 0→1 제품으로 만드는 시니어 프로덕트 디자이너입니다. 창의 학습, XR, 이머시브 시스템에 걸쳐, 모호함에서 출시까지 B2B/B2C 경험을 설계하고 프로토타이핑합니다.',
           'hero-scroll': '스크롤',
           'works-eyebrow': '프로젝트 · 2022–2026',
           'works-cta': '파일 열기 →',
@@ -1751,7 +1769,12 @@
           'dossier-5-brief': 'HoloLens 2용 소셜 메타버스 앱 — XR 첫 사용자의 제스처 진입 마찰을 낮춤.',
           'works-scroll': '스크롤하면 회전합니다',
           'about-eyebrow': 'About Me',
-          'about-p1': '<span class="text-accent">몰입감있고</span> <span class="text-accent">재미있는</span> UX를 설계하는 프로덕트 디자이너입니다. 경험을 통해 사용자의 몰입, 성장, 연결을 이끌어냅니다.',
+          'about-p1': '제품이 <span class="text-accent">모호하고</span>, <span class="text-accent">복잡하고</span>, <span class="text-accent">기술적일</span> 때 가장 강합니다.',
+          'about-role-label': '제 역할은:',
+          'about-role-1': '제품 문제를 정의하고,',
+          'about-role-2': '가장 리스크 큰 가설을 프로토타이핑하고,',
+          'about-role-3': 'PM·엔지니어링·이해관계자를 정렬하고,',
+          'about-role-4': '복잡한 기술을 쓸 수 있는 제품 플로우로 바꾸는 것입니다.',
           'cap-1-t': '사용자 리서치',
           'cap-1-d': '심층 인터뷰 · 다이어리 스터디',
           'cap-2-t': '디자인 시스템',
