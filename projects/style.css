@@ -405,6 +405,25 @@ body[data-lang="ko"] .proj-block p {
   padding-left: 0.35rem;
 }
 
+/* 2x2 grid of short decision items */
+.proj-dlist {
+  list-style: none;
+  padding: 0;
+  margin: 1.5rem 0 0;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+@media (min-width: 768px) {
+  .proj-dlist { grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+}
+.proj-dlist li {
+  font-size: 0.98rem;
+  line-height: 1.6;
+  color: var(--ink-200);
+}
+.proj-dlist li strong { color: var(--accent); }
+
 /* Decision / Why / Trade-off / Result callout */
 .proj-decision {
   display: grid;

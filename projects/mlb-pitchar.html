@@ -240,16 +240,38 @@
       <span class="proj-section-num" data-i18n="s04-num">04</span>
       <h2 class="proj-section-title" data-i18n="s04-title">Key Design Decisions</h2>
     </div>
-    <ul class="proj-list">
-      <li data-i18n="s04-d1"><strong>Guess-first interaction flow</strong> — users watch a pitch and guess before getting feedback, encouraging pattern recognition over memorization.</li>
+    <ul class="proj-dlist">
+      <li data-i18n="s04-d1"><strong>Throw-it-yourself interaction</strong> — users pitch each type themselves in AR and feel the trajectory, building recognition through direct experience over memorization.</li>
       <li data-i18n="s04-d2"><strong>Six commonly used pitch types</strong> — fastball, slider, cutter, sinker, changeup, curveball.</li>
       <li data-i18n="s04-d3"><strong>Strike-zone-accurate trajectories</strong> — realistic spatial paths in AR, not stylized arrows.</li>
       <li data-i18n="s04-d4"><strong>Subtle visual / audio feedback</strong> — soft cues without explicit scoring, so the experience feels exploratory.</li>
       <li data-i18n="s04-d5"><strong>Replayable pitch loops</strong> — multiple angles and speeds for repeated exposure.</li>
     </ul>
+
+    <div class="proj-decision">
+      <div class="proj-decision-cell">
+        <div class="k" data-i18n="dec-k1">Decision</div>
+        <div class="sub" data-i18n="dec-s1">What I changed:</div>
+        <div class="v" data-i18n="dec-v1">Let users throw each pitch type themselves in AR and feel how the ball moves through space, so they can recognize pitches through direct experience rather than being told.</div>
+      </div>
+      <div class="proj-decision-cell">
+        <div class="k" data-i18n="dec-k2">Why</div>
+        <div class="sub" data-i18n="dec-s2">What research or constraint led to it:</div>
+        <div class="v" data-i18n="dec-v2">New fans found the game confusing rather than engaging. The goal was curiosity over correctness. Getting people to explore and notice how pitches differ was more crucial than scoring with right answer.</div>
+      </div>
+      <div class="proj-decision-cell">
+        <div class="k" data-i18n="dec-k3">Trade-off</div>
+        <div class="sub" data-i18n="dec-s3">What we gave up:</div>
+        <div class="v" data-i18n="dec-v3">Quick, info-based learning could be more efficient for absorbing facts, but an interaction- and play-based approach trades that speed away, since it takes users longer to learn.</div>
+      </div>
+      <div class="proj-decision-cell">
+        <div class="k" data-i18n="dec-k4">Result</div>
+        <div class="sub" data-i18n="dec-s4">What improved:</div>
+        <div class="v" data-i18n="dec-v4">Across three rounds of usability testing, casual fans kept replaying pitches and built pattern recognition without pressure.</div>
+      </div>
+    </div>
   </section>
 
-  <!-- ============================================================ -->
   <!-- 05 — IMPLEMENTATION                                           -->
   <!-- ============================================================ -->
   <section class="proj-section">
@@ -377,6 +399,15 @@
           'hero-eyebrow': '프로젝트 04 · 모바일 AR 학습 도구',
           'hero-title': '혼란을 호기심으로 바꾸는 법',
           'hero-tagline': '야구를 처음 접하는 팬이 공간적 경험을 통해 구종을 직관적으로 익힐 수 있도록 돕는 모바일 AR 앱입니다.',
+          'dec-title': '핵심 의사결정',
+          'dec-k1': 'Decision', 'dec-s1': '무엇을 바꿨나:',
+          'dec-v1': '사용자가 AR에서 구종별 피칭을 직접 해보며 공이 공간에서 어떻게 움직이는지 느끼게 했습니다 — 설명으로 배우는 게 아니라 직접 체험으로 구종을 깨닫도록.',
+          'dec-k2': 'Why', 'dec-s2': '어떤 리서치·제약이 이끌었나:',
+          'dec-v2': '새로운 팬들은 흥미보다 혼란을 느끼고 있었습니다. 목표는 정답보다 호기심이었습니다. 정답으로 점수를 매기는 것보다, 사람들이 직접 탐색하며 구종이 어떻게 다른지 알아채게 하는 것이 더 중요했습니다.',
+          'dec-k3': 'Trade-off', 'dec-s3': '무엇을 포기했나:',
+          'dec-v3': '빠른 정보 기반 학습이 지식 습득에는 더 효율적일 수 있지만, 인터랙션과 플레이 기반 방식은 그 속도를 포기합니다 — 학습에 더 많은 시간이 듭니다.',
+          'dec-k4': 'Result', 'dec-s4': '무엇이 나아졌나:',
+          'dec-v4': '세 차례의 사용성 테스트 내내 캐주얼 팬들은 부담 없이 투구를 반복 재생하며 패턴 인식을 키웠습니다.',
           'meta-client-label': '클라이언트',
           'meta-client': 'MLB Advanced Media',
           'meta-role-label': '역할',
@@ -411,7 +442,7 @@
           's03-s3': '가벼운 게이미피케이션으로 몰입 유도',
           's03-s4': '맥락 기반 배포 — 티켓에 QR 코드를 넣어 사용 유도',
           's04-num': '04', 's04-title': '핵심 디자인 결정',
-          's04-d1': '<strong>추측 먼저 인터랙션 플로우</strong> — 사용자가 투구를 보고 먼저 추측한 뒤 피드백을 받습니다. 암기가 아니라 패턴 인식을 유도합니다.',
+          's04-d1': '<strong>직접 던져보는 인터랙션</strong> — 사용자가 AR에서 구종별로 직접 피칭하며 궤적을 느낍니다. 암기가 아니라 직접 체험으로 구종 인식을 키웁니다.',
           's04-d2': '<strong>자주 쓰이는 6가지 구종</strong> — 패스트볼, 슬라이더, 커터, 싱커, 체인지업, 커브볼',
           's04-d3': '<strong>스트라이크존을 정확히 반영한 궤적</strong> — 양식화된 화살표가 아니라, AR 공간 위 실제 경로를 그대로 보여줍니다.',
           's04-d4': '<strong>은근한 시각·음향 피드백</strong> — 명시적인 점수 대신 부드러운 큐로 탐색적인 경험을 만듭니다.',

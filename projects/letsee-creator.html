@@ -233,20 +233,37 @@
       <span class="proj-section-num" data-i18n="s04-num">03</span>
       <h2 class="proj-section-title" data-i18n="s04-title">Key Design Decisions</h2>
     </div>
-    <ul class="proj-list">
+    <ul class="proj-dlist">
       <li data-i18n="s04-d1"><strong>Template-first layout</strong> : structured templates reduced friction for users without AR or 3D experience.</li>
       <li data-i18n="s04-d2"><strong>Live preview-first flow</strong> : real-time feedback boosted user confidence and shortened the test loop.</li>
       <li data-i18n="s04-d3"><strong>Lightweight authoring</strong> : AR scenes built with minimal objects to keep the canvas legible.</li>
       <li data-i18n="s04-d4"><strong>No-login onboarding</strong> : eliminated the early friction point that killed first-session retention.</li>
     </ul>
 
-    <div class="lc-image-row" style="grid-template-columns: 1fr 1fr;">
-      <img src="assets/letsee/ui-decision-1.png" alt="Key design decision UI">
-      <img src="assets/letsee/ui-decision-2.png" alt="Key design decision UI - flow">
+    <div class="proj-decision">
+      <div class="proj-decision-cell">
+        <div class="k" data-i18n="dec-k1">Decision</div>
+        <div class="sub" data-i18n="dec-s1">What I changed:</div>
+        <div class="v" data-i18n="dec-v1">Built the tool around four constraints instead of a freeform 3D editor: a template-first layout, a live preview-first flow, lightweight authoring with minimal objects, and no-login onboarding.</div>
+      </div>
+      <div class="proj-decision-cell">
+        <div class="k" data-i18n="dec-k2">Why</div>
+        <div class="sub" data-i18n="dec-s2">What research or constraint led to it:</div>
+        <div class="v" data-i18n="dec-v2">Target users(i.e. content managers and trainers) had no AR or 3D experience and wanted a familiar, fast editor. Benchmarking showed freeform 3D tools created the friction that stopped non-experts from publishing, users needed real-time feedback to feel confident, and the login wall was killing first-session retention.</div>
+      </div>
+      <div class="proj-decision-cell">
+        <div class="k" data-i18n="dec-k3">Trade-off</div>
+        <div class="sub" data-i18n="dec-s3">What we gave up:</div>
+        <div class="v" data-i18n="dec-v3">Power users lose fine-grained 3D control, and the lightweight canvas caps how complex a scene can get outside the template system.</div>
+      </div>
+      <div class="proj-decision-cell">
+        <div class="k" data-i18n="dec-k4">Result</div>
+        <div class="sub" data-i18n="dec-s4">What improved:</div>
+        <div class="v" data-i18n="dec-v4">Templates and live preview cut friction and boosted confidence, the lighter canvas stayed legible, and removing login eliminated the early drop-off, producing AR content with far less time and resources.</div>
+      </div>
     </div>
   </section>
 
-  <!-- ============================================================ -->
   <!-- 05 — IMPLEMENTATION                                           -->
   <!-- ============================================================ -->
   <section class="proj-section">
@@ -265,6 +282,10 @@
     <div class="proj-block">
       <h3 data-i18n="s05-proto-h">Interactive prototype</h3>
       <p data-i18n="s05-proto-p">Click through the no-code authoring flow (Figma).</p>
+    </div>
+    <div class="lc-image-row" style="grid-template-columns: 1fr 1fr;">
+      <img src="assets/letsee/ui-decision-1.png" alt="Letsee Creator workspace UI">
+      <img src="assets/letsee/ui-decision-2.png" alt="Letsee Creator authoring editor UI">
     </div>
     <div class="lc-figma">
       <iframe src="https://www.figma.com/embed?embed_host=oembed&url=https%3A%2F%2Fwww.figma.com%2Fproto%2FGPTYeOpLJp0CVerGgov9FO%2FLDAT_Prototype%3Fpage-id%3D0%253A1%26node-id%3D123%253A2277%26viewport%3D-10%252C-550%252C0.1%26scaling%3Dscale-down%26starting-point-node-id%3D1%253A1160" allowfullscreen></iframe>
@@ -388,6 +409,15 @@
           's07-i1': '더 명확한 캔버스 위계',
           's07-i2': '더 풍부해진 템플릿 라이브러리',
           's07-i3': '빈 상태에서 게시까지 도달하는 더 짧은 경로',
+          'dec-title': '핵심 의사결정',
+          'dec-k1': 'Decision', 'dec-s1': '무엇을 바꿨나:',
+          'dec-v1': '자유로운 3D 에디터 대신 네 가지 제약을 중심으로 도구를 설계했습니다: 템플릿 우선 레이아웃, 라이브 프리뷰 우선 플로우, 최소 오브젝트의 가벼운 저작, 그리고 로그인 없는 온보딩.',
+          'dec-k2': 'Why', 'dec-s2': '어떤 리서치·제약이 이끌었나:',
+          'dec-v2': '대상 사용자인 콘텐츠 매니저와 트레이너는 AR·3D 경험이 없었고, 익숙하고 빠른 에디터를 원했습니다. 벤치마킹 결과 자유로운 3D 도구는 비전문가의 게시를 막는 마찰을 만들고 있었고, 사용자는 자신감을 위해 실시간 피드백이 필요했으며, 로그인 장벽은 첫 세션 리텐션을 떨어뜨리고 있었습니다.',
+          'dec-k3': 'Trade-off', 'dec-s3': '무엇을 포기했나:',
+          'dec-v3': '파워 유저는 세밀한 3D 제어를 잃고, 가벼운 캔버스는 템플릿 시스템을 벗어난 씬의 복잡도를 제한합니다.',
+          'dec-k4': 'Result', 'dec-s4': '무엇이 나아졌나:',
+          'dec-v4': '템플릿과 라이브 프리뷰가 마찰을 줄이고 자신감을 높였으며, 가벼운 캔버스는 가독성을 유지했고, 로그인 제거로 초기 이탈이 사라졌습니다 — 훨씬 적은 시간과 리소스로 AR 콘텐츠를 만들 수 있게 됐습니다.',
           'imp-title': '임팩트',
           'imp-m1': 'AR 콘텐츠 제작에 드는 시간·리소스 절감',
           'imp-d1': 'MVP 테스트 2주간 사용자 12명을 대상으로 작업 완료 시간 로그로 측정.',
