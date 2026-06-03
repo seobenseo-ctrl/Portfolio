@@ -405,6 +405,48 @@ body[data-lang="ko"] .proj-block p {
   padding-left: 0.35rem;
 }
 
+/* Decision / Why / Trade-off / Result callout */
+.proj-decision {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0;
+  border: 1px solid rgba(94,124,20,0.18);
+  border-radius: 1.25rem;
+  overflow: hidden;
+  margin: 2rem 0;
+}
+@media (min-width: 768px) {
+  .proj-decision { grid-template-columns: 1fr 1fr; }
+}
+.proj-decision-cell {
+  padding: 1.6rem 1.75rem;
+  border-top: 1px solid rgba(94,124,20,0.12);
+}
+.proj-decision-cell:nth-child(1),
+.proj-decision-cell:nth-child(2) { border-top: none; }
+@media (min-width: 768px) {
+  .proj-decision-cell:nth-child(odd) { border-right: 1px solid rgba(94,124,20,0.12); }
+  .proj-decision-cell:nth-child(2) { border-top: none; }
+}
+.proj-decision-cell .k {
+  font-family: 'Michroma', monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 0.5rem;
+}
+.proj-decision-cell .sub {
+  font-size: 0.78rem;
+  color: var(--ink-400);
+  margin-bottom: 0.6rem;
+}
+.proj-decision-cell .v {
+  font-size: 0.98rem;
+  line-height: 1.6;
+  color: var(--ink-200);
+}
+
 /* Big number / metric block */
 .proj-metrics {
   display: grid;
