@@ -198,8 +198,6 @@ body[data-lang="ko"] .proj-block p {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 1.5rem 2rem;
-  padding-top: 2.25rem;
-  border-top: 1px solid var(--line);
   max-width: 40rem;
 }
 @media (min-width: 768px) {
@@ -234,7 +232,9 @@ body[data-lang="ko"] .proj-block p {
   .proj-hero-split {
     grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
     gap: 4rem;
+    align-items: stretch;
   }
+  .proj-hero-split .proj-hero-text { align-self: center; }
 }
 @media (min-width: 1200px) {
   .proj-hero-split { gap: 5.5rem; }
@@ -242,9 +242,14 @@ body[data-lang="ko"] .proj-block p {
 .proj-hero-split .proj-title { max-width: 18ch; }
 .proj-hero-split .proj-tagline { max-width: 44ch; }
 .proj-hero-split .proj-meta { max-width: none; }
+.proj-hero-split .proj-hero-metrics {
+  grid-column: 1 / -1;
+  margin: -1.75rem 0 0;
+}
 
 .proj-hero-media {
   width: 100%;
+  height: 100%;
   position: relative;
 }
 .proj-hero-media-frame {
@@ -253,10 +258,13 @@ body[data-lang="ko"] .proj-block p {
   background: linear-gradient(135deg, #ececec, #f6f6f6);
   border: 1px solid var(--line);
   position: relative;
+  height: 100%;
 }
 .proj-hero-media-frame img {
   width: 100%;
-  height: auto;
+  height: 100%;
+  object-fit: cover;
+  object-position: 80% center;
   display: block;
 }
 .proj-hero-media-frame::after {
@@ -382,6 +390,21 @@ body[data-lang="ko"] .proj-block p {
   background: var(--accent);
 }
 
+/* Numbered list (no dash markers) */
+.proj-ol {
+  list-style: decimal outside;
+  padding-left: 1.5rem;
+  margin: 0 0 1.5rem;
+}
+.proj-ol li {
+  margin-bottom: 0.85rem;
+  font-size: 1rem;
+  line-height: 1.65;
+  color: var(--ink-200);
+  max-width: 64ch;
+  padding-left: 0.35rem;
+}
+
 /* Big number / metric block */
 .proj-metrics {
   display: grid;
@@ -405,9 +428,20 @@ body[data-lang="ko"] .proj-block p {
   margin-bottom: 0.5rem;
 }
 .proj-metric .label {
-  font-size: 0.85rem;
+  font-size: 0.95rem;
   color: var(--ink-300);
-  line-height: 1.4;
+  line-height: 1.5;
+  margin-top: 0.7rem;
+  min-height: 2.85rem; /* reserve 2 lines so def rows align across columns */
+}
+.proj-metric .def {
+  margin-top: 0.6rem;
+  padding-top: 0.55rem;
+  border-top: 1px solid rgba(94,124,20,0.18);
+  font-size: 0.7rem;
+  line-height: 1.45;
+  color: var(--ink-100);
+  font-style: italic;
 }
 
 /* Quote block */
