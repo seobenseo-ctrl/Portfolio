@@ -774,7 +774,7 @@
         linear-gradient(rgba(94,124,20,0.018), rgba(94,124,20,0.018)),
         #ffffff;
       padding: 1.1rem 1.25rem 1.25rem;
-      margin-bottom: 1.5rem;
+      margin-bottom: 3.25rem;
       text-decoration: none;
       transition: border-color 0.3s ease, transform 0.3s cubic-bezier(0.16,1,0.3,1), box-shadow 0.3s ease;
       /* faint blueprint grid inside */
@@ -824,42 +824,23 @@
       position: relative; overflow: hidden;
       border: 1px solid rgba(94,124,20,0.3);
       border-radius: 0.35rem;
-      background: #f0f0ec;
+      /* opaque base so the card's blueprint grid never shows through the image */
+      background: #ffffff;
       aspect-ratio: 4 / 3;
     }
+    /* two stacked layers: colour photo (base) + baked-dither image (on top) */
     .dossier-visual img {
+      position: absolute; inset: 0;
       width: 100%; height: 100%; object-fit: cover; display: block;
-      /* gentle monochrome — keeps tonal detail, dither grain sits on top */
-      filter: grayscale(1) contrast(1.25) brightness(1.05);
-      image-rendering: pixelated;
-      transition: filter 0.4s ease, transform 0.5s cubic-bezier(0.16,1,0.3,1);
+      transition: opacity 0.45s ease, transform 0.5s cubic-bezier(0.16,1,0.3,1);
     }
-    /* Fine dither — tiny dense black dots (2px grid) like a stippled scan. */
-    .dossier-visual::after {
-      content: ''; position: absolute; inset: 0; pointer-events: none;
-      background-image: radial-gradient(circle, rgba(0,0,0,0.9) 32%, transparent 38%);
-      background-size: 2px 2px;
-      mix-blend-mode: multiply;
-      opacity: 0.5;
-    }
-    /* offset olive micro-dot layer + fine scanlines → blueprint grain */
-    .dossier-scan {
-      position: absolute; inset: 0; pointer-events: none;
-      background:
-        radial-gradient(circle, rgba(94,124,20,0.40) 28%, transparent 36%) 1px 1px / 2px 2px,
-        repeating-linear-gradient(to bottom, rgba(0,0,0,0.05) 0 1px, transparent 1px 2px);
-      mix-blend-mode: multiply; opacity: 0.55;
-    }
-    /* On hover the dot screen lifts — photo resolves to clean colour */
-    .dossier:hover .dossier-visual img {
-      filter: grayscale(0) contrast(1.04) brightness(1.0) saturate(1.05);
-      image-rendering: auto;
-      transform: scale(1.04);
-    }
-    .dossier:hover .dossier-visual::after,
-    .dossier:hover .dossier-scan {
-      opacity: 0; transition: opacity 0.4s ease;
-    }
+    /* colour photo sits underneath (always opaque); the attached B/W image is
+       layered on top and simply fades away on hover → clean, natural swap. */
+    .dv-color  { opacity: 1; }
+    .dv-dither { opacity: 1; }
+    .dossier-scan { display: none; }
+    .dossier:hover .dv-dither { opacity: 0; }
+    .dossier:hover .dv-color  { transform: scale(1.04); }
 
     /* Data rows */
     .dossier-data { display: flex; flex-direction: column; justify-content: center; gap: 0; }
@@ -1006,7 +987,8 @@
         </div>
         <div class="dossier-body">
           <div class="dossier-visual">
-            <img src="projects/assets/ahhaohho/hero-mockup.png" alt="Ahha Ohho" loading="lazy">
+            <img class="dv-color" src="projects/assets/ahhaohho/hero-mockup.png" alt="Ahha Ohho" loading="lazy">
+            <img class="dv-dither" src="projects/assets/ahhaohho/dither.png" alt="" aria-hidden="true" loading="lazy">
             <span class="dossier-scan" aria-hidden="true"></span>
           </div>
           <div class="dossier-data">
@@ -1030,7 +1012,8 @@
         </div>
         <div class="dossier-body">
           <div class="dossier-visual">
-            <img src="projects/assets/gwanghwasu/hero.png" alt="Gwanghwa Su" loading="lazy">
+            <img class="dv-color" src="projects/assets/gwanghwasu/hero.png" alt="Gwanghwa Su" loading="lazy">
+            <img class="dv-dither" src="projects/assets/gwanghwasu/dither.png" alt="" aria-hidden="true" loading="lazy">
             <span class="dossier-scan" aria-hidden="true"></span>
           </div>
           <div class="dossier-data">
@@ -1054,7 +1037,8 @@
         </div>
         <div class="dossier-body">
           <div class="dossier-visual">
-            <img src="projects/assets/letsee/hero.png" alt="Letsee Creator" loading="lazy">
+            <img class="dv-color" src="projects/assets/letsee/hero.png" alt="Letsee Creator" loading="lazy">
+            <img class="dv-dither" src="projects/assets/letsee/dither.png" alt="" aria-hidden="true" loading="lazy">
             <span class="dossier-scan" aria-hidden="true"></span>
           </div>
           <div class="dossier-data">
@@ -1078,7 +1062,8 @@
         </div>
         <div class="dossier-body">
           <div class="dossier-visual">
-            <img src="projects/assets/mlb-pitchar/hero-mockup.png" alt="MLB PitchAR" loading="lazy">
+            <img class="dv-color" src="projects/assets/mlb-pitchar/hero-mockup.png" alt="MLB PitchAR" loading="lazy">
+            <img class="dv-dither" src="projects/assets/mlb-pitchar/dither.png" alt="" aria-hidden="true" loading="lazy">
             <span class="dossier-scan" aria-hidden="true"></span>
           </div>
           <div class="dossier-data">
@@ -1102,7 +1087,8 @@
         </div>
         <div class="dossier-body">
           <div class="dossier-visual">
-            <img src="projects/assets/twinworld/hero-room.jpg" alt="Twin World" loading="lazy">
+            <img class="dv-color" src="projects/assets/twinworld/hero-room.jpg" alt="Twin World" loading="lazy">
+            <img class="dv-dither" src="projects/assets/twinworld/dither.png" alt="" aria-hidden="true" loading="lazy">
             <span class="dossier-scan" aria-hidden="true"></span>
           </div>
           <div class="dossier-data">
@@ -1334,8 +1320,10 @@
         // easeOutCubic — quick visible rise so the dark moment is minimized,
         // smooth deceleration toward full opacity (preserves "스르륵" feel
         // at settle).
-        const sheetStart = 0.84;
-        const sheetT = easeOutCubic(clamp01((p - sheetStart) / (1.0 - sheetStart)));
+        /* fade the dossier in WHILE the flash is fully white (0.80–0.92), so it
+           is already present when the flash clears — no "appear then re-whiten" flicker. */
+        const sheetStart = 0.80;
+        const sheetT = easeOutCubic(clamp01((p - sheetStart) / (0.92 - sheetStart)));
         if (workSection) {
           workSection.style.transform = '';
           workSection.style.opacity = sheetT.toFixed(3);
@@ -1348,11 +1336,11 @@
         const heroFlash = document.getElementById('heroFlash');
         if (heroFlash) {
           let flashOp = 0;
-          if (p >= 0.70 && p <= 0.86) {
+          if (p >= 0.64 && p <= 0.80) {
             // flash blooms in over the tail of the zoom (masks the emptied hero)
-            flashOp = easeInOutCubic((p - 0.70) / 0.16);
-          } else if (p > 0.86 && p <= 0.92) {
-            // brief full-white hold
+            flashOp = easeInOutCubic((p - 0.64) / 0.16);
+          } else if (p > 0.80 && p <= 0.92) {
+            // full-white hold — dossier fades in hidden behind this
             flashOp = 1;
           } else if (p > 0.92 && p < 1.0) {
             // clears right at the pin end → Selected Works is immediately there
