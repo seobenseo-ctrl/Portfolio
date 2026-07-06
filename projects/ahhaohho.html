@@ -356,22 +356,6 @@
       50% { transform: translate(24px, -20px); }
     }
 
-    /* Impact — editorial split: sticky header column left, content right */
-    @media (min-width: 1000px) {
-      .ahha-impact {
-        display: grid;
-        grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.7fr);
-        column-gap: 4rem;
-        align-items: start;
-      }
-      .ahha-impact > .proj-section-header {
-        position: sticky;
-        top: 7rem;
-        grid-column: 1;
-      }
-      .ahha-impact > :not(.proj-section-header) { grid-column: 2; }
-    }
-
     /* Scroll entry reveal — fade up with blur release */
     .rv {
       opacity: 0;
@@ -1041,7 +1025,14 @@
       <h2 class="proj-section-title" data-i18n="impact-title">Impact &amp; Reflection</h2>
     </div>
 
-    <div class="proj-metrics">
+<div class="proj-block" style="margin-top:2.5rem;">
+      <h3 data-i18n="reflection-title">Reflection</h3>
+      <p data-i18n="reflection-p1">User tests showed that AhhaOhho could spark curiosity and creative agency in children, especially when they were able to make, document, and share their own interpretations. However, operating the product as a standalone service also revealed a key limitation: <strong>initial curiosity does not automatically lead to sustained engagement</strong>.</p>
+      <p data-i18n="reflection-p2">We learned that children need a clearer sense of purpose through <strong>missions, feedback, and growth</strong>. First-time users need a stronger onboarding path to understand the AhhaOhho universe and start creating without feeling lost. Facilitators also need practical tools that support group learning, not just individual exploration.</p>
+      <p data-i18n="reflection-p3">These learnings went into <strong>v1.0, launched in June 2026</strong>: a stronger social feedback layer, personalized AI curation, and facilitator tools that support repeat participation in classrooms as well as at home.</p>
+    </div>
+
+    <div class="proj-metrics" style="margin-top:2.5rem;">
       <div class="proj-metric">
         <div class="num">3,000+</div>
         <div class="label" data-i18n="impact-metric-1">children tested across Korea</div>
@@ -1056,12 +1047,6 @@
       </div>
     </div>
 
-<div class="proj-block" style="margin-top:2.5rem;">
-      <h3 data-i18n="reflection-title">Reflection</h3>
-      <p data-i18n="reflection-p1">User tests showed that AhhaOhho could spark curiosity and creative agency in children, especially when they were able to make, document, and share their own interpretations. However, operating the product as a standalone service also revealed a key limitation: <strong>initial curiosity does not automatically lead to sustained engagement</strong>.</p>
-      <p data-i18n="reflection-p2">We learned that children need a clearer sense of purpose through <strong>missions, feedback, and growth</strong>. First-time users need a stronger onboarding path to understand the AhhaOhho universe and start creating without feeling lost. Facilitators also need practical tools that support group learning, not just individual exploration.</p>
-      <p data-i18n="reflection-p3">These learnings went into <strong>v1.0, launched in June 2026</strong>: a stronger social feedback layer, personalized AI curation, and facilitator tools that support repeat participation in classrooms as well as at home.</p>
-    </div>
   </section>
 
   <!-- FOOTER NAV -->
