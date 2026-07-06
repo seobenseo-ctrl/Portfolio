@@ -153,6 +153,9 @@
 
     @media (prefers-reduced-motion: reduce) {
       .reveal, .float, .marquee-track { animation: none !important; opacity: 1 !important; }
+      .dossier, .dossier .dossier-topbar, .dossier .dossier-visual, .dossier .drow, .dossier .dossier-foot { opacity: 1 !important; animation: none !important; }
+      .dossier .dossier-scan { display: none !important; }
+      .rv2 { opacity: 1 !important; transform: none !important; transition: none !important; }
     }
 
     /* Scroll-scrub hero */
@@ -230,8 +233,9 @@
       width: 60%; height: 2px; background: rgba(255,255,255,0.06); border-radius: 2px; overflow: hidden;
     }
     .hero-loader-bar > span {
-      display: block; height: 100%; width: 0%; background: #5e7c14;
-      transition: width 0.2s ease;
+      display: block; height: 100%; width: 100%; background: #5e7c14;
+      transform: scaleX(0); transform-origin: left center;
+      transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     /* Selected Works section — overlaps the hero pin by 138vh so that
@@ -889,6 +893,71 @@
       background: #5e7c14; color: #ffffff; border-color: #5e7c14;
     }
 
+    /* ---- Dossier entry: "file opening" sequence ---- */
+    .dossier { opacity: 0; }
+    .dossier.file-open { opacity: 1; animation: dossierIn 0.7s cubic-bezier(0.16, 1, 0.3, 1); }
+    @keyframes dossierIn {
+      from { opacity: 0; transform: translateY(2rem); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .dossier .dossier-topbar, .dossier .dossier-visual, .dossier .drow, .dossier .dossier-foot { opacity: 0; }
+    .dossier.file-open .dossier-topbar { animation: dossierIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.05s both; }
+    .dossier.file-open .dossier-visual { animation: dossierIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.15s both; }
+    .dossier.file-open .drow {
+      animation: drowIn 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
+      animation-delay: calc(180ms + var(--i, 0) * 60ms);
+    }
+    .dossier.file-open .dossier-foot { animation: drowIn 0.45s cubic-bezier(0.16, 1, 0.3, 1) 0.62s both; }
+    @keyframes drowIn {
+      from { opacity: 0; transform: translateX(-8px); }
+      to   { opacity: 1; transform: translateX(0); }
+    }
+    /* scan line sweeps the visual once as the file "decrypts" */
+    .dossier.file-open .dossier-scan {
+      display: block; position: absolute; left: 0; right: 0; top: 0; height: 100%;
+      background: linear-gradient(180deg, transparent 0%, rgba(94,124,20,0.22) 48%, rgba(94,124,20,0.34) 50%, rgba(94,124,20,0.22) 52%, transparent 100%);
+      transform: translateY(-100%);
+      animation: scanSweep 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.25s forwards;
+      pointer-events: none; z-index: 2;
+    }
+    @keyframes scanSweep { to { transform: translateY(100%); } }
+
+    /* ---- About section reveal ---- */
+    .rv2 {
+      opacity: 0; transform: translateY(1.5rem);
+      transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+      transition-delay: var(--rvd, 0ms);
+    }
+    .rv2.in { opacity: 1; transform: translateY(0); }
+    /* accent words fill with a highlight once the headline is in view */
+    #about [data-i18n="about-p1"] .text-accent {
+      background-image: linear-gradient(rgba(94,124,20,0.16), rgba(94,124,20,0.16));
+      background-repeat: no-repeat;
+      background-position: 0 78%;
+      background-size: 0% 0.55em;
+      transition: background-size 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    #about [data-i18n="about-p1"].in .text-accent { background-size: 100% 0.55em; }
+    #about [data-i18n="about-p1"].in .text-accent:nth-of-type(2) { transition-delay: 150ms; }
+    #about [data-i18n="about-p1"].in .text-accent:nth-of-type(3) { transition-delay: 300ms; }
+
+    /* ---- Tool marquee strip ---- */
+    .tool-marquee {
+      overflow: hidden;
+      -webkit-mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+      mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+    }
+    .tool-marquee .marquee-track {
+      display: flex; align-items: center; gap: 2.75rem; width: max-content;
+    }
+    .tool-marquee .mi {
+      display: inline-flex; align-items: center; gap: 2.75rem;
+      font-family: 'Michroma', monospace;
+      font-size: 0.6rem; letter-spacing: 0.22em; text-transform: uppercase;
+      color: #87888f; white-space: nowrap;
+    }
+    .tool-marquee .mi::after { content: '·'; color: #5e7c14; }
+
     /* Korean — switch dossier brief to Pretendard, keep-all */
     body[data-lang="ko"] .dossier-brief { font-family: 'Pretendard','Geist',sans-serif; word-break: keep-all; }
   </style>
@@ -1176,12 +1245,45 @@
         </div>
       </div>
     </div>
+      <div class="tool-marquee mt-20" aria-hidden="true">
+        <div class="marquee-track">
+          <span class="mi">Figma</span>
+          <span class="mi">Rive</span>
+          <span class="mi">Unity</span>
+          <span class="mi">Design Tokens</span>
+          <span class="mi">User Research</span>
+          <span class="mi">Prototyping</span>
+          <span class="mi">Data Taxonomy</span>
+          <span class="mi">Motion Design</span>
+          <span class="mi">AI Workflows</span>
+          <span class="mi">Flutter Handoff</span>
+          <span class="mi">Figma</span>
+          <span class="mi">Rive</span>
+          <span class="mi">Unity</span>
+          <span class="mi">Design Tokens</span>
+          <span class="mi">User Research</span>
+          <span class="mi">Prototyping</span>
+          <span class="mi">Data Taxonomy</span>
+          <span class="mi">Motion Design</span>
+          <span class="mi">AI Workflows</span>
+          <span class="mi">Flutter Handoff</span>
+        </div>
+      </div>
   </section>
 
   <!-- FOOTER -->
-  <footer class="border-t border-ink-800">
-    <div class="max-w-7xl mx-auto px-6 lg:px-10 py-12 text-center">
-      <div class="text-xs text-ink-600" data-i18n="footer-copy">
+  <footer class="footer-cta border-t border-ink-800">
+    <div class="max-w-7xl mx-auto px-6 lg:px-10 pt-24 pb-12 text-center">
+      <p class="rv2 text-xs tracking-[0.2em] text-ink-500 uppercase mb-6" data-i18n="footer-cta-eyebrow">Next Project</p>
+      <h2 class="rv2 font-michroma text-3xl md:text-5xl lg:text-6xl tracking-tight text-ink-100 mb-10" style="--rvd: 100ms;" data-i18n="footer-cta-title">LET&#8217;S BUILD<br>WHAT&#8217;S NEXT</h2>
+      <a class="rv2 magnet inline-flex items-center gap-3 rounded-full bg-ink-100 text-ink-950 pl-7 pr-2 py-2 text-sm font-medium" style="--rvd: 200ms;"
+         href="https://www.linkedin.com/in/ben-jungbin-seo-57a193109/" target="_blank" rel="noopener noreferrer">
+        <span data-i18n="footer-cta-btn">Say hello</span>
+        <span class="inline-flex w-9 h-9 rounded-full bg-ink-950/10 items-center justify-center">
+          <iconify-icon icon="solar:arrow-right-up-linear"></iconify-icon>
+        </span>
+      </a>
+      <div class="text-xs text-ink-600 mt-16" data-i18n="footer-copy">
         © 2026 Ben Seo · This site was designed and built by me.
       </div>
     </div>
@@ -1192,16 +1294,35 @@
     const io = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
-          entry.target.classList.add('reveal');
+          entry.target.classList.add('file-open');
           io.unobserve(entry.target);
         }
       });
     }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
 
-    document.querySelectorAll('.project-card').forEach((el, i) => {
-      el.style.animationDelay = `${Math.min(i * 80, 420)}ms`;
+    document.querySelectorAll('.dossier').forEach((el) => {
+      el.querySelectorAll('.drow').forEach((row, i) => row.style.setProperty('--i', i));
       io.observe(el);
     });
+
+    // ------- About section reveal -------
+    const aboutTargets = [
+      ...document.querySelectorAll('#about .about-badge, #about [data-i18n="about-eyebrow"], #about [data-i18n="about-p1"], #about .mt-8')
+    ];
+    const capCells = document.querySelectorAll('#about .mt-14 > div');
+    capCells.forEach((cell, i) => {
+      cell.classList.add('rv2');
+      cell.style.setProperty('--rvd', `${i * 80}ms`);
+    });
+    aboutTargets.forEach((el) => el.classList.add('rv2'));
+    const io2 = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add('in');
+        io2.unobserve(entry.target);
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -6% 0px' });
+    [...aboutTargets, ...capCells, ...document.querySelectorAll('.footer-cta .rv2')].forEach((el) => io2.observe(el));
 
     // ------- Hero scroll-scrub frame animation -------
     (function heroScrub() {
@@ -1258,7 +1379,7 @@
           img.onload = () => {
             loaded++;
             const pct = Math.round((loaded / TOTAL) * 100);
-            if (loaderBar) loaderBar.style.width = pct + '%';
+            if (loaderBar) loaderBar.style.transform = 'scaleX(' + (pct / 100) + ')';
             if (!firstDone && i === 0) {
               firstDone = true;
               readyFirst = true;
@@ -1750,6 +1871,9 @@
           'cap-6-t': 'Collaboration',
           'cap-6-d': 'Cross-functional team',
           'footer-role': 'Independent Product Designer · Seoul',
+          'footer-cta-eyebrow': 'Next Project',
+          'footer-cta-title': 'LET&#8217;S BUILD<br>WHAT&#8217;S NEXT',
+          'footer-cta-btn': 'Say hello',
           'footer-copy': '© 2026 Ben Seo · This site was designed and built by me.',
         },
         ko: {
@@ -1788,6 +1912,9 @@
           'cap-6-t': '협업',
           'cap-6-d': '크로스펑셔널 팀',
           'footer-role': '독립 프로덕트 디자이너 · 서울',
+          'footer-cta-eyebrow': '다음 프로젝트',
+          'footer-cta-title': '다음을,<br>함께 만들어요',
+          'footer-cta-btn': '인사 건네기',
           'footer-copy': '© 2026 서정빈 · 이 사이트는 본인이 직접 디자인·제작했습니다.',
         }
       };
