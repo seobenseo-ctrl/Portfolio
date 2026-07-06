@@ -1,0 +1,968 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title data-i18n="page-title">AhhaOhho Design System — Ben Seo</title>
+  <meta name="description" content="The motion-driven design system behind AhhaOhho: 21 interactive Rive animations, a Lottie character library, and design tokens managed as data.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='42' fill='%230a0a0b'/%3E%3Ctext x='50' y='73' text-anchor='middle' font-family='sans-serif' font-size='76' font-weight='700' fill='%23ffffff'%3E%E3%85%85%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Michroma&family=Inter:wght@300;400;500;600&display=swap">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.min.css">
+  <script src="https://code.iconify.design/iconify-icon/2.3.0/iconify-icon.min.js"></script>
+  <script src="https://unpkg.com/@rive-app/canvas@2.38.4"></script>
+  <script type="module" src="https://unpkg.com/@dotlottie/player-component@2.7.12/dist/dotlottie-player.mjs"></script>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body[data-lang="ko"] {
+      font-family: 'Pretendard', 'Inter', system-ui, sans-serif;
+    }
+    body[data-lang="ko"] .proj-title,
+    body[data-lang="ko"] .proj-section-title,
+    body[data-lang="ko"] .ads-pull {
+      font-family: 'Pretendard', 'Inter', system-ui, sans-serif;
+      letter-spacing: -0.015em;
+    }
+    body[data-lang="ko"] .proj-title { word-break: keep-all; }
+    body[data-lang="ko"] .ads-pull { word-break: keep-all; line-height: 1.5; }
+
+    .proj-hero,
+    .proj-section,
+    .proj-footer-inner { max-width: 78rem !important; }
+    .proj-section .proj-block p { max-width: none !important; }
+    .proj-section .proj-metrics { max-width: none !important; }
+
+    .ads-pull {
+      font-family: 'Michroma', monospace;
+      font-size: clamp(1.1rem, 2.2vw, 1.6rem);
+      line-height: 1.6;
+      margin: 2rem 0 2.5rem;
+      padding-left: 2rem;
+      border-left: 3px solid var(--accent, #5e7c14);
+    }
+
+    /* ===== Rive demo cards ===== */
+    .ads-rive-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.25rem;
+      margin: 2.5rem 0;
+    }
+    @media (min-width: 760px) { .ads-rive-grid { grid-template-columns: 1fr 1fr; } }
+    .ads-rive-card {
+      background: #ffffff;
+      border: 1px solid rgba(0,0,0,0.08);
+      border-radius: 1.25rem;
+      overflow: hidden;
+    }
+    .ads-rive-card .stage {
+      position: relative;
+      background: #f6f5f1;
+      border-bottom: 1px solid rgba(0,0,0,0.06);
+    }
+    .ads-rive-card canvas {
+      display: block;
+      width: 100%;
+      height: 320px;
+      touch-action: manipulation;
+    }
+    .ads-rive-card .hint {
+      position: absolute;
+      top: 0.9rem; right: 0.9rem;
+      font-family: 'Michroma', monospace;
+      font-size: 0.55rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      background: rgba(10,10,11,0.82);
+      color: #fff;
+      padding: 0.4rem 0.7rem;
+      border-radius: 999px;
+      pointer-events: none;
+    }
+    .ads-rive-card .meta { padding: 1.1rem 1.4rem 1.3rem; }
+    .ads-rive-card .meta .n { font-weight: 600; font-size: 0.95rem; color: #111; margin-bottom: 0.3rem; }
+    .ads-rive-card .meta .d { font-size: 0.85rem; line-height: 1.6; color: #555; }
+    .ads-rive-card .meta code {
+      font-size: 0.7rem; color: #666;
+      background: rgba(0,0,0,0.045); padding: 0.1rem 0.4rem; border-radius: 0.3rem;
+    }
+    /* Player controls (play/pause/reset) — bottom-right of stage */
+    .ads-player-btns {
+      position: absolute;
+      bottom: 0.6rem; right: 0.6rem;
+      display: flex;
+      gap: 0.3rem;
+    }
+    .ads-player-btn {
+      width: 32px; height: 32px;
+      display: inline-flex; align-items: center; justify-content: center;
+      border-radius: 0.55rem;
+      border: 1px solid rgba(0,0,0,0.08);
+      background: #f1f0eb;
+      color: #333;
+      cursor: pointer;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+      transition: background 0.12s ease;
+    }
+    .ads-player-btn:hover { background: #e8e6df; }
+    .ads-player-btn iconify-icon { font-size: 15px; }
+
+    /* Control bar below stage — matches docs-site RivePlayer */
+    .ads-rive-controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      align-items: center;
+      min-height: 44px;
+      margin: 0.6rem 0.9rem 0.2rem;
+      padding: 0.45rem 0.75rem;
+      border: 1px solid rgba(0,0,0,0.08);
+      border-radius: 0.65rem;
+      background: rgba(0,0,0,0.025);
+    }
+    .ads-rive-controls:empty { display: none; }
+    .ads-ctrl-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      font-size: 0.74rem;
+      font-weight: 500;
+      height: 28px;
+      padding: 0 0.7rem;
+      border-radius: 0.5rem;
+      border: 1px solid rgba(0,0,0,0.14);
+      background: #fff;
+      color: #111;
+      cursor: pointer;
+      transition: transform 0.12s ease, background 0.12s ease, border-color 0.12s ease;
+    }
+    .ads-ctrl-btn iconify-icon { font-size: 12px; }
+    .ads-ctrl-btn:hover { background: #f5f4f0; }
+    .ads-ctrl-btn:active { transform: scale(0.95); }
+    .ads-ctrl-btn.fired { background: var(--accent, #5e7c14); color: #fff; border-color: var(--accent, #5e7c14); }
+    /* Switch toggle (docs-site style) */
+    .ads-ctrl-sw {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.74rem;
+      color: #666;
+      cursor: pointer;
+      user-select: none;
+    }
+    .ads-ctrl-sw input { display: none; }
+    .ads-ctrl-sw .track {
+      width: 30px; height: 17px;
+      border-radius: 999px;
+      background: #d5d3cc;
+      position: relative;
+      transition: background 0.15s ease;
+      flex: none;
+    }
+    .ads-ctrl-sw .track::after {
+      content: '';
+      position: absolute;
+      top: 2px; left: 2px;
+      width: 13px; height: 13px;
+      border-radius: 50%;
+      background: #fff;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+      transition: transform 0.15s ease;
+    }
+    .ads-ctrl-sw input:checked + .track { background: #111; }
+    .ads-ctrl-sw input:checked + .track::after { transform: translateX(13px); }
+    /* Number input (docs-site style) */
+    .ads-ctrl-num {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.74rem;
+      color: #666;
+    }
+    .ads-ctrl-num input {
+      width: 64px;
+      height: 28px;
+      font-size: 0.74rem;
+      color: #111;
+      padding: 0 0.5rem;
+      border: 1px solid rgba(0,0,0,0.14);
+      border-radius: 0.5rem;
+      background: #fff;
+      outline: none;
+    }
+    .ads-ctrl-num input:focus { border-color: var(--accent, #5e7c14); }
+
+    /* Graphics subsection */
+    .ads-sub-title {
+      font-family: 'Michroma', monospace;
+      font-size: 0.85rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent, #5e7c14);
+      margin: 3.5rem 0 1rem;
+    }
+    body[data-lang="ko"] .ads-sub-title { font-family: 'Pretendard', 'Inter', system-ui, sans-serif; letter-spacing: 0.02em; }
+    .ads-rive-grid--sm .ads-rive-card canvas { height: 240px; }
+
+    /* ===== Lottie strip ===== */
+    .ads-lottie-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+      margin: 2.5rem 0;
+    }
+    @media (min-width: 760px) { .ads-lottie-grid { grid-template-columns: repeat(3, 1fr); } }
+    .ads-lottie-card {
+      background: #ffffff;
+      border: 1px solid rgba(0,0,0,0.08);
+      border-radius: 1rem;
+      padding: 1rem;
+      text-align: center;
+    }
+    .ads-lottie-card dotlottie-player {
+      width: 100%;
+      height: 170px;
+      margin: 0 auto;
+    }
+    .ads-lottie-card .n {
+      font-size: 0.8rem; font-weight: 500; color: #333; margin-top: 0.5rem;
+    }
+
+    /* ===== Motion tokens ===== */
+    .ads-tokens {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 1rem;
+      margin: 2.5rem 0;
+    }
+    .ads-token-card {
+      background: #ffffff;
+      border: 1px solid rgba(0,0,0,0.08);
+      border-radius: 1rem;
+      padding: 1.4rem;
+    }
+    .ads-token-card .t {
+      font-family: 'Michroma', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent, #5e7c14);
+      margin-bottom: 1rem;
+    }
+    .ads-token-card .row { font-size: 0.85rem; color: #444; line-height: 2; }
+    .ads-token-card code {
+      font-size: 0.72rem; color: #666;
+      background: rgba(0,0,0,0.04); padding: 0.1rem 0.4rem; border-radius: 0.3rem;
+    }
+
+    /* Pipeline (condensed) */
+    .ads-pipeline {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1rem;
+      margin: 2.5rem 0;
+    }
+    @media (min-width: 900px) {
+      .ads-pipeline { grid-template-columns: 1.2fr auto 1fr auto 1.2fr; align-items: stretch; }
+    }
+    .ads-pipe-node {
+      background: #ffffff;
+      border: 1px solid rgba(0,0,0,0.08);
+      border-radius: 1rem;
+      padding: 1.5rem;
+    }
+    .ads-pipe-node .t {
+      font-family: 'Michroma', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent, #5e7c14);
+      margin-bottom: 0.75rem;
+    }
+    .ads-pipe-node ul { margin: 0; padding-left: 1.1rem; font-size: 0.9rem; line-height: 1.7; color: #333; }
+    .ads-pipe-arrow {
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem; color: var(--accent, #5e7c14);
+    }
+    @media (max-width: 899px) { .ads-pipe-arrow { transform: rotate(90deg); } }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <header class="proj-nav">
+    <div class="proj-nav-inner">
+      <a href="ahhaohho.html" class="proj-nav-back">
+        <iconify-icon icon="solar:arrow-left-linear"></iconify-icon>
+        <span data-i18n="nav-back">Back to AhhaOhho</span>
+      </a>
+      <div class="proj-nav-right">
+        <button class="lang-toggle" id="langToggle" type="button" aria-label="Toggle language">한국어</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="proj-hero">
+    <p class="proj-eyebrow" data-i18n="hero-eyebrow">AhhaOhho · Deep Dive</p>
+    <h1 class="proj-title" data-i18n="hero-title">A Design System<br>That Moves</h1>
+    <p class="proj-tagline" data-i18n="hero-tagline">Interactive Motion · Rive &amp; Lottie · Design Tokens as Data</p>
+    <div class="proj-block" style="margin-top:2rem;">
+      <p data-i18n="hero-tldr">In a children's product, motion is how the interface talks. I designed and built the motion layer of the AhhaOhho Design System: <strong>21 interactive Rive animations</strong> with state machines and data bindings, a Lottie library of character and feedback motions, and the token system that keeps them consistent. <strong>The demos below are the real production files. Try them.</strong></p>
+    </div>
+
+    <div class="proj-metrics" style="margin-top:2.5rem;">
+      <div class="proj-metric">
+        <div class="num">21</div>
+        <div class="label" data-i18n="m-1">interactive Rive animations — state machines, triggers, data bindings</div>
+      </div>
+      <div class="proj-metric">
+        <div class="num">27</div>
+        <div class="label" data-i18n="m-2">Lottie motions — characters, feedback, gesture guides</div>
+      </div>
+      <div class="proj-metric">
+        <div class="num">42</div>
+        <div class="label" data-i18n="m-3">components specced in the same system</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 01 WHY MOTION -->
+  <section class="proj-section">
+    <div class="proj-section-header">
+      <span class="proj-section-num">01</span>
+      <h2 class="proj-section-title" data-i18n="why-title">Why Motion Leads</h2>
+    </div>
+    <blockquote class="ads-pull" data-i18n="why-pull">Children don't read interfaces. They poke them, and they trust what answers back.</blockquote>
+    <div class="proj-block">
+      <p data-i18n="why-p1">We tested with more than 3,000 children, and the pattern never changed: kids explore by touching everything, and a static screen reads as broken to a 9-year-old. So this design system treats motion as a first-class layer. Every button press, progress tick, reward, and character moment is a designed, reusable animation asset rather than something a developer improvises at the end.</p>
+      <p data-i18n="why-p2">The system speaks two motion vocabularies. <strong>Macro motion</strong> covers page transitions, modals, and celebrations that run longer than 200ms. <strong>Micro motion</strong> covers button presses, focus, and feedback under 200ms. Each has its own timing tokens.</p>
+    </div>
+
+  </section>
+
+  <!-- 02 RIVE -->
+  <section class="proj-section">
+    <div class="proj-section-header">
+      <span class="proj-section-num">02</span>
+      <h2 class="proj-section-title" data-i18n="rive-title">Interactive Motion — Rive</h2>
+    </div>
+    <blockquote class="ads-pull" data-i18n="rive-pull">These are not videos of animations. They are running state machines, and the same files ship in the Flutter app.</blockquote>
+    <div class="proj-block">
+      <p data-i18n="rive-p1">Complex interactive animation is built in <strong>Rive</strong>. Each <code>.riv</code> file carries its own state machine, so the interaction logic for pressed, valid, progress, and celebration states lives inside the design asset itself instead of being re-implemented on every platform. Progress components expose data bindings: the app writes a number, and the animation responds. Try the four production files below.</p>
+    </div>
+
+    <div class="ads-rive-grid">
+      <div class="ads-rive-card">
+        <div class="stage">
+          <canvas id="rive-button"></canvas>
+          <div class="hint" data-i18n="hint-tap">Tap me</div>
+        </div>
+        <div class="meta">
+          <div class="n" data-i18n="rive-1-n">Button system</div>
+          <div class="d" data-i18n="rive-1-d">One file holds multiple state machines. Primary and Secondary variants come with pressed and valid states built in. <code>large-button.riv</code></div>
+        </div>
+        <div class="ads-rive-controls" id="rive-button-controls"></div>
+      </div>
+      <div class="ads-rive-card">
+        <div class="stage">
+          <canvas id="rive-progress"></canvas>
+          <div class="hint" data-i18n="hint-tap">Tap me</div>
+        </div>
+        <div class="meta">
+          <div class="n" data-i18n="rive-2-n">Challenge energy progress</div>
+          <div class="d" data-i18n="rive-2-d">The app sets <code>progress number</code>, fires a trigger, and the meter animates itself. <code>challenge-energy-progress.riv</code></div>
+        </div>
+        <div class="ads-rive-controls" id="rive-progress-controls"></div>
+      </div>
+      <div class="ads-rive-card">
+        <div class="stage">
+          <canvas id="rive-poke"></canvas>
+          <div class="hint" data-i18n="hint-hold">Press &amp; hold</div>
+        </div>
+        <div class="meta">
+          <div class="n" data-i18n="rive-3-n">Poke the thought-blob</div>
+          <div class="d" data-i18n="rive-3-d">A long-press interaction from onboarding. Curiosity works here as a mechanic, not a message. <code>poke-thought-motion3.riv</code></div>
+        </div>
+        <div class="ads-rive-controls" id="rive-poke-controls"></div>
+      </div>
+      <div class="ads-rive-card">
+        <div class="stage">
+          <canvas id="rive-levelup"></canvas>
+          <div class="hint" data-i18n="hint-watch">Watch</div>
+        </div>
+        <div class="meta">
+          <div class="n" data-i18n="rive-4-n">Level-up splash</div>
+          <div class="d" data-i18n="rive-4-d">Expressive macro motion for growth moments. This is the payoff of the gamification loop. <code>levelup-splash-motion12.riv</code></div>
+        </div>
+        <div class="ads-rive-controls" id="rive-levelup-controls"></div>
+      </div>
+    </div>
+
+    <h3 class="ads-sub-title" data-i18n="g-title">Graphics</h3>
+    <div class="proj-block">
+      <p data-i18n="g-desc">Illustration-driven motion built to spark curiosity: onboarding scenes, character explainers, and celebration sequences. Everything below runs live.</p>
+    </div>
+
+    <div class="ads-rive-grid ads-rive-grid--sm">
+      <div class="ads-rive-card">
+        <div class="stage"><canvas id="rive-g-blink"></canvas></div>
+        <div class="meta">
+          <div class="n" data-i18n="g-1-n">Blink</div>
+          <div class="d"><code>blink-motion4.riv</code></div>
+        </div>
+        <div class="ads-rive-controls" id="rive-g-blink-controls"></div>
+      </div>
+      <div class="ads-rive-card">
+        <div class="stage"><canvas id="rive-g-worldview"></canvas></div>
+        <div class="meta">
+          <div class="n" data-i18n="g-2-n">Onboarding worldview</div>
+          <div class="d"><code>onboarding-worldview.riv</code></div>
+        </div>
+        <div class="ads-rive-controls" id="rive-g-worldview-controls"></div>
+      </div>
+      <div class="ads-rive-card">
+        <div class="stage"><canvas id="rive-g-groundrule"></canvas></div>
+        <div class="meta">
+          <div class="n" data-i18n="g-3-n">Community ground rules</div>
+          <div class="d"><code>community-ground-rule-motion5.riv</code></div>
+        </div>
+        <div class="ads-rive-controls" id="rive-g-groundrule-controls"></div>
+      </div>
+      <div class="ads-rive-card">
+        <div class="stage"><canvas id="rive-g-guide"></canvas></div>
+        <div class="meta">
+          <div class="n" data-i18n="g-4-n">AhhaOhho guide</div>
+          <div class="d"><code>ahhaohho-guide-motion9.riv</code></div>
+        </div>
+        <div class="ads-rive-controls" id="rive-g-guide-controls"></div>
+      </div>
+      <div class="ads-rive-card">
+        <div class="stage"><canvas id="rive-g-ahha"></canvas></div>
+        <div class="meta">
+          <div class="n" data-i18n="g-5-n">Ahha explains</div>
+          <div class="d"><code>ahha-explain-motion7.riv</code></div>
+        </div>
+        <div class="ads-rive-controls" id="rive-g-ahha-controls"></div>
+      </div>
+      <div class="ads-rive-card">
+        <div class="stage"><canvas id="rive-g-ohho"></canvas></div>
+        <div class="meta">
+          <div class="n" data-i18n="g-6-n">Ohho explains</div>
+          <div class="d"><code>ohho-explain-motion8.riv</code></div>
+        </div>
+        <div class="ads-rive-controls" id="rive-g-ohho-controls"></div>
+      </div>
+      <div class="ads-rive-card">
+        <div class="stage" style="background:#0B1215;"><canvas id="rive-g-prompt"></canvas></div>
+        <div class="meta">
+          <div class="n" data-i18n="g-7-n">Challenge prompt</div>
+          <div class="d"><code>challenge-prompt.riv</code></div>
+        </div>
+        <div class="ads-rive-controls" id="rive-g-prompt-controls"></div>
+      </div>
+      <div class="ads-rive-card">
+        <div class="stage"><canvas id="rive-g-reward"></canvas></div>
+        <div class="meta">
+          <div class="n" data-i18n="g-8-n">Reward</div>
+          <div class="d"><code>reward-motion11.riv</code></div>
+        </div>
+        <div class="ads-rive-controls" id="rive-g-reward-controls"></div>
+      </div>
+    </div>
+
+    <div class="proj-block">
+      <p data-i18n="rive-p2">The full library goes further: onboarding worldview scenes, community ground-rule explainers, character introductions for Ahha and Ohho, challenge prompts, reward sequences, and sign-up progress. Each file is documented with its state machine inputs on the docs site, so developers can wire them up without asking.</p>
+    </div>
+  </section>
+
+  <!-- 03 LOTTIE -->
+  <section class="proj-section">
+    <div class="proj-section-header">
+      <span class="proj-section-num">03</span>
+      <h2 class="proj-section-title" data-i18n="lottie-title">Character &amp; Feedback — Lottie</h2>
+    </div>
+    <div class="proj-block">
+      <p data-i18n="lottie-p1">Lighter feedback and character moments run on <strong>Lottie</strong>. The 27 vector animations cover the Ahha &amp; Ohho character set for talking, reacting, celebrating, and erroring, gesture guides for the profile editor, loading states, and the app splash. The characters are not mascots pasted on top. <strong>They are the feedback layer.</strong> When a child gets a like, Ohho celebrates with them.</p>
+    </div>
+
+    <div class="ads-lottie-grid">
+      <div class="ads-lottie-card">
+        <dotlottie-player src="assets/ahhaohho/ds/ahha-talking.lottie" autoplay loop></dotlottie-player>
+        <div class="n" data-i18n="lot-1">Ahha · talking</div>
+      </div>
+      <div class="ads-lottie-card">
+        <dotlottie-player src="assets/ahhaohho/ds/ohho-talking.lottie" autoplay loop></dotlottie-player>
+        <div class="n" data-i18n="lot-2">Ohho · talking</div>
+      </div>
+      <div class="ads-lottie-card">
+        <dotlottie-player src="assets/ahhaohho/ds/ahha-likes.lottie" autoplay loop></dotlottie-player>
+        <div class="n" data-i18n="lot-3">Ahha · likes</div>
+      </div>
+      <div class="ads-lottie-card">
+        <dotlottie-player src="assets/ahhaohho/ds/ohho-likes.lottie" autoplay loop></dotlottie-player>
+        <div class="n" data-i18n="lot-4">Ohho · likes</div>
+      </div>
+      <div class="ads-lottie-card">
+        <dotlottie-player src="assets/ahhaohho/ds/magnifying-glasses.lottie" autoplay loop></dotlottie-player>
+        <div class="n" data-i18n="lot-5">Discover · searching</div>
+      </div>
+      <div class="ads-lottie-card">
+        <dotlottie-player src="assets/ahhaohho/ds/futurebee.lottie" autoplay loop></dotlottie-player>
+        <div class="n" data-i18n="lot-6">Futurebee · guide</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 04 SYSTEM -->
+  <section class="proj-section">
+    <div class="proj-section-header">
+      <span class="proj-section-num">04</span>
+      <h2 class="proj-section-title" data-i18n="system-title">Managed as a System</h2>
+    </div>
+    <blockquote class="ads-pull" data-i18n="system-pull">An animation library rots without a system around it. This one lives in the same repository the app ships from.</blockquote>
+    <div class="proj-block">
+      <p data-i18n="system-p1">Every motion asset is registered in a typed library (<code>data/rive.ts</code>, <code>data/lottie.ts</code>) with its state machine, inputs, and usage notes. Adding an entry publishes an interactive playground card on the docs site, where developers test triggers and bindings before wiring them into Flutter. Motion timing lives as design tokens alongside color, spacing, and typography. All of it is designer-editable JSON, and Flutter and React code is generated from it.</p>
+    </div>
+
+    <div class="ads-pipeline">
+      <div class="ads-pipe-node">
+        <div class="t" data-i18n="pipe-1-t">Design source</div>
+        <ul>
+          <li data-i18n="pipe-1-l1">.riv / .lottie assets (Git LFS)</li>
+          <li data-i18n="pipe-1-l2">motion tokens — duration, easing JSON</li>
+          <li data-i18n="pipe-1-l3">typed registry with SM inputs</li>
+        </ul>
+      </div>
+      <div class="ads-pipe-arrow">→</div>
+      <div class="ads-pipe-node">
+        <div class="t" data-i18n="pipe-2-t">Docs site</div>
+        <ul>
+          <li data-i18n="pipe-2-l1">interactive Rive/Lottie playground</li>
+          <li data-i18n="pipe-2-l2">motion principles &amp; tokens</li>
+        </ul>
+      </div>
+      <div class="ads-pipe-arrow">→</div>
+      <div class="ads-pipe-node">
+        <div class="t" data-i18n="pipe-3-t">Product</div>
+        <ul>
+          <li data-i18n="pipe-3-l1">same .riv files run in Flutter</li>
+          <li data-i18n="pipe-3-l2">tokens exported to Flutter/React</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 05 IMPACT -->
+  <section class="proj-section">
+    <div class="proj-section-header">
+      <span class="proj-section-num">05</span>
+      <h2 class="proj-section-title" data-i18n="impact-title">Impact &amp; Reflection</h2>
+    </div>
+    <div class="proj-block">
+      <p data-i18n="impact-p1">Putting interaction logic inside the animation files changed the contract between design and engineering. Designers now own how the product feels at 60fps, and developers consume assets that already know their own states. Motion also stopped being the first thing cut under deadline, because it ships as part of the component instead of as polish at the end.</p>
+      <p data-i18n="impact-p2">The craft lesson: for children, expressive motion and system discipline are not in tension. The playful moments stay playful at scale because the durations, easings, and states underneath them are tokenized.</p>
+    </div>
+  </section>
+
+  <!-- FOOTER NAV -->
+  <footer class="proj-footer">
+    <div class="proj-footer-inner">
+      <a href="ahhaohho.html" class="proj-foot-link">
+        <div class="dir"><iconify-icon icon="solar:arrow-left-linear"></iconify-icon> <span data-i18n="footer-back-dir">Back to</span></div>
+        <div class="label">AhhaOhho</div>
+      </a>
+      <a href="../index.html" class="proj-foot-link next">
+        <div class="dir"><span data-i18n="footer-all-dir">All works</span> <iconify-icon icon="solar:arrow-right-linear"></iconify-icon></div>
+        <div class="label" data-i18n="footer-all">Selected Works</div>
+      </a>
+    </div>
+  </footer>
+
+  <!-- Rive embeds + state machine playground controls -->
+  <script>
+    (function () {
+      function el(tag, cls, html) {
+        var e = document.createElement(tag);
+        if (cls) e.className = cls;
+        if (html !== undefined) e.innerHTML = html;
+        return e;
+      }
+
+      function makeTriggerBtn(label, onFire) {
+        var b = el('button', 'ads-ctrl-btn');
+        b.type = 'button';
+        b.innerHTML = '<iconify-icon icon="lucide:zap"></iconify-icon>' + label;
+        b.addEventListener('click', function () {
+          onFire();
+          b.classList.add('fired');
+          setTimeout(function () { b.classList.remove('fired'); }, 220);
+        });
+        return b;
+      }
+
+      function makeSwitch(label, initial, onChange) {
+        var w = el('label', 'ads-ctrl-sw');
+        var input = document.createElement('input');
+        input.type = 'checkbox';
+        input.checked = !!initial;
+        var track = el('span', 'track');
+        var text = el('span', '', label);
+        input.addEventListener('change', function () { onChange(input.checked); });
+        w.appendChild(input); w.appendChild(track); w.appendChild(text);
+        return w;
+      }
+
+      function makeNumber(label, initial, onChange) {
+        var w = el('label', 'ads-ctrl-num');
+        var text = el('span', '', label);
+        var input = document.createElement('input');
+        input.type = 'number';
+        if (initial !== undefined && initial !== null) input.value = initial;
+        input.addEventListener('input', function () {
+          var v = Number(input.value);
+          if (!Number.isNaN(v)) onChange(v);
+        });
+        w.appendChild(text); w.appendChild(input);
+        return w;
+      }
+
+      // State machine inputs → controls (docs-site RivePlayer style)
+      function buildInputControls(box, inst, smName, opts) {
+        var inputs = [];
+        try { inputs = inst.stateMachineInputs(smName) || []; } catch (e) {}
+        var hide = opts.hideInputs || [];
+        inputs = inputs.filter(function (i) { return hide.indexOf(i.name) === -1; });
+        if (opts.inputDefaults) {
+          inputs.forEach(function (i) {
+            if (i.name in opts.inputDefaults) {
+              try { i.value = opts.inputDefaults[i.name]; } catch (e) {}
+            }
+          });
+        }
+        var triggers = inputs.filter(function (i) { return i.type === rive.StateMachineInputType.Trigger; });
+        var booleans = inputs.filter(function (i) { return i.type === rive.StateMachineInputType.Boolean; });
+        var numbers = inputs.filter(function (i) { return i.type === rive.StateMachineInputType.Number; });
+        triggers.forEach(function (input) {
+          box.appendChild(makeTriggerBtn(input.name, function () { input.fire(); }));
+        });
+        booleans.forEach(function (input) {
+          box.appendChild(makeSwitch(input.name, input.value, function (v) { input.value = v; }));
+        });
+        numbers.forEach(function (input) {
+          box.appendChild(makeNumber(input.name, input.value, function (v) { input.value = v; }));
+        });
+      }
+
+      // View-model (data binding) properties → controls
+      function buildBindingControls(box, inst, bindings) {
+        var vm = inst.viewModelInstance;
+        if (!vm) return;
+        (bindings || []).forEach(function (bind) {
+          var label = bind.label || bind.name;
+          try {
+            if (bind.type === 'number') {
+              var prop = vm.number(bind.name);
+              if (!prop) return;
+              if (bind.default !== undefined) prop.value = bind.default;
+              box.appendChild(makeNumber(label, prop.value, function (v) { prop.value = v; }));
+            } else if (bind.type === 'trigger') {
+              var prop2 = vm.trigger(bind.name);
+              if (!prop2) return;
+              box.appendChild(makeTriggerBtn(label, function () { prop2.trigger(); }));
+            } else if (bind.type === 'boolean') {
+              var prop3 = vm.boolean(bind.name);
+              if (!prop3) return;
+              if (bind.default !== undefined) prop3.value = bind.default;
+              box.appendChild(makeSwitch(label, prop3.value, function (v) { prop3.value = v; }));
+            }
+          } catch (e) {}
+        });
+      }
+
+      // Play/pause + reset buttons over the canvas (bottom-right)
+      function buildPlayerButtons(stage, getInst, getSm, opts) {
+        var old = stage.querySelector('.ads-player-btns');
+        if (old) old.remove();
+        var wrap = el('div', 'ads-player-btns');
+        var playing = true;
+        var playBtn = el('button', 'ads-player-btn');
+        playBtn.type = 'button';
+        playBtn.setAttribute('aria-label', 'Play / Pause');
+        playBtn.innerHTML = '<iconify-icon icon="lucide:pause"></iconify-icon>';
+        playBtn.addEventListener('click', function () {
+          var inst = getInst();
+          if (!inst) return;
+          if (playing) { inst.pause(); } else { inst.play(getSm()); }
+          playing = !playing;
+          playBtn.innerHTML = '<iconify-icon icon="lucide:' + (playing ? 'pause' : 'play') + '"></iconify-icon>';
+        });
+        var resetBtn = el('button', 'ads-player-btn');
+        resetBtn.type = 'button';
+        resetBtn.setAttribute('aria-label', 'Reset');
+        resetBtn.innerHTML = '<iconify-icon icon="lucide:rotate-ccw"></iconify-icon>';
+        resetBtn.addEventListener('click', function () {
+          var inst = getInst();
+          if (!inst) return;
+          var cfg = { stateMachines: getSm(), autoplay: true };
+          if (opts.autoBind) cfg.autoBind = true;
+          try { inst.reset(cfg); inst.play(getSm()); } catch (e) {}
+          playing = true;
+          playBtn.innerHTML = '<iconify-icon icon="lucide:pause"></iconify-icon>';
+          if (opts.onReset) requestAnimationFrame(opts.onReset);
+        });
+        wrap.appendChild(playBtn);
+        wrap.appendChild(resetBtn);
+        stage.appendChild(wrap);
+      }
+
+      function mountRive(canvasId, src, opts) {
+        var canvas = document.getElementById(canvasId);
+        if (!canvas || !window.rive) return;
+        opts = opts || {};
+        // First pass: discover state machines, pick the most interactive one
+        var probe = new rive.Rive({
+          src: src,
+          canvas: canvas,
+          autoplay: false,
+          onLoad: function () {
+            var sms = probe.stateMachineNames || [];
+            var smName = opts.stateMachine;
+            if (!smName && opts.preferSM) {
+              smName = sms.filter(function (n) { return n.indexOf(opts.preferSM) !== -1; })[0];
+            }
+            if (!smName && sms.length) {
+              // docs-site behavior: auto-select the SM with the most inputs
+              var best = sms[0], bestCount = -1;
+              sms.forEach(function (n) {
+                try {
+                  var c = (probe.stateMachineInputs(n) || []).length;
+                  if (c > bestCount) { bestCount = c; best = n; }
+                } catch (e) {}
+              });
+              smName = best;
+            }
+            probe.cleanup();
+            var inst;
+            var rebuildControls = function () {
+              var box = document.getElementById(canvasId + '-controls');
+              if (!box) return;
+              box.innerHTML = '';
+              if (smName) buildInputControls(box, inst, smName, opts);
+              if (opts.bindings) buildBindingControls(box, inst, opts.bindings);
+            };
+            var cfg = {
+              src: src,
+              canvas: canvas,
+              autoplay: true,
+              layout: new rive.Layout({ fit: rive.Fit.Contain, alignment: rive.Alignment.Center }),
+              onLoad: function () {
+                inst.resizeDrawingSurfaceToCanvas();
+                rebuildControls();
+                buildPlayerButtons(canvas.parentElement, function () { return inst; }, function () { return smName; }, {
+                  autoBind: opts.autoBind,
+                  onReset: rebuildControls
+                });
+              }
+            };
+            if (smName) cfg.stateMachines = smName;
+            if (opts.autoBind) cfg.autoBind = true;
+            inst = new rive.Rive(cfg);
+            window.addEventListener('resize', function () { inst.resizeDrawingSurfaceToCanvas(); });
+          },
+          onLoadError: function () { canvas.parentElement.style.display = 'none'; }
+        });
+      }
+
+      document.addEventListener('DOMContentLoaded', function () {
+        mountRive('rive-button', 'assets/ahhaohho/ds/large-button.riv', { preferSM: 'Primary' });
+        mountRive('rive-progress', 'assets/ahhaohho/ds/challenge-energy-progress.riv', {
+          autoBind: true,
+          bindings: [
+            { name: 'progress number', label: 'progress', type: 'number', default: 20 },
+            { name: 'progress incremental Trigger', label: 'progress +', type: 'trigger' }
+          ]
+        });
+        mountRive('rive-poke', 'assets/ahhaohho/ds/poke-thought-motion3.riv', { stateMachine: 'State Machine 1' });
+        mountRive('rive-levelup', 'assets/ahhaohho/ds/levelup-splash-motion12.riv');
+        // Graphics library
+        mountRive('rive-g-blink', 'assets/ahhaohho/ds/blink-motion4.riv', { stateMachine: 'State Machine 1' });
+        mountRive('rive-g-worldview', 'assets/ahhaohho/ds/onboarding-worldview.riv', { stateMachine: 'State Machine 1' });
+        mountRive('rive-g-groundrule', 'assets/ahhaohho/ds/community-ground-rule-motion5.riv', { stateMachine: 'State Machine 1' });
+        mountRive('rive-g-guide', 'assets/ahhaohho/ds/ahhaohho-guide-motion9.riv', { stateMachine: 'State Machine 1' });
+        mountRive('rive-g-ahha', 'assets/ahhaohho/ds/ahha-explain-motion7.riv', { stateMachine: 'State Machine 1' });
+        mountRive('rive-g-ohho', 'assets/ahhaohho/ds/ohho-explain-motion8.riv', { stateMachine: 'State Machine 1' });
+        mountRive('rive-g-prompt', 'assets/ahhaohho/ds/challenge-prompt.riv', { stateMachine: 'challengeStateMachine', hideInputs: ['Trigger 1'] });
+        mountRive('rive-g-reward', 'assets/ahhaohho/ds/reward-motion11.riv', { stateMachine: 'State Machine 1' });
+      });
+    })();
+  </script>
+
+  <!-- Translations + language toggle -->
+  <script>
+    (function () {
+      const i18n = {
+        en: {
+          'page-title': 'AhhaOhho Design System — Ben Seo',
+          'nav-back': 'Back to AhhaOhho',
+          'hero-eyebrow': 'AhhaOhho · Deep Dive',
+          'hero-title': 'A Design System<br>That Moves',
+          'hero-tagline': 'Interactive Motion · Rive &amp; Lottie · Design Tokens as Data',
+          'hero-tldr': 'In a children\'s product, motion is how the interface talks. I designed and built the motion layer of the AhhaOhho Design System: <strong>21 interactive Rive animations</strong> with state machines and data bindings, a Lottie library of character and feedback motions, and the token system that keeps them consistent. <strong>The demos below are the real production files. Try them.</strong>',
+          'm-1': 'interactive Rive animations — state machines, triggers, data bindings',
+          'm-2': 'Lottie motions — characters, feedback, gesture guides',
+          'm-3': 'components specced in the same system',
+          'why-title': 'Why Motion Leads',
+          'why-pull': 'Children don\'t read interfaces. They poke them, and they trust what answers back.',
+          'why-p1': 'We tested with more than 3,000 children, and the pattern never changed: kids explore by touching everything, and a static screen reads as broken to a 9-year-old. So this design system treats motion as a first-class layer. Every button press, progress tick, reward, and character moment is a designed, reusable animation asset rather than something a developer improvises at the end.',
+          'why-p2': 'The system speaks two motion vocabularies. <strong>Macro motion</strong> covers page transitions, modals, and celebrations that run longer than 200ms. <strong>Micro motion</strong> covers button presses, focus, and feedback under 200ms. Each has its own timing tokens.',
+          'rive-title': 'Interactive Motion — Rive',
+          'rive-pull': 'These are not videos of animations. They are running state machines, and the same files ship in the Flutter app.',
+          'rive-p1': 'Complex interactive animation is built in <strong>Rive</strong>. Each <code>.riv</code> file carries its own state machine, so the interaction logic for pressed, valid, progress, and celebration states lives inside the design asset itself instead of being re-implemented on every platform. Progress components expose data bindings: the app writes a number, and the animation responds. Try the four production files below.',
+          'hint-tap': 'Tap me',
+          'hint-hold': 'Press &amp; hold',
+          'hint-watch': 'Watch',
+          'rive-1-n': 'Button system',
+          'rive-1-d': 'One file holds multiple state machines. Primary and Secondary variants come with pressed and valid states built in. <code>large-button.riv</code>',
+          'rive-2-n': 'Challenge energy progress',
+          'rive-2-d': 'The app sets <code>progress number</code>, fires a trigger, and the meter animates itself. <code>challenge-energy-progress.riv</code>',
+          'rive-3-n': 'Poke the thought-blob',
+          'rive-3-d': 'A long-press interaction from onboarding. Curiosity works here as a mechanic, not a message. <code>poke-thought-motion3.riv</code>',
+          'rive-4-n': 'Level-up splash',
+          'rive-4-d': 'Expressive macro motion for growth moments. This is the payoff of the gamification loop. <code>levelup-splash-motion12.riv</code>',
+          'g-title': 'Graphics',
+          'g-desc': 'Illustration-driven motion built to spark curiosity: onboarding scenes, character explainers, and celebration sequences. Everything below runs live.',
+          'g-1-n': 'Blink',
+          'g-2-n': 'Onboarding worldview',
+          'g-3-n': 'Community ground rules',
+          'g-4-n': 'AhhaOhho guide',
+          'g-5-n': 'Ahha explains',
+          'g-6-n': 'Ohho explains',
+          'g-7-n': 'Challenge prompt',
+          'g-8-n': 'Reward',
+          'rive-p2': 'The full library goes further: onboarding worldview scenes, community ground-rule explainers, character introductions for Ahha and Ohho, challenge prompts, reward sequences, and sign-up progress. Each file is documented with its state machine inputs on the docs site, so developers can wire them up without asking.',
+          'lottie-title': 'Character &amp; Feedback — Lottie',
+          'lottie-p1': 'Lighter feedback and character moments run on <strong>Lottie</strong>. The 27 vector animations cover the Ahha &amp; Ohho character set for talking, reacting, celebrating, and erroring, gesture guides for the profile editor, loading states, and the app splash. The characters are not mascots pasted on top. <strong>They are the feedback layer.</strong> When a child gets a like, Ohho celebrates with them.',
+          'lot-1': 'Ahha · talking',
+          'lot-2': 'Ohho · talking',
+          'lot-3': 'Ahha · likes',
+          'lot-4': 'Ohho · likes',
+          'lot-5': 'Discover · searching',
+          'lot-6': 'Futurebee · guide',
+          'system-title': 'Managed as a System',
+          'system-pull': 'An animation library rots without a system around it. This one lives in the same repository the app ships from.',
+          'system-p1': 'Every motion asset is registered in a typed library (<code>data/rive.ts</code>, <code>data/lottie.ts</code>) with its state machine, inputs, and usage notes. Adding an entry publishes an interactive playground card on the docs site, where developers test triggers and bindings before wiring them into Flutter. Motion timing lives as design tokens alongside color, spacing, and typography. All of it is designer-editable JSON, and Flutter and React code is generated from it.',
+          'pipe-1-t': 'Design source',
+          'pipe-1-l1': '.riv / .lottie assets (Git LFS)',
+          'pipe-1-l2': 'motion tokens — duration, easing JSON',
+          'pipe-1-l3': 'typed registry with SM inputs',
+          'pipe-2-t': 'Docs site',
+          'pipe-2-l1': 'interactive Rive/Lottie playground',
+          'pipe-2-l2': 'motion principles &amp; tokens',
+          'pipe-3-t': 'Product',
+          'pipe-3-l1': 'same .riv files run in Flutter',
+          'pipe-3-l2': 'tokens exported to Flutter/React',
+          'impact-title': 'Impact &amp; Reflection',
+          'impact-p1': 'Putting interaction logic inside the animation files changed the contract between design and engineering. Designers now own how the product feels at 60fps, and developers consume assets that already know their own states. Motion also stopped being the first thing cut under deadline, because it ships as part of the component instead of as polish at the end.',
+          'impact-p2': 'The craft lesson: for children, expressive motion and system discipline are not in tension. The playful moments stay playful at scale because the durations, easings, and states underneath them are tokenized.',
+          'footer-back-dir': 'Back to',
+          'footer-all-dir': 'All works',
+          'footer-all': 'Selected Works',
+        },
+        ko: {
+          'page-title': '아하오호 디자인 시스템 — Ben Seo',
+          'nav-back': '아하오호로 돌아가기',
+          'hero-eyebrow': '아하오호 · 딥 다이브',
+          'hero-title': '움직이는<br>디자인 시스템',
+          'hero-tagline': '인터랙티브 모션 · Rive &amp; Lottie · 데이터로 관리되는 디자인 토큰',
+          'hero-tldr': '어린이 프로덕트에서 모션은 인터페이스가 말을 거는 방식입니다. 저는 아하오호 디자인 시스템의 모션 레이어를 설계하고 직접 구축했습니다. 스테이트 머신과 데이터 바인딩을 갖춘 <strong>인터랙티브 Rive 애니메이션 21개</strong>, 캐릭터와 피드백 모션을 담은 Lottie 라이브러리, 그리고 이 모든 걸 일관되게 지켜주는 토큰 시스템까지요. <strong>아래 데모는 실제 프로덕션 파일입니다. 직접 만져보세요.</strong>',
+          'm-1': '인터랙티브 Rive 애니메이션 — 스테이트 머신, 트리거, 데이터 바인딩',
+          'm-2': 'Lottie 모션 — 캐릭터, 피드백, 제스처 가이드',
+          'm-3': '같은 시스템으로 스펙된 컴포넌트',
+          'why-title': '왜 모션이 먼저인가',
+          'why-pull': '어린이는 인터페이스를 읽지 않습니다. 찔러봅니다. 그리고 대답하는 것을 신뢰합니다.',
+          'why-p1': '3,000명이 넘는 어린이와 테스트하는 동안 한 가지 패턴은 변하지 않았습니다. 아이들은 전부 만져보며 탐색하고, 9살에게 움직이지 않는 화면은 고장난 화면입니다. 그래서 이 디자인 시스템은 모션을 일급 레이어로 다룹니다. 버튼 눌림, 진행도, 보상, 캐릭터의 순간 하나하나가 개발 막바지에 급조되는 것이 아니라 처음부터 설계된 재사용 가능한 애니메이션 에셋입니다.',
+          'why-p2': '시스템은 두 가지 모션 어휘를 씁니다. <strong>매크로 모션</strong>은 200ms를 넘는 페이지 전환, 모달, 축하 연출을 다룹니다. <strong>마이크로 모션</strong>은 200ms 이하의 버튼 눌림, 포커스, 피드백을 다룹니다. 각각 고유한 타이밍 토큰을 가집니다.',
+          'rive-title': '인터랙티브 모션 — Rive',
+          'rive-pull': '애니메이션을 찍은 영상이 아닙니다. 실제로 돌아가는 스테이트 머신이고, 같은 파일이 Flutter 앱에 실립니다.',
+          'rive-p1': '복잡한 인터랙티브 애니메이션은 <strong>Rive</strong>로 만듭니다. 각 <code>.riv</code> 파일이 자체 스테이트 머신을 품고 있어서, 눌림·유효성·진행도·축하 상태의 인터랙션 로직이 플랫폼마다 다시 구현되지 않고 디자인 에셋 안에 삽니다. 프로그레스 컴포넌트는 데이터 바인딩을 노출합니다. 앱이 숫자를 쓰면 애니메이션이 반응합니다. 아래 네 개의 프로덕션 파일을 직접 만져보세요.',
+          'hint-tap': '눌러보세요',
+          'hint-hold': '길게 눌러보세요',
+          'hint-watch': '감상하세요',
+          'rive-1-n': '버튼 시스템',
+          'rive-1-d': '파일 하나에 여러 스테이트 머신이 들어 있습니다. Primary와 Secondary 변형에 눌림·유효 상태가 내장되어 있습니다. <code>large-button.riv</code>',
+          'rive-2-n': '챌린지 에너지 프로그레스',
+          'rive-2-d': '앱이 <code>progress number</code>를 설정하고 트리거를 쏘면 게이지가 스스로 움직입니다. <code>challenge-energy-progress.riv</code>',
+          'rive-3-n': '생각덩어리 찌르기',
+          'rive-3-d': '온보딩의 길게 누르기 인터랙션입니다. 여기서 호기심은 메시지가 아니라 메커니즘으로 작동합니다. <code>poke-thought-motion3.riv</code>',
+          'rive-4-n': '레벨업 스플래시',
+          'rive-4-d': '성장의 순간을 위한 표현적 매크로 모션입니다. 게임화 루프의 보상이 여기서 터집니다. <code>levelup-splash-motion12.riv</code>',
+          'g-title': '그래픽',
+          'g-desc': '호기심을 깨우기 위해 일러스트와 인터랙션으로 만든 그래픽 모션입니다. 온보딩 장면, 캐릭터 안내, 축하 연출까지 아래 전부가 실제로 구동됩니다.',
+          'g-1-n': '눈 깜빡임',
+          'g-2-n': '온보딩 세계관 안내',
+          'g-3-n': '커뮤니티 그라운드 룰',
+          'g-4-n': '아하오호 안내',
+          'g-5-n': '아하 설명',
+          'g-6-n': '오호 설명',
+          'g-7-n': '챌린지 발문',
+          'g-8-n': '보상 리워드',
+          'rive-p2': '전체 라이브러리는 여기서 더 나아갑니다. 온보딩 세계관 연출, 커뮤니티 그라운드 룰 안내, 아하·오호 캐릭터 소개, 챌린지 발문, 보상 시퀀스, 회원가입 프로그레스까지. 각 파일은 문서 사이트에 스테이트 머신 입력과 함께 문서화되어 있어서, 개발자가 물어보지 않고 바로 연결할 수 있습니다.',
+          'lottie-title': '캐릭터 &amp; 피드백 — Lottie',
+          'lottie-p1': '가벼운 피드백과 캐릭터의 순간들은 <strong>Lottie</strong>로 만듭니다. 27개의 벡터 애니메이션이 말하고, 반응하고, 축하하고, 에러를 알리는 아하 &amp; 오호 캐릭터 세트와 프로필 편집기의 제스처 가이드, 로딩 상태, 앱 스플래시를 담당합니다. 캐릭터는 위에 얹은 마스코트가 아닙니다. <strong>피드백 레이어 그 자체입니다.</strong> 아이가 좋아요를 받으면, 오호가 함께 기뻐합니다.',
+          'lot-1': '아하 · 말하기',
+          'lot-2': '오호 · 말하기',
+          'lot-3': '아하 · 좋아요',
+          'lot-4': '오호 · 좋아요',
+          'lot-5': '탐색 · 돋보기',
+          'lot-6': '퓨처비 · 가이드',
+          'system-title': '시스템으로 관리하기',
+          'system-pull': '애니메이션 라이브러리는 시스템 없이는 썩습니다. 이 라이브러리는 앱이 출시되는 바로 그 저장소에서 삽니다.',
+          'system-p1': '모든 모션 에셋은 타입이 정의된 라이브러리(<code>data/rive.ts</code>, <code>data/lottie.ts</code>)에 스테이트 머신, 입력값, 사용 노트와 함께 등록됩니다. 항목을 추가하면 문서 사이트에 인터랙티브 플레이그라운드 카드가 게시되고, 개발자는 Flutter에 연결하기 전에 거기서 트리거와 바인딩을 테스트합니다. 모션 타이밍은 색상, 간격, 타이포그래피와 나란히 디자인 토큰으로 삽니다. 전부 디자이너가 편집하는 JSON이고, 여기서 Flutter와 React 코드가 생성됩니다.',
+          'pipe-1-t': '디자인 소스',
+          'pipe-1-l1': '.riv / .lottie 에셋 (Git LFS)',
+          'pipe-1-l2': '모션 토큰 — duration, easing JSON',
+          'pipe-1-l3': 'SM 입력값이 정의된 타입 레지스트리',
+          'pipe-2-t': '문서 사이트',
+          'pipe-2-l1': '인터랙티브 Rive/Lottie 플레이그라운드',
+          'pipe-2-l2': '모션 원칙 &amp; 토큰',
+          'pipe-3-t': '프로덕트',
+          'pipe-3-l1': '같은 .riv 파일이 Flutter에서 구동',
+          'pipe-3-l2': '토큰은 Flutter/React로 export',
+          'impact-title': '임팩트 & 회고',
+          'impact-p1': '인터랙션 로직을 애니메이션 파일 안에 넣자 디자인과 개발 사이의 계약이 바뀌었습니다. 이제 제품이 60fps에서 어떻게 느껴지는지는 디자이너가 소유합니다. 개발자는 자기 상태를 스스로 아는 에셋을 가져다 씁니다. 모션이 마감에 쫓겨 제일 먼저 잘리는 일도 없어졌습니다. 마지막에 바르는 광택이 아니라 컴포넌트의 일부로 출시되기 때문입니다.',
+          'impact-p2': '이 작업이 남긴 교훈이 있습니다. 어린이를 위한 표현적 모션과 시스템의 규율은 서로 부딪히지 않습니다. 유쾌한 순간이 규모가 커져도 유쾌하게 남는 건, 그 아래의 duration과 easing과 상태가 토큰으로 정리되어 있기 때문입니다.',
+          'footer-back-dir': '돌아가기',
+          'footer-all-dir': '전체 작품',
+          'footer-all': '셀렉티드 워크',
+        }
+      };
+
+      function applyLang(lang) {
+        if (!i18n[lang]) lang = 'en';
+        document.documentElement.lang = lang;
+        document.body.dataset.lang = lang;
+        const dict = i18n[lang];
+        document.querySelectorAll('[data-i18n]').forEach(function (el) {
+          const key = el.getAttribute('data-i18n');
+          if (dict[key] !== undefined) el.innerHTML = dict[key];
+        });
+        const btn = document.getElementById('langToggle');
+        if (btn) btn.textContent = lang === 'en' ? '한국어' : 'English';
+        try { localStorage.setItem('portfolio-lang', lang); } catch (e) {}
+      }
+
+      let saved = 'en';
+      try { saved = localStorage.getItem('portfolio-lang') || 'en'; } catch (e) {}
+      applyLang(saved);
+
+      const btn = document.getElementById('langToggle');
+      if (btn) {
+        btn.addEventListener('click', function () {
+          const cur = document.body.dataset.lang || 'en';
+          applyLang(cur === 'en' ? 'ko' : 'en');
+        });
+      }
+    })();
+  </script>
+</body>
+</html>

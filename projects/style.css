@@ -68,7 +68,7 @@ img { max-width: 100%; display: block; }
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--ink-200);
-  transition: color 0.2s ease, gap 0.2s ease;
+  transition: color 0.4s cubic-bezier(0.16, 1, 0.3, 1), gap 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .proj-nav-back:hover { color: var(--accent); gap: 0.7rem; }
 .proj-nav-back iconify-icon { font-size: 1.1rem; }
@@ -96,7 +96,7 @@ img { max-width: 100%; display: block; }
   padding: 0.45rem 0.9rem;
   border-radius: 999px;
   cursor: pointer;
-  transition: border-color 0.2s ease, color 0.2s ease, background 0.2s ease;
+  transition: border-color 0.4s cubic-bezier(0.16, 1, 0.3, 1), color 0.4s cubic-bezier(0.16, 1, 0.3, 1), background 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   text-transform: uppercase;
   white-space: nowrap;
 }
