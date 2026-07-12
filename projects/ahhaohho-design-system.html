@@ -284,6 +284,77 @@
       font-size: 1.4rem; color: var(--accent, #5e7c14);
     }
     @media (max-width: 899px) { .ads-pipe-arrow { transform: rotate(90deg); } }
+
+    /* ===== Foundations ===== */
+    .ads-foundation {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1rem;
+      margin: 2.5rem 0;
+    }
+    @media (min-width: 760px) { .ads-foundation { grid-template-columns: 1fr 1fr; } }
+    .ads-fcard {
+      background: #ffffff;
+      border: 1px solid rgba(0,0,0,0.08);
+      border-radius: 1.1rem;
+      padding: 1.5rem 1.6rem 1.7rem;
+    }
+    .ads-fcard .h {
+      display: flex; align-items: baseline; justify-content: space-between; gap: 1rem;
+      margin-bottom: 1.1rem;
+    }
+    .ads-fcard .h .t {
+      font-family: 'Michroma', monospace;
+      font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--accent, #5e7c14);
+    }
+    body[data-lang="ko"] .ads-fcard .h .t { font-family: 'Pretendard','Inter',sans-serif; letter-spacing: 0; font-weight: 700; }
+    .ads-fcard .h .c { font-family: ui-monospace,'SF Mono',Menlo,monospace; font-size: 0.68rem; color: #999; }
+    .ads-fcard .d { font-size: 0.82rem; line-height: 1.55; color: #555; margin: 0.9rem 0 0; }
+    .ads-fcard .d code { font-size: 0.72rem; background: rgba(0,0,0,0.045); padding: 0.08rem 0.35rem; border-radius: 0.3rem; color: #444; }
+
+    /* color scale */
+    .ads-scale { display: flex; border-radius: 0.55rem; overflow: hidden; height: 44px; }
+    .ads-scale span { flex: 1; }
+    .ads-swrow { display: flex; gap: 0.5rem; margin-top: 0.7rem; }
+    .ads-sw { flex: none; width: 34px; height: 34px; border-radius: 50%; border: 1px solid rgba(0,0,0,0.08); }
+    .ads-sw-label { font-family: ui-monospace,monospace; font-size: 0.6rem; color: #888; align-self: center; }
+
+    /* type scale */
+    .ads-type div { line-height: 1.25; color: #111; letter-spacing: -0.01em; }
+    .ads-type .tk { font-family: ui-monospace,monospace; font-size: 0.62rem; color: #aaa; margin-right: 0.5rem; }
+
+    /* spacing / radius bars */
+    .ads-bars { display: flex; flex-direction: column; gap: 0.5rem; }
+    .ads-bar { display: flex; align-items: center; gap: 0.7rem; }
+    .ads-bar .k { font-family: ui-monospace,monospace; font-size: 0.62rem; color: #999; width: 2.6rem; flex: none; }
+    .ads-bar .b { height: 12px; border-radius: 3px; background: var(--accent, #5e7c14); opacity: 0.85; }
+    .ads-radii { display: flex; gap: 0.6rem; align-items: flex-end; flex-wrap: wrap; }
+    .ads-radii .rd { width: 46px; height: 46px; background: rgba(94,124,20,0.12); border: 1px solid rgba(94,124,20,0.3); }
+    .ads-radii .rd span { display: block; font-family: ui-monospace,monospace; font-size: 0.55rem; color: #888; text-align: center; margin-top: 50px; }
+
+    /* motion timing swatches */
+    .ads-motion-rows { display: flex; flex-direction: column; gap: 0.55rem; }
+    .ads-motion-row { display: flex; align-items: center; gap: 0.7rem; font-family: ui-monospace,monospace; font-size: 0.68rem; color: #555; }
+    .ads-motion-row .track { position: relative; flex: 1; height: 8px; border-radius: 4px; background: rgba(0,0,0,0.05); overflow: hidden; }
+    .ads-motion-row .dot { position: absolute; top: 0; left: 0; width: 8px; height: 8px; border-radius: 50%; background: var(--accent, #5e7c14); }
+    @keyframes ads-run { 0% { transform: translateX(0); } 100% { transform: translateX(calc(100% + 100px)); } }
+    .ads-motion-row .dot.d-easing { animation: ads-run 1.6s cubic-bezier(0.35,0,0.35,1) infinite alternate; }
+    .ads-motion-row .dot.d-enter { animation: ads-run 1.6s cubic-bezier(0,0,0.15,1) infinite alternate; }
+    .ads-motion-row .dot.d-exit { animation: ads-run 1.6s cubic-bezier(0.35,0,1,1) infinite alternate; }
+    .ads-motion-row .dot.d-expressive { animation: ads-run 1.9s cubic-bezier(0.03,0.4,0.1,1) infinite alternate; }
+    @media (prefers-reduced-motion: reduce) { .ads-motion-row .dot { animation: none !important; } }
+
+    /* section eyebrow for highlights */
+    .ads-eyebrow {
+      display: inline-block;
+      font-family: 'Michroma', monospace;
+      font-size: 0.58rem; letter-spacing: 0.18em; text-transform: uppercase;
+      color: #fff; background: var(--accent, #5e7c14);
+      padding: 0.3rem 0.7rem; border-radius: 999px;
+      margin-bottom: 0.9rem;
+    }
+    body[data-lang="ko"] .ads-eyebrow { font-family: 'Pretendard','Inter',sans-serif; letter-spacing: 0.06em; }
   </style>
 </head>
 <body>
@@ -304,33 +375,144 @@
   <!-- HERO -->
   <section class="proj-hero">
     <p class="proj-eyebrow" data-i18n="hero-eyebrow">AhhaOhho · Deep Dive</p>
-    <h1 class="proj-title" data-i18n="hero-title">A Design System<br>That Moves</h1>
-    <p class="proj-tagline" data-i18n="hero-tagline">Interactive Motion · Rive &amp; Lottie · Design Tokens as Data</p>
+    <h1 class="proj-title" data-i18n="hero-title">A Design System<br>From Tokens to Motion</h1>
+    <p class="proj-tagline" data-i18n="hero-tagline">Foundations · Design Tokens as Data · Motion as the Signature</p>
     <div class="proj-block" style="margin-top:2rem;">
-      <p data-i18n="hero-tldr">In a children's product, motion is how the interface talks. I designed and built the motion layer of the AhhaOhho Design System: <strong>21 interactive Rive animations</strong> with state machines and data bindings, a Lottie library of character and feedback motions, and the token system that keeps them consistent. <strong>The demos below are the real production files. Try them.</strong></p>
+      <p data-i18n="hero-tldr">I built the AhhaOhho Design System from the ground up: a token-based foundation of color, type, space, and motion, all managed as designer-editable data that generates Flutter and React code. On top of that foundation sits the part that makes a children's product feel alive — <strong>an interactive Rive &amp; Lottie motion layer</strong>. Foundations first, motion as the highlight. <strong>The demos further down are real production files. Try them.</strong></p>
     </div>
 
     <div class="proj-metrics" style="margin-top:2.5rem;">
       <div class="proj-metric">
-        <div class="num">21</div>
-        <div class="label" data-i18n="m-1">interactive Rive animations — state machines, triggers, data bindings</div>
-      </div>
-      <div class="proj-metric">
-        <div class="num">27</div>
-        <div class="label" data-i18n="m-2">Lottie motions — characters, feedback, gesture guides</div>
+        <div class="num">5</div>
+        <div class="label" data-i18n="m-1">token domains — color, type, space, elevation, motion</div>
       </div>
       <div class="proj-metric">
         <div class="num">42</div>
-        <div class="label" data-i18n="m-3">components specced in the same system</div>
+        <div class="label" data-i18n="m-2">components specced on the same foundation</div>
+      </div>
+      <div class="proj-metric">
+        <div class="num">48</div>
+        <div class="label" data-i18n="m-3">interactive Rive &amp; Lottie motions on top</div>
       </div>
     </div>
   </section>
 
-  <!-- 01 WHY MOTION -->
+  <!-- 01 FOUNDATIONS -->
   <section class="proj-section">
     <div class="proj-section-header">
       <span class="proj-section-num">01</span>
-      <h2 class="proj-section-title" data-i18n="why-title">Why Motion Leads</h2>
+      <h2 class="proj-section-title" data-i18n="fnd-title">The Foundation</h2>
+    </div>
+    <blockquote class="ads-pull" data-i18n="fnd-pull">Before a single component, there's a language: one palette, one type scale, one spacing grid, one set of motion curves.</blockquote>
+    <div class="proj-block">
+      <p data-i18n="fnd-p1">Everything in the system resolves to tokens. Colors follow a <strong>primitive → semantic</strong> structure, named <code>property.role-variant-state</code> (e.g. <code>fg.neutral</code>, <code>bg.brand-highlight</code>), so a component never references a raw hex. The same discipline runs through type, spacing, radius, elevation, and motion — one source, every platform.</p>
+    </div>
+
+    <div class="ads-foundation">
+      <!-- Color -->
+      <div class="ads-fcard">
+        <div class="h"><span class="t" data-i18n="fnd-color">Color</span><span class="c">primitive → semantic</span></div>
+        <div class="ads-scale" aria-hidden="true">
+          <span style="background:#f7f8fa"></span><span style="background:#eceef2"></span><span style="background:#d8dce3"></span><span style="background:#b9c0cc"></span><span style="background:#9097a2"></span><span style="background:#6e7785"></span><span style="background:#525964"></span><span style="background:#3a3f48"></span><span style="background:#23262b"></span><span style="background:#0B1215"></span>
+        </div>
+        <div class="ads-swrow">
+          <span class="ads-sw" style="background:#0B1215"></span>
+          <span class="ads-sw" style="background:#e5fd29"></span>
+          <span class="ads-sw-label" data-i18n="fnd-color-cap">Clay mono · neon accent</span>
+        </div>
+        <p class="d" data-i18n="fnd-color-d">A single cool-gray <strong>Clay</strong> scale (<code>clay-100</code>→<code>1000</code>) carries all neutrals; a neon <code>#e5fd29</code> adds the play.</p>
+      </div>
+
+      <!-- Type -->
+      <div class="ads-fcard">
+        <div class="h"><span class="t" data-i18n="fnd-type">Typography</span><span class="c">t1 – t10</span></div>
+        <div class="ads-type">
+          <div><span class="tk">t10</span>Aa 큰 제목 26</div>
+          <div style="font-size:1.375rem;"><span class="tk">t8</span>Aa 소제목 22</div>
+          <div style="font-size:1.125rem;"><span class="tk">t6</span>Aa 본문 강조 18</div>
+          <div style="font-size:0.875rem;color:#666;"><span class="tk">t4</span>Aa 본문 14</div>
+          <div style="font-size:0.6875rem;color:#999;"><span class="tk">t1</span>Aa 캡션 11</div>
+        </div>
+        <p class="d" data-i18n="fnd-type-d">A 10-step scale from <code>11px</code> to <code>26px</code>, tuned for small screens and Korean-first reading.</p>
+      </div>
+
+      <!-- Spacing + Radius -->
+      <div class="ads-fcard">
+        <div class="h"><span class="t" data-i18n="fnd-space">Space &amp; Radius</span><span class="c">4px grid</span></div>
+        <div class="ads-bars">
+          <div class="ads-bar"><span class="k">x1</span><span class="b" style="width:4px"></span></div>
+          <div class="ads-bar"><span class="k">x2</span><span class="b" style="width:8px"></span></div>
+          <div class="ads-bar"><span class="k">x4</span><span class="b" style="width:16px"></span></div>
+          <div class="ads-bar"><span class="k">x6</span><span class="b" style="width:24px"></span></div>
+          <div class="ads-bar"><span class="k">x8</span><span class="b" style="width:32px"></span></div>
+        </div>
+        <div class="ads-radii" style="margin-top:1rem;">
+          <span class="rd" style="border-radius:4px"><span>r1</span></span>
+          <span class="rd" style="border-radius:8px"><span>r2</span></span>
+          <span class="rd" style="border-radius:16px"><span>r4</span></span>
+          <span class="rd" style="border-radius:24px"><span>r6</span></span>
+        </div>
+        <p class="d" data-i18n="fnd-space-d">Every gap and corner steps on a <code>4px</code> grid — <code>x0.5</code>→<code>x24</code> spacing, <code>r0.5</code>→<code>r6</code> radius.</p>
+      </div>
+
+      <!-- Motion tokens -->
+      <div class="ads-fcard">
+        <div class="h"><span class="t" data-i18n="fnd-motion">Motion</span><span class="c">50 – 300ms</span></div>
+        <div class="ads-motion-rows">
+          <div class="ads-motion-row"><span>easing</span><span class="track"><span class="dot d-easing"></span></span></div>
+          <div class="ads-motion-row"><span>enter</span><span class="track"><span class="dot d-enter"></span></span></div>
+          <div class="ads-motion-row"><span>exit</span><span class="track"><span class="dot d-exit"></span></span></div>
+          <div class="ads-motion-row"><span>express</span><span class="track"><span class="dot d-expressive"></span></span></div>
+        </div>
+        <p class="d" data-i18n="fnd-motion-d">Durations <code>d1</code>–<code>d6</code> (50–300ms) and named easing curves. These same tokens drive the Rive &amp; Lottie highlights below.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 02 DESIGN-AS-DATA -->
+  <section class="proj-section">
+    <div class="proj-section-header">
+      <span class="proj-section-num">02</span>
+      <h2 class="proj-section-title" data-i18n="system-title">Managed as a System</h2>
+    </div>
+    <blockquote class="ads-pull" data-i18n="system-pull">An animation library rots without a system around it. This one lives in the same repository the app ships from.</blockquote>
+    <div class="proj-block">
+      <p data-i18n="system-p1">Every motion asset is registered in a typed library (<code>data/rive.ts</code>, <code>data/lottie.ts</code>) with its state machine, inputs, and usage notes. Adding an entry publishes an interactive playground card on the docs site, where developers test triggers and bindings before wiring them into Flutter. Motion timing lives as design tokens alongside color, spacing, and typography. All of it is designer-editable JSON, and Flutter and React code is generated from it.</p>
+    </div>
+
+    <div class="ads-pipeline">
+      <div class="ads-pipe-node">
+        <div class="t" data-i18n="pipe-1-t">Design source</div>
+        <ul>
+          <li data-i18n="pipe-1-l1">.riv / .lottie assets (Git LFS)</li>
+          <li data-i18n="pipe-1-l2">motion tokens — duration, easing JSON</li>
+          <li data-i18n="pipe-1-l3">typed registry with SM inputs</li>
+        </ul>
+      </div>
+      <div class="ads-pipe-arrow">→</div>
+      <div class="ads-pipe-node">
+        <div class="t" data-i18n="pipe-2-t">Docs site</div>
+        <ul>
+          <li data-i18n="pipe-2-l1">interactive Rive/Lottie playground</li>
+          <li data-i18n="pipe-2-l2">motion principles &amp; tokens</li>
+        </ul>
+      </div>
+      <div class="ads-pipe-arrow">→</div>
+      <div class="ads-pipe-node">
+        <div class="t" data-i18n="pipe-3-t">Product</div>
+        <ul>
+          <li data-i18n="pipe-3-l1">same .riv files run in Flutter</li>
+          <li data-i18n="pipe-3-l2">tokens exported to Flutter/React</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 03 WHY MOTION -->
+  <section class="proj-section">
+    <div class="proj-section-header">
+      <span class="proj-section-num">03</span>
+      <h2 class="proj-section-title" data-i18n="why-title">Where Motion Earns Its Place</h2>
     </div>
     <blockquote class="ads-pull" data-i18n="why-pull">Children don't read interfaces. They poke them, and they trust what answers back.</blockquote>
     <div class="proj-block">
@@ -340,10 +522,10 @@
 
   </section>
 
-  <!-- 02 RIVE -->
+  <!-- 04 RIVE (highlight) -->
   <section class="proj-section">
     <div class="proj-section-header">
-      <span class="proj-section-num">02</span>
+      <span class="proj-section-num">04</span>
       <h2 class="proj-section-title" data-i18n="rive-title">Interactive Motion — Rive</h2>
     </div>
     <blockquote class="ads-pull" data-i18n="rive-pull">These are not videos of animations. They are running state machines, and the same files ship in the Flutter app.</blockquote>
@@ -475,10 +657,10 @@
     </div>
   </section>
 
-  <!-- 03 LOTTIE -->
+  <!-- 05 LOTTIE (highlight) -->
   <section class="proj-section">
     <div class="proj-section-header">
-      <span class="proj-section-num">03</span>
+      <span class="proj-section-num">05</span>
       <h2 class="proj-section-title" data-i18n="lottie-title">Character &amp; Feedback — Lottie</h2>
     </div>
     <div class="proj-block">
@@ -513,49 +695,10 @@
     </div>
   </section>
 
-  <!-- 04 SYSTEM -->
+  <!-- 06 IMPACT -->
   <section class="proj-section">
     <div class="proj-section-header">
-      <span class="proj-section-num">04</span>
-      <h2 class="proj-section-title" data-i18n="system-title">Managed as a System</h2>
-    </div>
-    <blockquote class="ads-pull" data-i18n="system-pull">An animation library rots without a system around it. This one lives in the same repository the app ships from.</blockquote>
-    <div class="proj-block">
-      <p data-i18n="system-p1">Every motion asset is registered in a typed library (<code>data/rive.ts</code>, <code>data/lottie.ts</code>) with its state machine, inputs, and usage notes. Adding an entry publishes an interactive playground card on the docs site, where developers test triggers and bindings before wiring them into Flutter. Motion timing lives as design tokens alongside color, spacing, and typography. All of it is designer-editable JSON, and Flutter and React code is generated from it.</p>
-    </div>
-
-    <div class="ads-pipeline">
-      <div class="ads-pipe-node">
-        <div class="t" data-i18n="pipe-1-t">Design source</div>
-        <ul>
-          <li data-i18n="pipe-1-l1">.riv / .lottie assets (Git LFS)</li>
-          <li data-i18n="pipe-1-l2">motion tokens — duration, easing JSON</li>
-          <li data-i18n="pipe-1-l3">typed registry with SM inputs</li>
-        </ul>
-      </div>
-      <div class="ads-pipe-arrow">→</div>
-      <div class="ads-pipe-node">
-        <div class="t" data-i18n="pipe-2-t">Docs site</div>
-        <ul>
-          <li data-i18n="pipe-2-l1">interactive Rive/Lottie playground</li>
-          <li data-i18n="pipe-2-l2">motion principles &amp; tokens</li>
-        </ul>
-      </div>
-      <div class="ads-pipe-arrow">→</div>
-      <div class="ads-pipe-node">
-        <div class="t" data-i18n="pipe-3-t">Product</div>
-        <ul>
-          <li data-i18n="pipe-3-l1">same .riv files run in Flutter</li>
-          <li data-i18n="pipe-3-l2">tokens exported to Flutter/React</li>
-        </ul>
-      </div>
-    </div>
-  </section>
-
-  <!-- 05 IMPACT -->
-  <section class="proj-section">
-    <div class="proj-section-header">
-      <span class="proj-section-num">05</span>
+      <span class="proj-section-num">06</span>
       <h2 class="proj-section-title" data-i18n="impact-title">Impact &amp; Reflection</h2>
     </div>
     <div class="proj-block">
@@ -805,13 +948,26 @@
           'page-title': 'AhhaOhho Design System — Ben Seo',
           'nav-back': 'Back to AhhaOhho',
           'hero-eyebrow': 'AhhaOhho · Deep Dive',
-          'hero-title': 'A Design System<br>That Moves',
-          'hero-tagline': 'Interactive Motion · Rive &amp; Lottie · Design Tokens as Data',
-          'hero-tldr': 'In a children\'s product, motion is how the interface talks. I designed and built the motion layer of the AhhaOhho Design System: <strong>21 interactive Rive animations</strong> with state machines and data bindings, a Lottie library of character and feedback motions, and the token system that keeps them consistent. <strong>The demos below are the real production files. Try them.</strong>',
-          'm-1': 'interactive Rive animations — state machines, triggers, data bindings',
-          'm-2': 'Lottie motions — characters, feedback, gesture guides',
-          'm-3': 'components specced in the same system',
-          'why-title': 'Why Motion Leads',
+          'hero-title': 'A Design System<br>From Tokens to Motion',
+          'hero-tagline': 'Foundations · Design Tokens as Data · Motion as the Signature',
+          'hero-tldr': 'I built the AhhaOhho Design System from the ground up: a token-based foundation of color, type, space, and motion, all managed as designer-editable data that generates Flutter and React code. On top of that foundation sits the part that makes a children\'s product feel alive — <strong>an interactive Rive &amp; Lottie motion layer</strong>. Foundations first, motion as the highlight. <strong>The demos further down are real production files. Try them.</strong>',
+          'm-1': 'token domains — color, type, space, elevation, motion',
+          'm-2': 'components specced on the same foundation',
+          'm-3': 'interactive Rive &amp; Lottie motions on top',
+          'highlight-label': 'Highlight',
+          'fnd-title': 'The Foundation',
+          'fnd-pull': "Before a single component, there's a language: one palette, one type scale, one spacing grid, one set of motion curves.",
+          'fnd-p1': 'Everything in the system resolves to tokens. Colors follow a <strong>primitive → semantic</strong> structure, named <code>property.role-variant-state</code> (e.g. <code>fg.neutral</code>, <code>bg.brand-highlight</code>), so a component never references a raw hex. The same discipline runs through type, spacing, radius, elevation, and motion — one source, every platform.',
+          'fnd-color': 'Color', 'fnd-color-cap': 'Clay mono · neon accent',
+          'fnd-color-d': 'A single cool-gray <strong>Clay</strong> scale (<code>clay-100</code>→<code>1000</code>) carries all neutrals; a neon <code>#e5fd29</code> adds the play.',
+          'fnd-type': 'Typography',
+          'fnd-type-d': 'A 10-step scale from <code>11px</code> to <code>26px</code>, tuned for small screens and Korean-first reading.',
+          'fnd-space': 'Space & Radius',
+          'fnd-space-d': 'Every gap and corner steps on a <code>4px</code> grid — <code>x0.5</code>→<code>x24</code> spacing, <code>r0.5</code>→<code>r6</code> radius.',
+          'fnd-motion': 'Motion',
+          'fnd-motion-d': 'Durations <code>d1</code>–<code>d6</code> (50–300ms) and named easing curves. These same tokens drive the Rive & Lottie highlights below.',
+          'why-title': 'Where Motion Earns Its Place',
+
           'why-pull': 'Children don\'t read interfaces. They poke them, and they trust what answers back.',
           'why-p1': 'We tested with more than 3,000 children, and the pattern never changed: kids explore by touching everything, and a static screen reads as broken to a 9-year-old. So this design system treats motion as a first-class layer. Every button press, progress tick, reward, and character moment is a designed, reusable animation asset rather than something a developer improvises at the end.',
           'why-p2': 'The system speaks two motion vocabularies. <strong>Macro motion</strong> covers page transitions, modals, and celebrations that run longer than 200ms. <strong>Micro motion</strong> covers button presses, focus, and feedback under 200ms. Each has its own timing tokens.',
@@ -872,13 +1028,26 @@
           'page-title': '아하오호 디자인 시스템 — Ben Seo',
           'nav-back': '아하오호로 돌아가기',
           'hero-eyebrow': '아하오호 · 딥 다이브',
-          'hero-title': '움직이는<br>디자인 시스템',
-          'hero-tagline': '인터랙티브 모션 · Rive &amp; Lottie · 데이터로 관리되는 디자인 토큰',
-          'hero-tldr': '어린이 프로덕트에서 모션은 인터페이스가 말을 거는 방식입니다. 저는 아하오호 디자인 시스템의 모션 레이어를 설계하고 직접 구축했습니다. 스테이트 머신과 데이터 바인딩을 갖춘 <strong>인터랙티브 Rive 애니메이션 21개</strong>, 캐릭터와 피드백 모션을 담은 Lottie 라이브러리, 그리고 이 모든 걸 일관되게 지켜주는 토큰 시스템까지요. <strong>아래 데모는 실제 프로덕션 파일입니다. 직접 만져보세요.</strong>',
-          'm-1': '인터랙티브 Rive 애니메이션 — 스테이트 머신, 트리거, 데이터 바인딩',
-          'm-2': 'Lottie 모션 — 캐릭터, 피드백, 제스처 가이드',
-          'm-3': '같은 시스템으로 스펙된 컴포넌트',
-          'why-title': '왜 모션이 먼저인가',
+          'hero-title': '토큰에서 모션까지,<br>디자인 시스템',
+          'hero-tagline': '파운데이션 · 데이터로 관리되는 토큰 · 시그니처가 되는 모션',
+          'hero-tldr': '저는 아하오호 디자인 시스템을 바닥부터 만들었습니다. 색상·타이포·간격·모션의 토큰 기반 파운데이션을, 디자이너가 직접 편집하는 데이터로 관리하고 거기서 Flutter·React 코드가 생성됩니다. 그 파운데이션 위에, 어린이 프로덕트를 살아 움직이게 하는 <strong>인터랙티브 Rive &amp; Lottie 모션 레이어</strong>가 얹힙니다. 파운데이션이 먼저, 모션이 하이라이트입니다. <strong>아래 데모는 실제 프로덕션 파일입니다. 직접 만져보세요.</strong>',
+          'm-1': '토큰 도메인 — 색상, 타이포, 간격, 엘리베이션, 모션',
+          'm-2': '같은 파운데이션 위에 스펙된 컴포넌트',
+          'm-3': '그 위에 얹힌 인터랙티브 Rive &amp; Lottie 모션',
+          'highlight-label': '하이라이트',
+          'fnd-title': '파운데이션',
+          'fnd-pull': '컴포넌트 하나가 나오기 전에 언어가 먼저 있습니다. 하나의 팔레트, 하나의 타입 스케일, 하나의 간격 그리드, 하나의 모션 커브 세트.',
+          'fnd-p1': '시스템의 모든 것은 토큰으로 귀결됩니다. 색상은 <strong>primitive → semantic</strong> 구조를 따르고 <code>property.role-variant-state</code>로 이름 붙여(<code>fg.neutral</code>, <code>bg.brand-highlight</code> 등), 컴포넌트가 raw hex를 직접 참조하는 일이 없습니다. 타이포·간격·라디우스·엘리베이션·모션까지 같은 규율이 흐릅니다. 하나의 소스, 모든 플랫폼.',
+          'fnd-color': '컬러', 'fnd-color-cap': 'Clay 모노 · 네온 액센트',
+          'fnd-color-d': '단일 쿨그레이 <strong>Clay</strong> 스케일(<code>clay-100</code>→<code>1000</code>)이 모든 뉴트럴을 담당하고, 네온 <code>#e5fd29</code>이 유쾌함을 더합니다.',
+          'fnd-type': '타이포그래피',
+          'fnd-type-d': '<code>11px</code>부터 <code>26px</code>까지 10단계 스케일. 작은 화면과 한국어 우선 가독성에 맞춰 조율했습니다.',
+          'fnd-space': '간격 & 라디우스',
+          'fnd-space-d': '모든 간격과 모서리가 <code>4px</code> 그리드를 밟습니다 — <code>x0.5</code>→<code>x24</code> 간격, <code>r0.5</code>→<code>r6</code> 라디우스.',
+          'fnd-motion': '모션',
+          'fnd-motion-d': 'duration <code>d1</code>–<code>d6</code>(50–300ms)과 이름 붙은 easing 커브. 아래 Rive &amp; Lottie 하이라이트도 바로 이 토큰으로 움직입니다.',
+          'why-title': '모션이 제 몫을 하는 자리',
+
           'why-pull': '어린이는 인터페이스를 읽지 않습니다. 찔러봅니다. 그리고 대답하는 것을 신뢰합니다.',
           'why-p1': '3,000명이 넘는 어린이와 테스트하는 동안 한 가지 패턴은 변하지 않았습니다. 아이들은 전부 만져보며 탐색하고, 9살에게 움직이지 않는 화면은 고장난 화면입니다. 그래서 이 디자인 시스템은 모션을 일급 레이어로 다룹니다. 버튼 눌림, 진행도, 보상, 캐릭터의 순간 하나하나가 개발 막바지에 급조되는 것이 아니라 처음부터 설계된 재사용 가능한 애니메이션 에셋입니다.',
           'why-p2': '시스템은 두 가지 모션 어휘를 씁니다. <strong>매크로 모션</strong>은 200ms를 넘는 페이지 전환, 모달, 축하 연출을 다룹니다. <strong>마이크로 모션</strong>은 200ms 이하의 버튼 눌림, 포커스, 피드백을 다룹니다. 각각 고유한 타이밍 토큰을 가집니다.',
