@@ -153,7 +153,7 @@
 
     @media (prefers-reduced-motion: reduce) {
       .reveal, .float, .marquee-track { animation: none !important; opacity: 1 !important; }
-      .dossier, .dossier .dossier-topbar, .dossier .dossier-visual, .dossier .drow, .dossier .dossier-foot { opacity: 1 !important; animation: none !important; }
+      .dossier, .dossier .dossier-topbar, .dossier .dossier-visual, .dossier .drow, .dossier .dossier-foot { opacity: 1 !important; transform: none !important; animation: none !important; transition: none !important; }
       .dossier .dossier-scan { display: none !important; }
       .rv2 { opacity: 1 !important; transform: none !important; transition: none !important; }
     }
@@ -893,31 +893,37 @@
       background: #5e7c14; color: #ffffff; border-color: #5e7c14;
     }
 
-    /* ---- Dossier entry: "file opening" sequence ---- */
-    .dossier { opacity: 0; }
-    .dossier.file-open { opacity: 1; animation: dossierIn 0.7s cubic-bezier(0.16, 1, 0.3, 1); }
-    @keyframes dossierIn {
-      from { opacity: 0; transform: translateY(2rem); }
-      to   { opacity: 1; transform: translateY(0); }
+    /* ---- Dossier scroll reveal: each card settles up as it enters ---- */
+    .dossier {
+      opacity: 0;
+      transform: translateY(2.2rem);
+      transition:
+        opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+        transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
     }
-    .dossier .dossier-topbar, .dossier .dossier-visual, .dossier .drow, .dossier .dossier-foot { opacity: 0; }
-    .dossier.file-open .dossier-topbar { animation: dossierIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.05s both; }
-    .dossier.file-open .dossier-visual { animation: dossierIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.15s both; }
+    .dossier.file-open { opacity: 1; transform: translateY(0); }
+    /* inner rows/blocks stagger in behind the card */
+    .dossier .dossier-topbar, .dossier .dossier-visual, .dossier .drow, .dossier .dossier-foot {
+      opacity: 0;
+      transform: translateY(0.6rem);
+      transition:
+        opacity 0.55s cubic-bezier(0.16, 1, 0.3, 1),
+        transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .dossier .dossier-visual, .dossier .drow { transform: translateX(-8px); }
+    .dossier.file-open .dossier-topbar { transition-delay: 0.06s; opacity: 1; transform: none; }
+    .dossier.file-open .dossier-visual { transition-delay: 0.14s; opacity: 1; transform: none; }
     .dossier.file-open .drow {
-      animation: drowIn 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
-      animation-delay: calc(180ms + var(--i, 0) * 60ms);
+      opacity: 1; transform: none;
+      transition-delay: calc(0.2s + var(--i, 0) * 0.06s);
     }
-    .dossier.file-open .dossier-foot { animation: drowIn 0.45s cubic-bezier(0.16, 1, 0.3, 1) 0.62s both; }
-    @keyframes drowIn {
-      from { opacity: 0; transform: translateX(-8px); }
-      to   { opacity: 1; transform: translateX(0); }
-    }
+    .dossier.file-open .dossier-foot { transition-delay: 0.6s; opacity: 1; transform: none; }
     /* scan line sweeps the visual once as the file "decrypts" */
     .dossier.file-open .dossier-scan {
       display: block; position: absolute; left: 0; right: 0; top: 0; height: 100%;
       background: linear-gradient(180deg, transparent 0%, rgba(94,124,20,0.22) 48%, rgba(94,124,20,0.34) 50%, rgba(94,124,20,0.22) 52%, transparent 100%);
       transform: translateY(-100%);
-      animation: scanSweep 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.25s forwards;
+      animation: scanSweep 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards;
       pointer-events: none; z-index: 2;
     }
     @keyframes scanSweep { to { transform: translateY(100%); } }
@@ -1023,7 +1029,7 @@
                 <div class="font-michroma uppercase text-ink-300 text-[15px] md:text-[17px] mb-6 md:mb-8" style="letter-spacing: 0.12em;" data-i18n="hero-eyebrow">
                   In this sci-fi future we once imagined,
                 </div>
-                <h1 class="font-michroma uppercase text-ink-100 text-[2rem] sm:text-[2.5rem] md:text-[3.25rem] lg:text-[4.25rem] xl:text-[4.75rem]" style="line-height: 1.15; letter-spacing: -0.01em;" data-i18n="hero-title">
+                <h1 class="font-michroma uppercase text-ink-100 text-[1.7rem] sm:text-[2.1rem] md:text-[2.75rem] lg:text-[3.5rem] xl:text-[3.9rem]" style="line-height: 1.15; letter-spacing: -0.01em;" data-i18n="hero-title">
                   How do we stay <span class="text-accent">human</span> in the future<span class="font-inter font-normal">?</span>
                 </h1>
                 <p class="font-inter font-light mt-7 md:mt-9 max-w-2xl text-[20px] md:text-[23px] text-ink-300" style="line-height: 1.55;" data-i18n="hero-tagline">
@@ -1290,20 +1296,45 @@
   </footer>
 
   <script>
-    // ------- Reveal IO for project cards -------
-    const io = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('file-open');
-          io.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
-
-    document.querySelectorAll('.dossier').forEach((el) => {
+    // ------- Reveal for dossier cards (scroll-driven, each settles up as it enters) -------
+    const dossiers = Array.from(document.querySelectorAll('.dossier'));
+    dossiers.forEach((el) => {
       el.querySelectorAll('.drow').forEach((row, i) => row.style.setProperty('--i', i));
-      io.observe(el);
     });
+    const reduceMo = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduceMo) {
+      dossiers.forEach((el) => el.classList.add('file-open'));
+    } else {
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('file-open');
+            io.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.12, rootMargin: '0px 0px -10% 0px' });
+      dossiers.forEach((el) => io.observe(el));
+
+      // Fallback for the scroll-jacked works section: reveal by geometry on scroll.
+      // (IntersectionObserver can batch or miss inside the pinned/opacity-driven stack.)
+      let ticking = false;
+      function checkDossiers() {
+        ticking = false;
+        const vh = window.innerHeight || document.documentElement.clientHeight;
+        dossiers.forEach((el) => {
+          if (el.classList.contains('file-open')) return;
+          const r = el.getBoundingClientRect();
+          if (r.top < vh * 0.88 && r.bottom > 0) el.classList.add('file-open');
+        });
+      }
+      window.addEventListener('scroll', () => {
+        if (!ticking) { ticking = true; requestAnimationFrame(checkDossiers); }
+      }, { passive: true });
+      window.addEventListener('resize', () => {
+        if (!ticking) { ticking = true; requestAnimationFrame(checkDossiers); }
+      }, { passive: true });
+      checkDossiers();
+    }
 
     // ------- About section reveal -------
     const aboutTargets = [
