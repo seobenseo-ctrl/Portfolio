@@ -28,6 +28,7 @@
     var regions = [], scans = [], blocks = [];
     var nextScan = 0, nextBlock = 0, t0 = performance.now(), last = t0, visible = true;
     var cur = { x: 0, y: 0, lx: 0, ly: 0, on: 0, active: false };
+    var gridOnly = false;            // mobile: static address grid, no activity
 
     // ---- grid ----------------------------------------------------------------------
     function build() {
@@ -39,6 +40,7 @@
       PITCH = W < 768 ? 20 : 22; TILE = W < 768 ? 7 : 8;
       cols = Math.floor(W / PITCH); rows = Math.floor(H / PITCH);
       ox = (W - (cols - 1) * PITCH) / 2; oy = (H - (rows - 1) * PITCH) / 2;
+      gridOnly = W < 768;
       level = new Float32Array(cols * rows);
       hold = new Float32Array(cols * rows);
       scans = []; blocks = [];
@@ -147,7 +149,7 @@
     }
     function frame(now) {
       var dt = Math.min(0.05, (now - last) / 1000); last = now;
-      if (visible) { step((now - t0) / 1000, dt); draw(); }
+      if (visible && !gridOnly) { step((now - t0) / 1000, dt); draw(); }
       requestAnimationFrame(frame);
     }
 
@@ -161,7 +163,8 @@
     scope.addEventListener('pointerleave', function () { cur.active = false; });
 
     build();
-    if (reduce) {
+    if (gridOnly) draw();
+    if (reduce && !gridOnly) {
       for (var s = 0; s < 120; s++) step(s / 30, 1 / 30);        // settle into a representative still
       draw();
     } else {
@@ -176,7 +179,8 @@
       rt = setTimeout(function () {
         if (window.innerWidth === lw) return;                   // ignore mobile URL-bar jitter
         lw = window.innerWidth; build();
-        if (reduce) { for (var s = 0; s < 120; s++) step(s / 30, 1 / 30); draw(); }
+        if (gridOnly) draw();
+        else if (reduce) { for (var s = 0; s < 120; s++) step(s / 30, 1 / 30); draw(); }
       }, 150);
     });
   }
