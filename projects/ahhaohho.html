@@ -46,9 +46,53 @@
     .ahha-approach .proj-block p,
     .ahha-impact .proj-block p,
     .ahha-ds .proj-block p,
+    .ahha-synth .proj-block p,
+    .ahha-synth .ahha-pull,
     .ahha-research > p[data-i18n="research-opening"] {
       max-width: none !important;
     }
+    /* Research Key Findings — numbered 1·2·3, black titles */
+    .ahha-research { counter-reset: finding; }
+    .ahha-research h3[data-i18n^="finding-"] {
+      counter-increment: finding;
+      color: var(--ink-100);
+    }
+    .ahha-research h3[data-i18n^="finding-"]::before {
+      content: counter(finding) ". ";
+      color: var(--ink-100);
+    }
+
+    /* Synthesis & Framing — How-might-we cards */
+    .ahha-hmw-label {
+      font-family: 'Michroma', monospace;
+      font-size: 0.85rem; letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--accent); margin: 2.5rem 0 1.25rem;
+    }
+    body[data-lang="ko"] .ahha-hmw-label { font-family: 'Pretendard','Inter',sans-serif; letter-spacing: 0.02em; font-weight: 700; }
+    .ahha-hmw {
+      display: grid; grid-template-columns: 1fr; gap: 1rem;
+    }
+    @media (min-width: 820px) { .ahha-hmw { grid-template-columns: repeat(3, 1fr); } }
+    .ahha-hmw-card {
+      border: 1px solid rgba(0,0,0,0.08);
+      border-radius: 1rem;
+      padding: 1.5rem 1.4rem;
+      background: #fbfaf7;
+      display: flex; flex-direction: column; gap: 0.9rem;
+    }
+    .ahha-hmw-card .n {
+      width: 1.9rem; height: 1.9rem; flex: none;
+      display: inline-flex; align-items: center; justify-content: center;
+      border-radius: 50%; background: var(--accent); color: #fff;
+      font-family: 'Michroma', monospace; font-size: 0.75rem;
+    }
+    .ahha-hmw-card .q { font-size: 1rem; font-weight: 400; color: var(--ink-200); line-height: 1.45; }
+    .ahha-hmw-card .a {
+      font-size: 0.95rem; font-weight: 600; color: var(--ink-100); line-height: 1.55;
+      padding-top: 0.9rem; border-top: 1px dashed rgba(94,124,20,0.3);
+    }
+    body[data-lang="ko"] .ahha-hmw-card .q,
+    body[data-lang="ko"] .ahha-hmw-card .a { word-break: keep-all; }
     /* Impact section — metrics, quote box, reflection block all span section width */
     .ahha-impact .proj-metrics,
     .ahha-ds .proj-metrics { max-width: none !important; }
@@ -912,6 +956,7 @@
       color: var(--ink-400);
       font-size: 0.85em;
     }
+    .ahha-loop-steps--bold span:not(.arrow) { font-weight: 700; }
     .ahha-loop-cap {
       text-align: center;
       margin-top: 1.75rem;
@@ -1015,7 +1060,7 @@
   <section class="proj-section ahha-problem">
     <div class="proj-section-header">
       <span class="proj-section-num">01</span>
-      <h2 class="proj-section-title" data-i18n="problem-title">The Problem</h2>
+      <h2 class="proj-section-title" data-i18n="problem-title">Context &amp; Challenge</h2>
     </div>
     <blockquote class="ahha-pull" data-i18n="problem-pull">Children have the devices. What they lack is a space to be curious.</blockquote>
     <div class="proj-block">
@@ -1078,7 +1123,7 @@
   <section class="proj-section ahha-research">
     <div class="proj-section-header">
       <span class="proj-section-num">02</span>
-      <h2 class="proj-section-title" data-i18n="research-title">User Research</h2>
+      <h2 class="proj-section-title" data-i18n="research-title">Research</h2>
     </div>
 
     <p style="font-size:1.1rem;line-height:1.65;color:var(--ink-100);font-weight:400;" data-i18n="research-opening">Field studies across schools, community centers, and a pop-up at the Busan International Kids &amp; Youth Film Festival : 500+ children, 15 facilitators, and 8 workshop programs.</p>
@@ -1118,28 +1163,66 @@
       <p data-i18n="finding-3-body">App crashes on older tablets, text-heavy screens that lost kids' attention, and navigation that required teacher intervention at every step. Designing for "children with smartphones" was the wrong frame. <strong>We needed to design for low-spec devices, short attention spans, and zero onboarding support.</strong></p>
     </div>
 
+    <div class="proj-block" style="margin-top:2.5rem;">
+      <h3 data-i18n="research-changed-title">What the research changed</h3>
+      <p data-i18n="research-changed-body">The research shifted our focus from <strong>building more creative content</strong> to <strong>designing an experience where children could independently discover, create, share, and return.</strong></p>
+    </div>
+
   </section>
 
   <!-- ============================================================ -->
-  <!-- SECTION 3 — DESIGN APPROACH + KEY DECISIONS                  -->
+  <!-- SECTION 3 — SYNTHESIS & FRAMING                              -->
+  <!-- ============================================================ -->
+  <section class="proj-section ahha-synth">
+    <div class="proj-section-header">
+      <span class="proj-section-num">03</span>
+      <h2 class="proj-section-title" data-i18n="synth-title">Synthesis &amp; Framing</h2>
+    </div>
+
+    <div class="proj-block">
+      <p data-i18n="synth-p1">The research revealed that the core challenge wasn't getting children to create. It was helping them <strong>start, complete, and continue the creative loop independently.</strong></p>
+      <p data-i18n="synth-p2">We reframed the product around three questions:</p>
+    </div>
+
+    <div class="ahha-hmw-label" data-i18n="synth-hmw-label">How might we…</div>
+    <div class="ahha-hmw">
+      <div class="ahha-hmw-card">
+        <span class="n">1</span>
+        <div class="q" data-i18n="synth-q1">Help children get started without relying on a teacher?</div>
+        <div class="a" data-i18n="synth-a1">→ Make guidance part of the product experience.</div>
+      </div>
+      <div class="ahha-hmw-card">
+        <span class="n">2</span>
+        <div class="q" data-i18n="synth-q2">Keep the creative journey in one place?</div>
+        <div class="a" data-i18n="synth-a2">→ Connect discovery, making, reflection, sharing, and feedback.</div>
+      </div>
+      <div class="ahha-hmw-card">
+        <span class="n">3</span>
+        <div class="q" data-i18n="synth-q3">Give children a reason to come back?</div>
+        <div class="a" data-i18n="synth-a3">→ Make peer interaction part of the core experience, not an add-on.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 4 — DESIGN APPROACH + KEY DECISIONS                  -->
   <!-- ============================================================ -->
   <section class="proj-section ahha-approach">
     <div class="proj-section-header">
-      <span class="proj-section-num">03</span>
-      <h2 class="proj-section-title" data-i18n="approach-title">Design Approach</h2>
+      <span class="proj-section-num">04</span>
+      <h2 class="proj-section-title" data-i18n="approach-title">Product Strategy</h2>
     </div>
 
-    <blockquote class="ahha-pull" data-i18n="approach-pull">Every design decision traced back to one question: can a child complete the full creative loop on his/her own?</blockquote>
 
     <div class="proj-block">
       <p data-i18n="approach-body">The core UX is built around <strong>Mitch Resnick's Creative Spiral</strong> , a iterative cycle of curiosity, making, reflecting, sharing.</p>
     </div>
 
     <div class="ahha-loop">
-      <!-- Primary Experience -->
+      <!-- 01 Creative Loop -->
       <div class="ahha-loop-section">
-        <div class="ahha-strategy-label" data-i18n="loop-label">Primary Experience : Creative Loop</div>
-        <div class="ahha-loop-steps">
+        <div class="ahha-strategy-label" data-i18n="loop-label">01. Creative Loop</div>
+        <div class="ahha-loop-steps ahha-loop-steps--bold">
           <span data-i18n="loop-1">Discover</span>
           <span class="arrow">→</span>
           <span data-i18n="loop-2">Make</span>
@@ -1153,9 +1236,9 @@
         <p class="ahha-loop-cap" data-i18n="loop-caption">Curiosity and peer feedback are the strongest motivators to spark young users' creative loop.</p>
       </div>
 
-      <!-- Facilitation Strategy -->
+      <!-- 02 Independent Facilitation -->
       <div class="ahha-loop-section">
-        <div class="ahha-strategy-label" data-i18n="strategy-1-title">Facilitation Strategy : Interactive Emotional Scaffolding</div>
+        <div class="ahha-strategy-label" data-i18n="strategy-1-title">02. Independent Facilitation</div>
         <ul class="ahha-strategy-list ahha-strategy-list--grid2">
           <li data-i18n="strategy-1-li1">Personalized content curation</li>
           <li data-i18n="strategy-1-li2">Tailored questions</li>
@@ -1164,15 +1247,28 @@
         </ul>
       </div>
 
-      <!-- Gamification Strategy -->
+      <!-- 03 Gamification Strategy -->
       <div class="ahha-loop-section">
-        <div class="ahha-strategy-label" data-i18n="strategy-2-title">Gamification Strategy</div>
+        <div class="ahha-strategy-label" data-i18n="strategy-2-title">03. Gamification Strategy</div>
         <ul class="ahha-strategy-list">
           <li data-i18n="strategy-2-li1"><strong>Narrative &amp; Role Assignment</strong> : Users join a mission-driven world with characters and streak-based onboarding rewards that boost early engagement</li>
           <li data-i18n="strategy-2-li2"><strong>Achievement</strong> : Dashboard displays badges, levels, and quest progress to help users track their growth and feel accomplishment</li>
           <li data-i18n="strategy-2-li3"><strong>Creative Empowerment</strong> : Missions allow free expression, remixing, and profile decoration. AI-guided prompts scaffold hesitant users</li>
-          <li data-i18n="strategy-2-li4"><strong>Peer Interaction</strong> : Social feedback (e.g., emoji reactions, peer feed) builds relatedness and encourages iteration</li>
         </ul>
+      </div>
+
+      <!-- 04 Social Motivation -->
+      <div class="ahha-loop-section">
+        <div class="ahha-strategy-label" data-i18n="strategy-3-title">04. Social Motivation</div>
+        <div class="ahha-loop-steps ahha-loop-steps--bold">
+          <span data-i18n="social-1">Peer visibility</span>
+          <span class="arrow">→</span>
+          <span data-i18n="social-2">Reactions</span>
+          <span class="arrow">→</span>
+          <span data-i18n="social-3">Recognition</span>
+          <span class="arrow">→</span>
+          <span data-i18n="social-4">Return</span>
+        </div>
       </div>
     </div>
   </section>
@@ -1180,7 +1276,7 @@
   <!-- KEY DECISIONS -->
   <section class="proj-section">
     <div class="proj-section-header">
-      <span class="proj-section-num">04</span>
+      <span class="proj-section-num">05</span>
       <h2 class="proj-section-title" data-i18n="decisions-title">3 design decisions<br>that shaped the product</h2>
     </div>
 
@@ -1252,7 +1348,7 @@
   <!-- ============================================================ -->
   <section class="proj-section ahha-solution">
     <div class="proj-section-header">
-      <span class="proj-section-num">05</span>
+      <span class="proj-section-num">06</span>
       <h2 class="proj-section-title" data-i18n="solution-title">Solution</h2>
     </div>
 
@@ -1348,7 +1444,7 @@
   <!-- ============================================================ -->
   <section class="proj-section ahha-ds">
     <div class="proj-section-header">
-      <span class="proj-section-num">06</span>
+      <span class="proj-section-num">07</span>
       <h2 class="proj-section-title" data-i18n="ds-title">Design System</h2>
     </div>
 
@@ -1370,7 +1466,7 @@
   <!-- ============================================================ -->
   <section class="proj-section ahha-impact">
     <div class="proj-section-header">
-      <span class="proj-section-num">07</span>
+      <span class="proj-section-num">08</span>
       <h2 class="proj-section-title" data-i18n="impact-title">Impact &amp; Reflection</h2>
     </div>
 
@@ -1454,12 +1550,22 @@
           'apd-p1-n': 'Spark curiosity', 'apd-p1-d': 'Inspire questions and wonder through discovery.',
           'apd-p2-n': 'Encourage making', 'apd-p2-d': 'Empower children to design, experiment, and create.',
           'apd-p3-n': 'Build community', 'apd-p3-d': 'Share, give feedback, and learn together.',
-          'problem-title': 'The Problem',
+          'problem-title': 'Context & Challenge',
           'problem-pull': 'Children have the devices. What they lack is a space to be curious.',
           'problem-p1': 'In Korea, academic pressure starts early. Most parents and students focus heavily on standardized testing from elementary school onward — leaving little room for open-ended exploration or creative risk-taking. Over <strong>90% of 6th graders own smartphones</strong>, but for most children these devices default to passive content consumption rather than hands-on expression.',
           'problem-p2': 'AhhaOhho is a creative learning platform that encourages children to discover making activities, share their own projects, and grow through peer feedback.',
 
-          'research-title': 'User Research',
+          'research-title': 'Research',
+          'synth-title': 'Synthesis & Framing',
+          'synth-p1': "The research revealed that the core challenge wasn't getting children to create. It was helping them <strong>start, complete, and continue the creative loop independently.</strong>",
+          'synth-p2': 'We reframed the product around three questions:',
+          'synth-hmw-label': 'How might we…',
+          'synth-q1': 'Help children get started without relying on a teacher?',
+          'synth-a1': '→ Make guidance part of the product experience.',
+          'synth-q2': 'Keep the creative journey in one place?',
+          'synth-a2': '→ Connect discovery, making, reflection, sharing, and feedback.',
+          'synth-q3': 'Give children a reason to come back?',
+          'synth-a3': '→ Make peer interaction part of the core experience, not an add-on.',
           'research-opening': 'Field studies across schools, community centers, and a pop-up at the Busan International Kids &amp; Youth Film Festival : 500+ children, 15 facilitators, and 8 workshop programs.',
           'personas-title': 'User Personas',
           'storyboards-title': 'Concept Board',
@@ -1470,9 +1576,10 @@
           'finding-2-body': 'Teachers repurposed challenges, swapped in external tools for sharing, and compressed the app\'s role to a brief intro. The creative loop we designed wasn\'t wrong, but the platform forced teachers to complete it outside the app. <strong>The full cycle needed to live in one place.</strong>',
           'finding-3-title': 'Device access didn\'t mean interface fluency.',
           'finding-3-body': 'App crashes on older tablets, text-heavy screens that lost kids\' attention, and navigation that required teacher intervention at every step. Designing for "children with smartphones" was the wrong frame. <strong>We needed to design for low-spec devices, short attention spans, and zero onboarding support.</strong>',
+          'research-changed-title': 'What the research changed',
+          'research-changed-body': 'The research shifted our focus from <strong>building more creative content</strong> to <strong>designing an experience where children could independently discover, create, share, and return.</strong>',
 
-          'approach-title': 'Design Approach',
-          'approach-pull': 'Every design decision traced back to one question: can a child complete the full creative loop on his/her own?',
+          'approach-title': 'Product Strategy',
           'approach-body': 'The core UX is built around <strong>Mitch Resnick\'s Creative Spiral</strong> , a iterative cycle of curiosity, making, reflecting, sharing.',
           'loop-1': 'Discover',
           'loop-2': 'Make',
@@ -1481,17 +1588,18 @@
           'loop-5': 'Share',
           'loop-6': 'Feedback',
           'loop-caption': 'Curiosity and peer feedback are the strongest motivators to spark young users\' creative loop.',
-          'loop-label': 'Primary Experience : Creative Loop',
-          'strategy-1-title': 'Facilitation Strategy : Interactive Emotional Scaffolding',
+          'loop-label': '01. Creative Loop',
+          'strategy-1-title': '02. Independent Facilitation',
+          'strategy-3-title': '04. Social Motivation',
+          'social-1': 'Peer visibility', 'social-2': 'Reactions', 'social-3': 'Recognition', 'social-4': 'Return',
           'strategy-1-li1': 'Personalized content curation',
           'strategy-1-li2': 'Tailored questions',
           'strategy-1-li3': 'Chunk Instruction',
           'strategy-1-li4': 'Individualized AI feedback',
-          'strategy-2-title': 'Gamification Strategy',
+          'strategy-2-title': '03. Gamification Strategy',
           'strategy-2-li1': '<strong>Narrative &amp; Role Assignment</strong> : Users join a mission-driven world with characters and streak-based onboarding rewards that boost early engagement',
           'strategy-2-li2': '<strong>Achievement</strong> : Dashboard displays badges, levels, and quest progress to help users track their growth and feel accomplishment',
           'strategy-2-li3': '<strong>Creative Empowerment</strong> : Missions allow free expression, remixing, and profile decoration. AI-guided prompts scaffold hesitant users',
-          'strategy-2-li4': '<strong>Peer Interaction</strong> : Social feedback (e.g., emoji reactions, peer feed) builds relatedness and encourages iteration',
 
           'decisions-title': '3 design decisions<br>that shaped the product',
           'decision-1-num': 'Decision 01',
@@ -1598,12 +1706,22 @@
           'apd-p1-n': '호기심 깨우기', 'apd-p1-d': '발견을 통해 질문과 궁금증을 불러일으킵니다.',
           'apd-p2-n': '만들기 북돋우기', 'apd-p2-d': '아이가 직접 설계하고 실험하고 창작하게 합니다.',
           'apd-p3-n': '커뮤니티 만들기', 'apd-p3-d': '공유하고, 피드백을 주고받으며, 함께 배웁니다.',
-          'problem-title': '문제',
+          'problem-title': '맥락과 도전 과제',
           'problem-pull': '디바이스는 이미 대부분의 아이가 가지고 있죠. 부족한 건 동기와 창의성이 자라나는 환경이에요.',
           'problem-p1': '한국에서는 학업 압박이 일찍 시작됩니다. 초등학교 시기부터 표준화된 시험에 집중하는 분위기 속에서, 어린이가 열린 탐험이나 창의적인 시도를 해볼 여지는 거의 없습니다. <strong>6학년의 90% 이상이 스마트폰을 갖고 있지만</strong>, 대부분의 어린이에게 스마트폰은 직접 만들고 표현하는 도구가 아니라 콘텐츠를 수동적으로 소비하는 도구로 굳어져 있습니다.',
           'problem-p2': '아하오호는 어린이가 만들기 활동을 발견하고, 자신의 프로젝트를 공유하고, 또래의 피드백 속에서 성장하도록 돕는 어린이 창의학습 커뮤니티입니다.',
 
-          'research-title': '사용자 리서치',
+          'research-title': '리서치',
+          'synth-title': '종합과 문제 정의',
+          'synth-p1': '리서치를 통해 드러난 핵심 과제는 아이들이 창작을 하게 만드는 것이 아니었습니다. <strong>스스로 창작 루프를 시작하고, 끝내고, 이어가도록</strong> 돕는 것이었습니다.',
+          'synth-p2': '우리는 제품을 세 가지 질문으로 다시 프레이밍했습니다.',
+          'synth-hmw-label': 'How might we…',
+          'synth-q1': '교사에게 기대지 않고도 아이가 스스로 시작하게 하려면?',
+          'synth-a1': '→ 안내를 제품 경험의 일부로 만듭니다.',
+          'synth-q2': '창작의 여정을 한 곳에서 이어가려면?',
+          'synth-a2': '→ 발견·만들기·성찰·공유·피드백을 하나로 연결합니다.',
+          'synth-q3': '아이에게 다시 돌아올 이유를 주려면?',
+          'synth-a3': '→ 또래 인터랙션을 부가 기능이 아니라 핵심 경험으로 만듭니다.',
           'research-opening': '학교, 지역 커뮤니티 센터, 부산국제어린이청소년영화제 팝업까지 찾아갔습니다. 500명 이상의 어린이, 15명의 퍼실리테이터, 8개의 워크숍 프로그램과 함께 진행한 현장 리서치입니다.',
           'personas-title': '사용자 퍼소나',
           'storyboards-title': '컨셉 보드',
@@ -1614,9 +1732,10 @@
           'finding-2-body': '교사들은 챌린지를 다른 용도로 가져다 쓰고, 공유는 외부 도구로 대체하고, 앱의 역할은 짧은 도입부 정도로 줄여버렸습니다. 우리가 설계한 창작 루프가 틀린 건 아니었지만, 정작 루프의 마지막은 앱 밖에서 끝낼 수밖에 없는 구조였습니다. <strong>전체 사이클이 앱 안에서 완결되어야 했습니다.</strong>',
           'finding-3-title': '기기가 있다고 인터페이스를 잘 다루는 건 아니었습니다.',
           'finding-3-body': '구형 태블릿에서는 앱이 자주 멈췄고, 텍스트가 많은 화면은 어린이의 집중을 빠르게 잃었으며, 매 단계마다 교사가 개입해야 했습니다. "스마트폰을 가진 어린이"를 가정하고 만든 디자인이 잘못된 전제였습니다. <strong>저사양 기기, 짧은 집중 시간, 별도의 온보딩 도움이 없는 상황을 기준으로 다시 설계해야 했습니다.</strong>',
+          'research-changed-title': '리서치가 바꾼 것',
+          'research-changed-body': '리서치는 우리의 초점을 <strong>더 많은 창작 콘텐츠를 만드는 것</strong>에서 <strong>아이가 스스로 발견하고, 만들고, 공유하고, 다시 돌아오는 경험을 설계하는 것</strong>으로 옮겨 놓았습니다.',
 
-          'approach-title': '디자인 접근',
-          'approach-pull': '모든 디자인 결정은 결국 하나의 질문으로 돌아왔습니다. 어린이가 혼자서 창작 루프 전체를 끝까지 완성할 수 있는가?',
+          'approach-title': '프로덕트 전략',
           'approach-body': '핵심 UX는 호기심, 만들기, 성찰, 공유로 이어지는 <strong>미치 레스닉의 크리에이티브 스파이럴</strong> 사이클을 중심으로 설계했습니다.',
           'loop-1': '발견',
           'loop-2': '만들기',
@@ -1625,17 +1744,18 @@
           'loop-5': '공유',
           'loop-6': '피드백',
           'loop-caption': '호기심과 또래 피드백은 어린 사용자의 창작 루프를 다시 시작하게 만드는 가장 강한 동기입니다.',
-          'loop-label': '주요 경험 · 크리에이티브 루프',
-          'strategy-1-title': '퍼실리테이션 전략 · 인터랙티브 감정 스캐폴딩',
+          'loop-label': '01. 크리에이티브 루프',
+          'strategy-1-title': '02. 스스로 하는 퍼실리테이션',
+          'strategy-3-title': '04. 소셜 동기부여',
+          'social-1': '또래에게 보이기', 'social-2': '반응', 'social-3': '인정', 'social-4': '재방문',
           'strategy-1-li1': '개인화된 콘텐츠 큐레이션',
           'strategy-1-li2': '맞춤형 질문',
           'strategy-1-li3': '단계별 안내 (Chunk Instruction)',
           'strategy-1-li4': '개별 AI 피드백',
-          'strategy-2-title': '게이미피케이션 전략',
+          'strategy-2-title': '03. 게이미피케이션 전략',
           'strategy-2-li1': '<strong>내러티브와 역할 부여</strong> · 캐릭터가 이끄는 미션 세계에 합류합니다. 연속 접속 보상이 첫 발걸음을 가볍게 만듭니다',
           'strategy-2-li2': '<strong>성취</strong> · 뱃지, 레벨, 퀘스트 진행도를 한눈에 보여줘 아이가 자신의 성장을 실감하게 합니다',
           'strategy-2-li3': '<strong>창작 주도성</strong> · 미션 안에서 자유롭게 표현하고, 리믹스하고, 프로필을 꾸밀 수 있습니다. 망설이는 아이에게는 AI 프롬프트가 한 걸음씩 길을 열어줍니다',
-          'strategy-2-li4': '<strong>또래 인터랙션</strong> · 이모지 반응과 또래 피드가 유대감을 만들고, 한 번 더 만들어볼 이유가 됩니다',
 
           'decisions-title': '프로덕트의 방향을 정한<br>3가지 디자인 결정',
           'decision-1-num': '결정 01',
