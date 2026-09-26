@@ -78,6 +78,15 @@
       border-radius: 999px;
       pointer-events: none;
     }
+    /* Clickable hint variant (e.g. Reset on the progress demo) */
+    .ads-rive-card .hint.hint-btn {
+      pointer-events: auto;
+      border: none; cursor: pointer;
+      display: inline-flex; align-items: center; gap: 0.3rem;
+      transition: background 0.15s ease;
+    }
+    .ads-rive-card .hint.hint-btn:hover { background: var(--accent, #5e7c14); }
+    .ads-rive-card .hint.hint-btn iconify-icon { font-size: 0.85rem; }
     .ads-rive-card .meta { padding: 1.1rem 1.4rem 1.3rem; }
     .ads-rive-card .meta .n { font-weight: 600; font-size: 0.95rem; color: #111; margin-bottom: 0.3rem; }
     .ads-rive-card .meta .d { font-size: 0.85rem; line-height: 1.6; color: #555; }
@@ -548,7 +557,7 @@
       <div class="ads-rive-card">
         <div class="stage">
           <canvas id="rive-progress"></canvas>
-          <div class="hint" data-i18n="hint-tap">Tap me</div>
+          <button type="button" class="hint hint-btn" id="rive-progress-reset"><iconify-icon icon="lucide:rotate-ccw"></iconify-icon><span data-i18n="hint-reset">Reset</span></button>
         </div>
         <div class="meta">
           <div class="n" data-i18n="rive-2-n">Challenge energy progress</div>
@@ -559,7 +568,7 @@
       <div class="ads-rive-card">
         <div class="stage">
           <canvas id="rive-poke"></canvas>
-          <div class="hint" data-i18n="hint-hold">Press &amp; hold</div>
+          <button type="button" class="hint hint-btn" id="rive-poke-toggle"><iconify-icon icon="lucide:pointer"></iconify-icon><span data-i18n="hint-hold">Press &amp; hold</span></button>
         </div>
         <div class="meta">
           <div class="n" data-i18n="rive-3-n">Poke the thought-blob</div>
@@ -570,7 +579,7 @@
       <div class="ads-rive-card">
         <div class="stage">
           <canvas id="rive-levelup"></canvas>
-          <div class="hint" data-i18n="hint-watch">Watch</div>
+          <button type="button" class="hint hint-btn" id="rive-levelup-reset"><iconify-icon icon="lucide:rotate-ccw"></iconify-icon><span data-i18n="hint-reset">Reset</span></button>
         </div>
         <div class="meta">
           <div class="n" data-i18n="rive-4-n">Level-up splash</div>
@@ -856,6 +865,12 @@
         wrap.appendChild(playBtn);
         wrap.appendChild(resetBtn);
         stage.appendChild(wrap);
+
+        // Optional external reset button (e.g. the top-right "Reset" on the progress demo)
+        if (opts.extraResetId) {
+          var ext = document.getElementById(opts.extraResetId);
+          if (ext) ext.addEventListener('click', function () { resetBtn.click(); });
+        }
       }
 
       function mountRive(canvasId, src, opts) {
@@ -903,8 +918,21 @@
                 rebuildControls();
                 buildPlayerButtons(canvas.parentElement, function () { return inst; }, function () { return smName; }, {
                   autoBind: opts.autoBind,
-                  onReset: rebuildControls
+                  onReset: rebuildControls,
+                  extraResetId: opts.extraResetId
                 });
+                // Optional external hint that toggles the demo's boolean switch (e.g. "Press & hold" on the poke demo)
+                if (opts.hintToggleId) {
+                  var toggleBtn = document.getElementById(opts.hintToggleId);
+                  if (toggleBtn && !toggleBtn._wired) {
+                    toggleBtn._wired = true;
+                    toggleBtn.addEventListener('click', function () {
+                      var box = document.getElementById(canvasId + '-controls');
+                      var cb = box && box.querySelector('.ads-ctrl-sw input[type="checkbox"]');
+                      if (cb) { cb.checked = !cb.checked; cb.dispatchEvent(new Event('change')); }
+                    });
+                  }
+                }
               }
             };
             if (smName) cfg.stateMachines = smName;
@@ -920,13 +948,14 @@
         mountRive('rive-button', 'assets/ahhaohho/ds/large-button.riv', { preferSM: 'Primary' });
         mountRive('rive-progress', 'assets/ahhaohho/ds/challenge-energy-progress.riv', {
           autoBind: true,
+          extraResetId: 'rive-progress-reset',
           bindings: [
             { name: 'progress number', label: 'progress', type: 'number', default: 20 },
             { name: 'progress incremental Trigger', label: 'progress +', type: 'trigger' }
           ]
         });
-        mountRive('rive-poke', 'assets/ahhaohho/ds/poke-thought-motion3.riv', { stateMachine: 'State Machine 1' });
-        mountRive('rive-levelup', 'assets/ahhaohho/ds/levelup-splash-motion12.riv');
+        mountRive('rive-poke', 'assets/ahhaohho/ds/poke-thought-motion3.riv', { stateMachine: 'State Machine 1', hintToggleId: 'rive-poke-toggle' });
+        mountRive('rive-levelup', 'assets/ahhaohho/ds/levelup-splash-motion12.riv', { extraResetId: 'rive-levelup-reset' });
         // Graphics library
         mountRive('rive-g-blink', 'assets/ahhaohho/ds/blink-motion4.riv', { stateMachine: 'State Machine 1' });
         mountRive('rive-g-worldview', 'assets/ahhaohho/ds/onboarding-worldview.riv', { stateMachine: 'State Machine 1' });
@@ -975,6 +1004,7 @@
           'rive-pull': 'These are not videos of animations. They are running state machines, and the same files ship in the Flutter app.',
           'rive-p1': 'Complex interactive animation is built in <strong>Rive</strong>. Each <code>.riv</code> file carries its own state machine, so the interaction logic for pressed, valid, progress, and celebration states lives inside the design asset itself instead of being re-implemented on every platform. Progress components expose data bindings: the app writes a number, and the animation responds. Try the four production files below.',
           'hint-tap': 'Tap me',
+          'hint-reset': 'Reset',
           'hint-hold': 'Press &amp; hold',
           'hint-watch': 'Watch',
           'rive-1-n': 'Button system',
@@ -1055,6 +1085,7 @@
           'rive-pull': '애니메이션을 찍은 영상이 아닙니다. 실제로 돌아가는 스테이트 머신이고, 같은 파일이 Flutter 앱에 실립니다.',
           'rive-p1': '복잡한 인터랙티브 애니메이션은 <strong>Rive</strong>로 만듭니다. 각 <code>.riv</code> 파일이 자체 스테이트 머신을 품고 있어서, 눌림·유효성·진행도·축하 상태의 인터랙션 로직이 플랫폼마다 다시 구현되지 않고 디자인 에셋 안에 삽니다. 프로그레스 컴포넌트는 데이터 바인딩을 노출합니다. 앱이 숫자를 쓰면 애니메이션이 반응합니다. 아래 네 개의 프로덕션 파일을 직접 만져보세요.',
           'hint-tap': '눌러보세요',
+          'hint-reset': '리셋',
           'hint-hold': '길게 눌러보세요',
           'hint-watch': '감상하세요',
           'rive-1-n': '버튼 시스템',
