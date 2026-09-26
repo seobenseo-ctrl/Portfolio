@@ -101,18 +101,12 @@
     /* Solution section — intro paragraph + loop overview figure */
     .ahha-solution > p[data-i18n="solution-intro"] { max-width: none !important; }
     .ahha-solution .ahha-screen-cap { max-width: none !important; }
-    /* Side-by-side: text left, media (video/image) right */
+    /* Stacked: text on top, media (video/image) below */
     .ahha-solution .ahha-screen {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 2.5rem;
       align-items: stretch;
-    }
-    @media (min-width: 900px) {
-      .ahha-solution .ahha-screen {
-        grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
-        gap: 5rem;
-      }
     }
     .ahha-screen-media {
       margin: 0 auto;
@@ -136,11 +130,14 @@
       object-fit: contain;
       display: block;
     }
-    /* Stacked text blocks sharing media on the right */
+    /* Discover → Feedback shown as a compact 2-column grid */
     .ahha-screen-text-stack {
-      display: flex;
-      flex-direction: column;
-      gap: 2.5rem;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 2rem 2.5rem;
+    }
+    @media (min-width: 760px) {
+      .ahha-screen-text-stack { grid-template-columns: 1fr 1fr; }
     }
     /* Pair of side-by-side videos as the media column */
     .ahha-screen-media-pair {
@@ -926,6 +923,19 @@
       line-height: 1.6;
       margin: 0 0 1.5rem;
     }
+    /* Problem / Response pairs inside each solution screen */
+    .ahha-screen-pr { display: flex; flex-direction: column; gap: 1rem; margin: 0 0 1.5rem; max-width: 56ch; }
+    .ahha-screen-pr .pr-label {
+      display: block;
+      font-family: 'Michroma', monospace;
+      font-size: 0.62rem; letter-spacing: 0.14em; text-transform: uppercase;
+      margin-bottom: 0.4rem;
+    }
+    body[data-lang="ko"] .ahha-screen-pr .pr-label { font-family: 'Pretendard','Inter',sans-serif; letter-spacing: 0.04em; font-weight: 700; }
+    .ahha-screen-pr .pr-problem .pr-label { color: var(--ink-400); }
+    .ahha-screen-pr .pr-response .pr-label { color: var(--accent); }
+    .ahha-screen-pr p { margin: 0; font-size: 1rem; line-height: 1.6; color: var(--ink-200); }
+    body[data-lang="ko"] .ahha-screen-pr p { word-break: keep-all; }
     .ahha-screen-img {
       border-radius: 0.85rem;
       overflow: hidden;
@@ -1277,7 +1287,7 @@
   <section class="proj-section">
     <div class="proj-section-header">
       <span class="proj-section-num">05</span>
-      <h2 class="proj-section-title" data-i18n="decisions-title">3 design decisions<br>that shaped the product</h2>
+      <h2 class="proj-section-title" data-i18n="decisions-title">Three Decisions That<br>Defined the Experience</h2>
     </div>
 
     <div class="ahha-decisions">
@@ -1334,7 +1344,7 @@
           </div>
           <div class="ahha-decision-cell">
             <label data-i18n="impact-label-3">Impact</label>
-            <p data-i18n="decision-1-impact">The feed now drives most return visits. Asked why they reopened the app, children gave the same answer: <strong>to see who reacted to my post.</strong></p>
+            <p data-i18n="decision-1-impact"><strong>26% of return sessions started from the feed.</strong> Asked why they reopened the app, children gave the same answer: to see who reacted to my post.</p>
           </div>
         </div>
       </div>
@@ -1393,35 +1403,50 @@
             <span class="ahha-screen-num">01</span>
             <h3 class="ahha-screen-title" data-i18n="screen-1-title">Discover</h3>
           </div>
-          <p class="ahha-screen-cap" data-i18n="screen-1-cap">Challenges are curated around interests rather than categories. When we watched children browse, they treated everything like a feed, so we designed discovery the same way.</p>
+          <div class="ahha-screen-pr">
+            <div class="pr-problem"><span class="pr-label" data-i18n="pr-problem-label">Problem</span><p data-i18n="screen-1-problem">Children treated challenges like a feed, browsing based on what caught their interest rather than predefined categories.</p></div>
+            <div class="pr-response"><span class="pr-label" data-i18n="pr-response-label">Response</span><p data-i18n="screen-1-response">We designed discovery around interests, curating challenges as a feed rather than organizing them by category.</p></div>
+          </div>
         </div>
         <div class="ahha-screen-text">
           <div class="ahha-screen-header">
             <span class="ahha-screen-num">02</span>
             <h3 class="ahha-screen-title" data-i18n="screen-2-title">Make</h3>
           </div>
-          <p class="ahha-screen-cap" data-i18n="screen-2-cap">Each step is shown as a picture. In field tests, younger children skipped anything written in long text, so we stopped writing it.</p>
+          <div class="ahha-screen-pr">
+            <div class="pr-problem"><span class="pr-label" data-i18n="pr-problem-label">Problem</span><p data-i18n="screen-2-problem">Younger children often skipped long written instructions during field tests.</p></div>
+            <div class="pr-response"><span class="pr-label" data-i18n="pr-response-label">Response</span><p data-i18n="screen-2-response">We replaced text-heavy instructions with visual, step-by-step guidance that children could understand at a glance.</p></div>
+          </div>
         </div>
         <div class="ahha-screen-text">
           <div class="ahha-screen-header">
             <span class="ahha-screen-num">03</span>
             <h3 class="ahha-screen-title" data-i18n="screen-3-title">Reflect</h3>
           </div>
-          <p class="ahha-screen-cap" data-i18n="screen-3-cap">Reflection happens as a short conversation with Ahha and Ohho. We tried worksheet-style questions first. Children abandoned them.</p>
+          <div class="ahha-screen-pr">
+            <div class="pr-problem"><span class="pr-label" data-i18n="pr-problem-label">Problem</span><p data-i18n="screen-3-problem">Worksheet-style reflection questions felt like additional work, causing children to abandon the process.</p></div>
+            <div class="pr-response"><span class="pr-label" data-i18n="pr-response-label">Response</span><p data-i18n="screen-3-response">We turned reflection into a short, conversational interaction with Ahha and Ohho to make it feel more natural and approachable.</p></div>
+          </div>
         </div>
         <div class="ahha-screen-text">
           <div class="ahha-screen-header">
             <span class="ahha-screen-num">04</span>
             <h3 class="ahha-screen-title" data-i18n="screen-4-title">Share</h3>
           </div>
-          <p class="ahha-screen-cap" data-i18n="screen-4-cap">Publishing takes one tap from the personal gallery to the community feed. Every extra step before sharing cost us creators in testing.</p>
+          <div class="ahha-screen-pr">
+            <div class="pr-problem"><span class="pr-label" data-i18n="pr-problem-label">Problem</span><p data-i18n="screen-4-problem">Every additional step between finishing a project and sharing it reduced the number of children who completed the publishing flow.</p></div>
+            <div class="pr-response"><span class="pr-label" data-i18n="pr-response-label">Response</span><p data-i18n="screen-4-response">We reduced publishing to a single tap from the personal gallery to the community feed, making sharing part of the creative loop.</p></div>
+          </div>
         </div>
         <div class="ahha-screen-text">
           <div class="ahha-screen-header">
             <span class="ahha-screen-num">05</span>
             <h3 class="ahha-screen-title" data-i18n="screen-5-title">Feedback</h3>
           </div>
-          <p class="ahha-screen-cap" data-i18n="screen-5-cap">Reactions, comments, and small AI cues bring children back for the next cycle. Feedback arrives as celebration, the way children actually cheered each other on in workshops.</p>
+          <div class="ahha-screen-pr">
+            <div class="pr-problem"><span class="pr-label" data-i18n="pr-problem-label">Problem</span><p data-i18n="screen-5-problem">Children needed a reason to return after sharing their work.</p></div>
+            <div class="pr-response"><span class="pr-label" data-i18n="pr-response-label">Response</span><p data-i18n="screen-5-response">We translated the spontaneous encouragement we observed in workshops into reactions, comments, and lightweight AI cues that celebrate each creation.</p></div>
+          </div>
         </div>
       </div>
       <div class="ahha-screen-media-pair">
@@ -1445,14 +1470,13 @@
   <section class="proj-section ahha-ds">
     <div class="proj-section-header">
       <span class="proj-section-num">07</span>
-      <h2 class="proj-section-title" data-i18n="ds-title">Design System</h2>
+      <h2 class="proj-section-title" data-i18n="ds-title">Designing for Scale</h2>
     </div>
 
-    <blockquote class="ahha-pull" data-i18n="ds-pull">Children trust what responds. So every press, progress tick, and reward became a designed motion asset.</blockquote>
+    <blockquote class="ahha-pull" data-i18n="ds-pull">A playful product still needs a system that can scale.</blockquote>
 
     <div class="proj-block">
-      <p data-i18n="ds-p1">To keep the product playful at scale, I designed and built the motion layer of the <strong>AhhaOhho Design System</strong>. It holds <strong>21 interactive Rive animations</strong>: buttons with built-in pressed states, data-bound progress meters, level-up celebrations, and onboarding scenes. Alongside them sits a <strong>27-piece Lottie library</strong> of Ahha &amp; Ohho character and feedback motions.</p>
-      <p data-i18n="ds-p2">Interaction logic lives inside each <code>.riv</code> file’s state machine. The asset a designer builds is the same one that runs in the Flutter app, so nothing gets re-implemented and nothing drifts. Motion timing, color, and typography are all managed as designer-editable tokens in one repository.</p>
+      <p data-i18n="ds-p1">I built the motion layer of the <strong>AhhaOhho Design System</strong> to make interaction states, feedback, and character behaviors reusable across the product, while keeping designers and engineers working from the same source.</p>
     </div>
 
     <a class="ahha-download-btn" style="margin-top:2.5rem;" href="ahhaohho-design-system.html">
@@ -1486,10 +1510,10 @@
     </div>
 
 <div class="proj-block" style="margin-top:2.5rem;">
-      <h3 data-i18n="reflection-title">Reflection</h3>
-      <p data-i18n="reflection-p1">User tests showed that AhhaOhho could spark curiosity and creative agency in children, especially when they were able to make, document, and share their own interpretations. However, operating the product as a standalone service also revealed a key limitation: <strong>initial curiosity does not automatically lead to sustained engagement</strong>.</p>
-      <p data-i18n="reflection-p2">We learned that children need a clearer sense of purpose through <strong>missions, feedback, and growth</strong>. First-time users need a stronger onboarding path to understand the AhhaOhho universe and start creating without feeling lost. Facilitators also need practical tools that support group learning, not just individual exploration.</p>
-      <p data-i18n="reflection-p3">These learnings went into <strong>v1.0, launched in June 2026</strong>: a stronger social feedback layer, personalized AI curation, and facilitator tools that support repeat participation in classrooms as well as at home.</p>
+      <h3 data-i18n="reflection-title">What I learned</h3>
+      <p data-i18n="reflection-p1">Launching the product changed the question from “Can we spark curiosity?” to <strong>“What makes curiosity sustainable?”</strong></p>
+      <p data-i18n="reflection-p2">We learned that initial curiosity alone doesn't create sustained engagement. Children need a clear sense of purpose, meaningful feedback, and visible progress to keep creating.</p>
+      <p data-i18n="reflection-p3">This shaped the next iteration of AhhaOhho: stronger onboarding, a more active social feedback layer, personalized discovery, and tools that help facilitators support repeat participation.</p>
     </div>
 
   </section>
@@ -1601,7 +1625,7 @@
           'strategy-2-li2': '<strong>Achievement</strong> : Dashboard displays badges, levels, and quest progress to help users track their growth and feel accomplishment',
           'strategy-2-li3': '<strong>Creative Empowerment</strong> : Missions allow free expression, remixing, and profile decoration. AI-guided prompts scaffold hesitant users',
 
-          'decisions-title': '3 design decisions<br>that shaped the product',
+          'decisions-title': 'Three Decisions That<br>Defined the Experience',
           'decision-1-num': 'Decision 01',
           'decision-1-title': 'Build the social layer as the product\'s core, not a feature.',
           'insight-label': 'Insight',
@@ -1609,7 +1633,7 @@
           'decision-label': 'Decision',
           'decision-1-decision': 'We rebuilt the platform around the social layer. Reactions, peer visibility, and shared projects form the spine that every other feature connects to.',
           'impact-label': 'Impact',
-          'decision-1-impact': 'The feed now drives most return visits. Asked why they reopened the app, children gave the same answer: <strong>to see who reacted to my post.</strong>',
+          'decision-1-impact': '<strong>26% of return sessions started from the feed.</strong> Asked why they reopened the app, children gave the same answer: to see who reacted to my post.',
           'decision-2-num': 'Decision 02',
           'decision-2-title': 'Give every child a built-in facilitator.',
           'insight-label-2': 'Insight',
@@ -1633,23 +1657,29 @@
           'ald-4-n': 'Share', 'ald-4-c': 'Post and document the project.',
           'ald-5-n': 'Feedback', 'ald-5-c': 'Receive peer reactions and comments.',
           'ald-return': 'FEEDBACK SPARKS THE NEXT DISCOVERY — THE LOOP RESTARTS',
-          'solution-title': 'Solution',
+          'solution-title': 'The Creative Loop in Action',
           'solution-intro': 'The full creative loop: discover, make, post, reflect, share, feedback.',
+          'pr-problem-label': 'Problem',
+          'pr-response-label': 'Response',
           'screen-1-title': 'Discover',
-          'screen-1-cap': 'Challenges are curated around interests rather than categories. When we watched children browse, they treated everything like a feed, so we designed discovery the same way.',
+          'screen-1-problem': 'Children treated challenges like a feed, browsing based on what caught their interest rather than predefined categories.',
+          'screen-1-response': 'We designed discovery around interests, curating challenges as a feed rather than organizing them by category.',
           'screen-2-title': 'Make',
-          'screen-2-cap': 'Each step is shown as a picture. In field tests, younger children skipped anything written in long text, so we stopped writing it.',
+          'screen-2-problem': 'Younger children often skipped long written instructions during field tests.',
+          'screen-2-response': 'We replaced text-heavy instructions with visual, step-by-step guidance that children could understand at a glance.',
           'screen-3-title': 'Reflect',
-          'screen-3-cap': 'Reflection happens as a short conversation with Ahha and Ohho. We tried worksheet-style questions first. Children abandoned them.',
+          'screen-3-problem': 'Worksheet-style reflection questions felt like additional work, causing children to abandon the process.',
+          'screen-3-response': 'We turned reflection into a short, conversational interaction with Ahha and Ohho to make it feel more natural and approachable.',
           'screen-4-title': 'Share',
-          'screen-4-cap': 'Publishing takes one tap from the personal gallery to the community feed. Every extra step before sharing cost us creators in testing.',
+          'screen-4-problem': 'Every additional step between finishing a project and sharing it reduced the number of children who completed the publishing flow.',
+          'screen-4-response': 'We reduced publishing to a single tap from the personal gallery to the community feed, making sharing part of the creative loop.',
           'screen-5-title': 'Feedback',
-          'screen-5-cap': 'Reactions, comments, and small AI cues bring children back for the next cycle. Feedback arrives as celebration, the way children actually cheered each other on in workshops.',
+          'screen-5-problem': 'Children needed a reason to return after sharing their work.',
+          'screen-5-response': 'We translated the spontaneous encouragement we observed in workshops into reactions, comments, and lightweight AI cues that celebrate each creation.',
 
-          'ds-title': 'Design System',
-          'ds-pull': 'Children trust what responds. So every press, progress tick, and reward became a designed motion asset.',
-          'ds-p1': 'To keep the product playful at scale, I designed and built the motion layer of the <strong>AhhaOhho Design System</strong>. It holds <strong>21 interactive Rive animations</strong>: buttons with built-in pressed states, data-bound progress meters, level-up celebrations, and onboarding scenes. Alongside them sits a <strong>27-piece Lottie library</strong> of Ahha &amp; Ohho character and feedback motions.',
-          'ds-p2': 'Interaction logic lives inside each <code>.riv</code> file’s state machine. The asset a designer builds is the same one that runs in the Flutter app, so nothing gets re-implemented and nothing drifts. Motion timing, color, and typography are all managed as designer-editable tokens in one repository.',
+          'ds-title': 'Designing for Scale',
+          'ds-pull': 'A playful product still needs a system that can scale.',
+          'ds-p1': 'I built the motion layer of the <strong>AhhaOhho Design System</strong> to make interaction states, feedback, and character behaviors reusable across the product, while keeping designers and engineers working from the same source.',
           'ds-metric-1': 'interactive Rive animations with state machines',
           'ds-metric-2': 'Lottie character &amp; feedback motions',
           'ds-metric-3': 'components specced in the same system',
@@ -1659,10 +1689,10 @@
           'impact-metric-1': 'children users',
           'impact-metric-2': 'Day 7 retention',
           'impact-metric-3': 'projects shared',
-          'reflection-title': 'Reflection',
-          'reflection-p1': 'User tests showed that AhhaOhho could spark curiosity and creative agency in children, especially when they were able to make, document, and share their own interpretations. However, operating the product as a standalone service also revealed a key limitation: <strong>initial curiosity does not automatically lead to sustained engagement</strong>.',
-          'reflection-p2': 'We learned that children need a clearer sense of purpose through <strong>missions, feedback, and growth</strong>. First-time users need a stronger onboarding path to understand the AhhaOhho universe and start creating without feeling lost. Facilitators also need practical tools that support group learning, not just individual exploration.',
-          'reflection-p3': 'These learnings went into <strong>v1.0, launched in June 2026</strong>: a stronger social feedback layer, personalized AI curation, and facilitator tools that support repeat participation in classrooms as well as at home.',
+          'reflection-title': 'What I learned',
+          'reflection-p1': 'Launching the product changed the question from “Can we spark curiosity?” to <strong>“What makes curiosity sustainable?”</strong>',
+          'reflection-p2': "We learned that initial curiosity alone doesn't create sustained engagement. Children need a clear sense of purpose, meaningful feedback, and visible progress to keep creating.",
+          'reflection-p3': 'This shaped the next iteration of AhhaOhho: stronger onboarding, a more active social feedback layer, personalized discovery, and tools that help facilitators support repeat participation.',
 
           'footer-all-works-dir': 'All works',
           'footer-all-works': 'Selected Works',
@@ -1757,7 +1787,7 @@
           'strategy-2-li2': '<strong>성취</strong> · 뱃지, 레벨, 퀘스트 진행도를 한눈에 보여줘 아이가 자신의 성장을 실감하게 합니다',
           'strategy-2-li3': '<strong>창작 주도성</strong> · 미션 안에서 자유롭게 표현하고, 리믹스하고, 프로필을 꾸밀 수 있습니다. 망설이는 아이에게는 AI 프롬프트가 한 걸음씩 길을 열어줍니다',
 
-          'decisions-title': '프로덕트의 방향을 정한<br>3가지 디자인 결정',
+          'decisions-title': '경험을 정의한<br>세 가지 결정',
           'decision-1-num': '결정 01',
           'decision-1-title': '소셜 레이어를 부가 기능이 아니라 프로덕트의 중심에 둡니다.',
           'insight-label': '인사이트',
@@ -1765,7 +1795,7 @@
           'decision-label': '결정',
           'decision-1-decision': '소셜 레이어를 중심으로 플랫폼을 다시 세웠습니다. 반응과 또래 노출, 공유된 프로젝트가 모든 기능이 연결되는 척추 역할을 합니다.',
           'impact-label': '임팩트',
-          'decision-1-impact': '이제 재방문의 대부분은 피드에서 시작됩니다. 앱을 왜 다시 열었냐고 묻자 아이들의 답은 같았습니다. <strong>"내 게시물에 누가 반응했는지 보려고요."</strong>',
+          'decision-1-impact': '<strong>재방문 세션의 26%가 피드에서 시작됐습니다.</strong> 앱을 왜 다시 열었냐고 묻자 아이들의 답은 같았습니다. "내 게시물에 누가 반응했는지 보려고요."',
           'decision-2-num': '결정 02',
           'decision-2-title': '모든 어린이에게 자기만의 퍼실리테이터를 붙입니다.',
           'insight-label-2': '인사이트',
@@ -1789,23 +1819,29 @@
           'ald-4-n': '공유', 'ald-4-c': '프로젝트를 게시하고 기록합니다.',
           'ald-5-n': '피드백', 'ald-5-c': '또래의 반응과 댓글을 받습니다.',
           'ald-return': '피드백이 다음 발견의 호기심을 켭니다 — 루프는 다시 시작됩니다',
-          'solution-title': '솔루션',
+          'solution-title': '크리에이티브 루프의 실제',
           'solution-intro': '크리에이티브 루프: 발견, 만들기, 게시, 성찰, 공유, 피드백',
+          'pr-problem-label': '문제',
+          'pr-response-label': '대응',
           'screen-1-title': '발견',
-          'screen-1-cap': '챌린지는 카테고리가 아니라 관심사를 중심으로 큐레이션됩니다. 아이들이 탐색하는 모습을 지켜보니 모든 것을 피드처럼 훑고 있었고, 발견 경험도 그렇게 설계했습니다.',
+          'screen-1-problem': '아이들은 정해진 카테고리보다 그때그때 눈에 들어오는 것을 따라, 챌린지를 피드처럼 훑어봤습니다.',
+          'screen-1-response': '발견 경험을 관심사 중심으로 설계했습니다. 챌린지를 카테고리로 나누는 대신 피드처럼 큐레이션했습니다.',
           'screen-2-title': '만들기',
-          'screen-2-cap': '모든 단계를 그림으로 보여줍니다. 현장 테스트에서 저학년 아이들은 긴 글을 그냥 건너뛰었습니다. 그래서 긴 글을 쓰지 않기로 했습니다.',
+          'screen-2-problem': '현장 테스트에서 저학년 아이들은 긴 글로 된 설명을 자주 건너뛰었습니다.',
+          'screen-2-response': '글이 많은 설명을 걷어내고, 아이가 한눈에 이해하는 시각적 단계별 가이드로 바꿨습니다.',
           'screen-3-title': '성찰',
-          'screen-3-cap': '성찰은 아하·오호와 나누는 짧은 대화로 이뤄집니다. 처음에는 문제지 같은 질문을 시도했는데, 아이들이 금방 그만뒀습니다.',
+          'screen-3-problem': '문제지 같은 성찰 질문은 또 다른 숙제처럼 느껴져, 아이들이 과정을 도중에 그만뒀습니다.',
+          'screen-3-response': '성찰을 아하·오호와 나누는 짧은 대화로 바꿔, 더 자연스럽고 부담 없게 만들었습니다.',
           'screen-4-title': '공유',
-          'screen-4-cap': '개인 갤러리에서 커뮤니티 피드까지, 게시는 탭 한 번이면 끝납니다. 테스트에서 공유 전 단계가 하나 늘 때마다 창작자가 줄었습니다.',
+          'screen-4-problem': '작품을 완성하고 공유하기까지 단계가 하나씩 늘 때마다, 게시를 끝까지 마치는 아이가 줄었습니다.',
+          'screen-4-response': '개인 갤러리에서 커뮤니티 피드까지 게시를 탭 한 번으로 줄여, 공유를 창작 루프의 일부로 만들었습니다.',
           'screen-5-title': '피드백',
-          'screen-5-cap': '반응과 댓글, 그리고 AI의 작은 단서들이 아이들을 다음 사이클로 다시 데려옵니다. 피드백은 축하의 모습으로 도착합니다. 워크숍에서 아이들이 실제로 서로를 응원하던 방식 그대로입니다.',
+          'screen-5-problem': '아이에게는 작품을 공유한 뒤 다시 돌아올 이유가 필요했습니다.',
+          'screen-5-response': '워크숍에서 아이들이 서로에게 건네던 자연스러운 응원을, 창작 하나하나를 축하하는 반응·댓글·가벼운 AI 단서로 옮겨 담았습니다.',
 
-          'ds-title': '디자인 시스템',
-          'ds-pull': '어린이는 반응하는 것을 신뢰합니다. 그래서 모든 눌림과 진행도, 보상을 하나하나 설계된 모션 에셋으로 만들었습니다.',
-          'ds-p1': '규모가 커져도 제품의 유쾌함을 지키기 위해, <strong>아하오호 디자인 시스템</strong>의 모션 레이어를 설계하고 직접 구축했습니다. 눌림 상태가 내장된 버튼, 데이터 바인딩 프로그레스, 레벨업 축하 연출, 온보딩 장면까지 <strong>인터랙티브 Rive 애니메이션 21개</strong>가 들어 있습니다. 그 옆에는 아하 &amp; 오호 캐릭터와 피드백 모션을 담은 <strong>Lottie 라이브러리 27개</strong>가 있습니다.',
-          'ds-p2': '인터랙션 로직은 각 <code>.riv</code> 파일의 스테이트 머신 안에 삽니다. 디자이너가 만든 에셋이 그대로 Flutter 앱에서 구동되기 때문에, 다시 구현할 것도 어긋날 것도 없습니다. 모션 타이밍과 색상, 타이포그래피는 모두 디자이너가 편집하는 토큰으로 한 저장소에서 관리됩니다.',
+          'ds-title': '확장을 위한 설계',
+          'ds-pull': '유쾌한 제품에도 확장 가능한 시스템이 필요합니다.',
+          'ds-p1': '<strong>아하오호 디자인 시스템</strong>의 모션 레이어를 구축해, 인터랙션 상태·피드백·캐릭터 동작을 제품 전반에서 재사용할 수 있게 만들고, 디자이너와 엔지니어가 같은 소스에서 작업하도록 했습니다.',
           'ds-metric-1': '스테이트 머신을 갖춘 인터랙티브 Rive 애니메이션',
           'ds-metric-2': 'Lottie 캐릭터 &amp; 피드백 모션',
           'ds-metric-3': '같은 시스템으로 스펙된 컴포넌트',
@@ -1815,10 +1851,10 @@
           'impact-metric-1': '어린이 사용자',
           'impact-metric-2': 'Day 7 리텐션',
           'impact-metric-3': '공유된 프로젝트',
-          'reflection-title': '회고',
-          'reflection-p1': '사용자 테스트를 통해, 아하오호가 어린이의 호기심과 창작 주체성을 자극할 수 있음을 확인했습니다. 특히 어린이들이 직접 만들고, 자기 방식대로 기록하고, 자신의 해석을 공유할 수 있을 때 가장 강하게 작동했습니다. 다만 제품을 단독 서비스로 운영하면서 한 가지 한계도 분명히 드러났습니다. <strong>처음의 호기심이 그대로 지속적인 참여로 이어지지는 않는다는 점</strong>이었습니다.',
-          'reflection-p2': '아이들에게는 <strong>미션, 피드백, 성장의 감각</strong>으로 이어지는 또렷한 목적의식이 필요했습니다. 처음 들어온 아이가 아하오호의 세계관을 빠르게 이해하고 헤매지 않고 만들기를 시작하려면 온보딩 경로가 더 선명해야 하고, 퍼실리테이터에게는 개인 탐색을 넘어 그룹 학습까지 이끌 수 있는 도구가 있어야 합니다.',
-          'reflection-p3': '이 배움들은 <strong>2026년 6월에 출시된 v1.0</strong>에 담겼습니다. 더 단단해진 소셜 피드백 레이어, 개인화된 AI 큐레이션, 그리고 교실과 집 어디서든 반복 참여를 돕는 퍼실리테이터 도구입니다.',
+          'reflection-title': '내가 배운 것',
+          'reflection-p1': '제품을 출시하자 질문이 바뀌었습니다. “호기심을 불러일으킬 수 있을까?”에서 <strong>“그 호기심을 어떻게 지속시킬까?”</strong>로.',
+          'reflection-p2': '처음의 호기심만으로는 지속적인 참여가 만들어지지 않았습니다. 아이가 계속 창작하려면 또렷한 목적의식, 의미 있는 피드백, 그리고 눈에 보이는 성장이 필요했습니다.',
+          'reflection-p3': '이 배움은 아하오호의 다음 이터레이션으로 이어졌습니다. 더 탄탄한 온보딩, 더 활발한 소셜 피드백 레이어, 개인화된 발견, 그리고 퍼실리테이터가 반복 참여를 돕도록 지원하는 도구입니다.',
 
           'footer-all-works-dir': '전체 작품',
           'footer-all-works': '전체 프로젝트',
