@@ -64,13 +64,9 @@
       z-index: 5;
       will-change: opacity;
     }
-    /* About badge — subtle vintage tint + rounded edge to match the badge silhouette */
+    /* About portrait — rounded card, gentle warm tint to match the palette */
     .about-badge {
-      filter:
-        sepia(0.1)
-        contrast(0.96)
-        saturate(0.92)
-        brightness(0.98);
+      filter: contrast(0.99) saturate(0.97);
       border-radius: 1.5rem;
     }
     @font-face {
@@ -1195,9 +1191,10 @@
       <div class="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-16">
         <div class="md:col-span-5">
           <div class="md:pt-[2.5rem]">
-            <div class="aspect-square relative">
-              <img src="assets/about/about-me.png?v=3" alt="Ben Seo — wireframe portrait"
-                   class="about-badge absolute inset-0 w-full h-full object-contain"
+            <div class="aspect-[4/5] relative">
+              <img src="assets/about/about-me-2026.jpg" alt="Ben Seo — portrait"
+                   class="about-badge absolute inset-0 w-full h-full object-cover"
+                   style="object-position: 50% 22%;"
                    loading="lazy" decoding="async">
             </div>
           </div>
