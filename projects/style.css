@@ -26,11 +26,13 @@ html, body {
   background: var(--bg-0);
   color: var(--ink-100);
   font-family: 'Inter', 'Pretendard', system-ui, -apple-system, sans-serif;
-  font-weight: 300;
+  /* 400, not 300: light body weight renders too thin on Windows/ClearType */
+  font-weight: 400;
   margin: 0;
   padding: 0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
 
 a { color: inherit; text-decoration: none; }
