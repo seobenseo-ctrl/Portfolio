@@ -64,7 +64,8 @@
     function workingSets(e, dt) {
       regions.forEach(function (g) {
         var c = regionCenter(g, e);
-        var n = Math.round(dt * 150);                         // churn rate (cells/sec)
+        var rate = dt * 75;                                   // churn rate (cells/sec)
+        var n = Math.floor(rate) + (Math.random() < rate % 1 ? 1 : 0);
         for (var q = 0; q < n; q++) {
           var x = c.x + gauss() * g.r * 0.5, y = c.y + gauss() * g.r * 0.42;
           var k = idx(Math.round((x - ox) / PITCH), Math.round((y - oy) / PITCH));
@@ -75,7 +76,7 @@
     function rowScans(e, dt) {
       if (e > nextScan) {
         var len = 10 + Math.floor(Math.random() * 26);
-        scans.push({ j: Math.floor(Math.random() * rows), i0: Math.floor(Math.random() * Math.max(1, cols - len)), len: len, t: 0, sp: 26 + Math.random() * 18 });
+        scans.push({ j: Math.floor(Math.random() * rows), i0: Math.floor(Math.random() * Math.max(1, cols - len)), len: len, t: 0, sp: 13 + Math.random() * 9 });
         nextScan = e + 4 + Math.random() * 4;
       }
       for (var s = scans.length - 1; s >= 0; s--) {
@@ -96,13 +97,13 @@
         var bl = blocks[b], n = bl.w * bl.h;
         bl.t += dt;
         if (bl.phase === 0) {                                  // fill in address order
-          var f = Math.min(n, Math.floor(bl.t * 28));
+          var f = Math.min(n, Math.floor(bl.t * 14));
           for (var m = 0; m < f; m++) { var k = idx(bl.i0 + m % bl.w, bl.j0 + Math.floor(m / bl.w)); if (k >= 0) { level[k] = 3; hold[k] = 1; } }
           if (f >= n) { bl.phase = 1; bl.t = 0; }
         } else if (bl.phase === 1) {                           // held (allocated)
           if (bl.t > bl.holdFor) { bl.phase = 2; bl.t = 0; }
         } else {                                               // free in the same order
-          var fr = Math.min(n, Math.floor(bl.t * 36));
+          var fr = Math.min(n, Math.floor(bl.t * 18));
           for (var m2 = 0; m2 < fr; m2++) { var k2 = idx(bl.i0 + m2 % bl.w, bl.j0 + Math.floor(m2 / bl.w)); if (k2 >= 0) { hold[k2] = 0; level[k2] = Math.min(level[k2], 1.2); } }
           if (fr >= n) blocks.splice(b, 1);
         }
@@ -115,7 +116,7 @@
       blockAlloc(e, dt);
       for (var k = 0; k < level.length; k++) {
         if (hold[k] > 0) continue;
-        if (level[k] > 0) level[k] = Math.max(0, level[k] - dt * 1.7);   // states cool back down
+        if (level[k] > 0) level[k] = Math.max(0, level[k] - dt * 0.85);   // states cool back down
       }
     }
     // cursor lens: cells within LENS px scale up and push outward a little

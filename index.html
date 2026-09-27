@@ -19,33 +19,15 @@
   <!-- Favicon: green dot matching the brand accent -->
   <link rel="icon" type="image/svg+xml" href="assets/brand/logoB.svg">
 
-  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Hero fonts: fetch early so the first paint already uses them (no swap jump) -->
+  <link rel="preload" href="fonts/Michroma-Regular.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/Inter-Variable-latin.woff2" as="font" type="font/woff2" crossorigin>
+
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.min.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
   <script src="https://code.iconify.design/iconify-icon/2.3.0/iconify-icon.min.js"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          fontFamily: {
-            sans: ['Pretendard', 'Geist', 'system-ui', 'sans-serif'],
-            display: ['Geist', 'Pretendard', 'sans-serif'],
-            serif: ['Instrument Serif', 'serif'],
-          },
-          colors: {
-            ink: {
-              950: '#0a0a0b', 900: '#131315', 800: '#1c1c1f', 700: '#28282d',
-              600: '#3a3a40', 500: '#6b6b74', 400: '#9a9aa3', 300: '#c8c8cf',
-              200: '#e5e5ea', 100: '#f4f4f6',
-            },
-            accent: { DEFAULT: '#5e7c14', soft: '#8aa830' }
-          },
-        },
-      },
-    }
-  </script>
   <style>
     html { scroll-behavior: smooth; }
     body {
@@ -71,14 +53,17 @@
     }
     @font-face {
       font-family: 'Michroma';
-      src: url('fonts/Michroma-Regular.ttf') format('truetype');
+      src: url('fonts/Michroma-Regular.woff2') format('woff2'),
+           url('fonts/Michroma-Regular.ttf') format('truetype');
       font-weight: 400;
       font-style: normal;
       font-display: swap;
     }
     @font-face {
       font-family: 'Inter';
-      src: url('fonts/Inter-VariableFont.ttf') format('truetype-variations');
+      src: url('fonts/Inter-Variable-latin.woff2') format('woff2-variations'),
+           url('fonts/Inter-Variable-latin.woff2') format('woff2'),
+           url('fonts/Inter-VariableFont.ttf') format('truetype-variations');
       font-weight: 100 900;
       font-style: normal;
       font-display: swap;
@@ -992,6 +977,9 @@
     /* Korean — switch dossier brief to Pretendard, keep-all */
     body[data-lang="ko"] .dossier-brief { font-family: 'Pretendard','Geist',sans-serif; word-break: keep-all; }
   </style>
+  <!-- Prebuilt Tailwind (was the runtime CDN, which flashed unstyled text).
+       Rebuild with assets/css/tailwind.config.js after changing utility classes. -->
+  <link rel="stylesheet" href="assets/css/tailwind.css">
 </head>
 <body class="antialiased">
   <div class="noise"></div>
@@ -1308,8 +1296,7 @@
   <!-- FOOTER -->
   <footer class="footer-cta border-t border-ink-800">
     <div class="max-w-7xl mx-auto px-6 lg:px-10 pt-24 pb-12 text-center">
-      <p class="rv2 text-xs tracking-[0.2em] text-ink-500 uppercase mb-6" data-i18n="footer-cta-eyebrow">Next Project</p>
-      <h2 class="rv2 font-michroma text-3xl md:text-5xl lg:text-6xl tracking-tight text-ink-100 mb-10" style="--rvd: 100ms;" data-i18n="footer-cta-title">LET&#8217;S BUILD<br>WHAT&#8217;S NEXT</h2>
+      <h2 class="rv2 font-michroma text-3xl md:text-5xl lg:text-6xl tracking-tight text-ink-100 mb-10" style="--rvd: 100ms;" data-i18n="footer-cta-title">WHAT&#8217;S NEXT?</h2>
       <a class="rv2 magnet inline-flex items-center gap-3 rounded-full bg-ink-100 text-ink-950 pl-7 pr-2 py-2 text-sm font-medium" style="--rvd: 200ms;"
          href="https://www.linkedin.com/in/ben-jungbin-seo-57a193109/" target="_blank" rel="noopener noreferrer">
         <span data-i18n="footer-cta-btn">Say hello</span>
@@ -1930,8 +1917,7 @@
           'cap-6-t': 'Collaboration',
           'cap-6-d': 'Cross-functional team',
           'footer-role': 'Independent Product Designer · Seoul',
-          'footer-cta-eyebrow': 'Next Project',
-          'footer-cta-title': 'LET&#8217;S BUILD<br>WHAT&#8217;S NEXT',
+          'footer-cta-title': 'WHAT&#8217;S NEXT?',
           'footer-cta-btn': 'Say hello',
           'footer-copy': '© 2026 Ben Seo · This site was designed and built by me.',
         },
@@ -1971,8 +1957,7 @@
           'cap-6-t': '협업',
           'cap-6-d': '크로스펑셔널 팀',
           'footer-role': '독립 프로덕트 디자이너 · 서울',
-          'footer-cta-eyebrow': '다음 프로젝트',
-          'footer-cta-title': '다음을,<br>함께 만들어요',
+          'footer-cta-title': '다음은?',
           'footer-cta-btn': '인사 건네기',
           'footer-copy': '© 2026 서정빈 · 이 사이트는 본인이 직접 디자인·제작했습니다.',
         }
@@ -2059,6 +2044,6 @@
       }
     })();
   </script>
-  <script src="assets/memory-matrix/memory-matrix.js?v=11" defer></script>
+  <script src="assets/memory-matrix/memory-matrix.js?v=12" defer></script>
 </body>
 </html>
