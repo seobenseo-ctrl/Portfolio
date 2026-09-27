@@ -2010,24 +2010,20 @@
   </script>
 
   <!-- ============================================================
-       Smart anchor for "Selected Works" — lands the user at the
-       end of the hero scroll-pin so the carousel is fully opaque
-       and at slot 0, instead of mid-transition (dark zone).
+       Smart anchor for "Selected Works" — lands the user at the top
+       of the section (its eyebrow/title), past the hero fade.
        ============================================================ -->
   <script>
     (function () {
       function scrollToWorks(smooth) {
-        const heroPin = document.querySelector('.hero-pin');
-        if (!heroPin) {
-          // Fallback: native anchor jump
-          const target = document.getElementById('work');
-          if (target) target.scrollIntoView({ behavior: smooth ? 'smooth' : 'auto' });
-          return;
-        }
-        // Hero pin height === scroll runway. Scrolling to its bottom edge
-        // puts the works section at full opacity and primary slot.
-        const top = heroPin.offsetTop + heroPin.offsetHeight;
-        window.scrollTo({ top: top, behavior: smooth ? 'smooth' : 'auto' });
+        const target = document.getElementById('work');
+        if (!target) return;
+        // #work is pulled up over the hero pin's tail (negative margin-top), so
+        // aim at the section's own top. That point is already past the hero
+        // fade, so the section is fully visible. Leave a little room so the
+        // floating nav pill doesn't cover the section eyebrow.
+        const top = target.getBoundingClientRect().top + window.scrollY - 56;
+        window.scrollTo({ top: Math.max(0, top), behavior: smooth ? 'smooth' : 'auto' });
       }
 
       document.querySelectorAll('a[href="#work"]').forEach(function (a) {
